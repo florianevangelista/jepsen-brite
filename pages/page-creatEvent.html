@@ -10,7 +10,7 @@
 <body>
 	<h1>Création de votre évenenement</h1>
 
-	<form class="container">
+	<form class="container" action="validationCreatEvent.php" method="post">
 		<div class="form-group">
 		    <label for="formGroupExampleInput">Titre de l'évenenement</label>
 
@@ -42,9 +42,10 @@
 	    	<textarea class="form-control is-invalid" id="validationTextarea" placeholder="écrivez ici" required></textarea>
 	  	</div>
 
+	  	<input class="btn btn-primary btn-lg" type="submit" name="ValideCreatEvent" value="Valider" >
 	</form>
 
-<h2>Vos évenements</h2>
+<!-- <h2>Vos évenements</h2>
 	<div class="container">
   		<div class="row">
     		<div class="col-sm">
@@ -78,7 +79,7 @@
 				</div>
     		</div>
   		</div>
-	</div>
+	</div> -->
 	
 
 </body>

@@ -20,6 +20,7 @@
         <link rel="stylesheet" href="../css/owl.theme.default.min.css"/> 
         <!-- Main css -->
         <link href="../css/style.css" rel="stylesheet" type="text/css" />
+        <link rel="stylesheet" type="text/css" href="../css/styleProfil.css">
 
     </head>
 
@@ -203,9 +204,7 @@
                                         <li><a href="index.html" class="text-uppercase font-weight-bold text-dark">Home</a></li>
                                         <li><a href="#" class="text-uppercase font-weight-bold text-dark">Pages</a></li> 
                                         <li><a href="#" class="text-uppercase font-weight-bold text-dark">Account</a></li> 
-                                        <li>
-                                            <span class="text-uppercase text-primary font-weight-bold">Edit Account</span> 
-                                        </li> 
+                                       
                                     </ul>
                                 </div>
                             </div>  <!--end col-->
@@ -238,88 +237,44 @@
                                 <img src="../images/client/05.jpg" class="avatar float-md-left avatar-medium rounded-pill shadow mr-md-4" alt="">
                                 
                                 <div class="mt-md-4 mt-3 mt-sm-0">
-                                    <a href="javascript:void(0)" class="btn btn-primary mt-2">Change Picture</a>
-                                    <a href="javascript:void(0)" class="btn btn-outline-primary mt-2 ml-2">Delete</a>
+                                    <a href="page-profile-edit.html" class="rounded-pill bg-dark"><i class="mdi mdi-tools text-light" title="Edit Profile"></i></a>
                                 </div>
                             </div>
 
-                            <form>
+                    
                                 <div class="row mt-4">
                                     <div class="col-md-6">
                                         <div class="form-group position-relative">
                                             <label>First Name</label>
-                                            <i class="mdi mdi-account ml-3 icons"></i>
-                                            <input name="name" id="first" type="text" class="form-control pl-5" placeholder="First Name :">
+                                            <div><i class="mdi mdi-account icons"></i></div>
+                                            
+                                            <p class="nameUser marginUserInfo">
+                                            first name</p>
                                         </div>
                                     </div><!--end col-->
                                     <div class="col-md-6">
                                         <div class="form-group position-relative">
                                             <label>Last Name</label>
-                                            <i class="mdi mdi-account-plus ml-3 icons"></i>
-                                            <input name="name" id="last" type="text" class="form-control pl-5" placeholder="Last Name :">
+                                            <i class="mdi mdi-account-plus icons"></i>
+                                            <p class="lastNameUser marginUserInfo">laste name</p>
                                         </div>
                                     </div><!--end col-->
                                     <div class="col-md-6">
                                         <div class="form-group position-relative">
                                             <label>Your Email</label>
-                                            <i class="mdi mdi-email ml-3 icons"></i>
-                                            <input name="email" id="email" type="email" class="form-control pl-5" placeholder="Your email :">
+                                            <i class="mdi mdi-email icons"></i>
+                                            <p class="mailUser marginUserInfo">email@mail.co</p>
                                         </div> 
                                     </div><!--end col-->
                                     
                                     <div class="col-md-12">
                                         <div class="form-group position-relative">
                                             <label>Description</label>
-                                            <i class="mdi mdi-comment-text-outline ml-3 icons"></i>
-                                            <textarea name="comments" id="comments" rows="4" class="form-control pl-5" placeholder="Description :"></textarea>
+                                            <i class="mdi mdi-comment-text-outline icons"></i>
+                                            <p class="descriptionUser marginUserInfo">descrition text</p>
                                         </div>
                                     </div>
                                 </div><!--end row-->
-                                <div class="row">
-                                    <div class="col-sm-12">
-                                        <input type="submit" id="submit" name="send" class="btn btn-primary" value="Save Changes">
-                                    </div><!--end col-->
-                                </div><!--end row-->
-                            </form><!--end form-->
-
-                            
-                            <div class="row">
-                                
-                                <div class="col-md-6 mt-4 pt-2"> 
-                                    <h5>Change password :</h5>
-                                    <form>
-                                        <div class="row mt-4">
-                                            <div class="col-lg-12">
-                                                <div class="form-group position-relative">
-                                                    <label>Old password :</label>
-                                                    <i class="mdi mdi-key ml-3 icons"></i>
-                                                    <input type="password" class="form-control pl-5" placeholder="Old password" required="">
-                                                </div>
-                                            </div><!--end col-->
-        
-                                            <div class="col-lg-12">
-                                                <div class="form-group position-relative">
-                                                    <label>New password :</label>
-                                                    <i class="mdi mdi-key ml-3 icons"></i>
-                                                    <input type="password" class="form-control pl-5" placeholder="New password" required="">
-                                                </div>
-                                            </div><!--end col-->
-        
-                                            <div class="col-lg-12">
-                                                <div class="form-group position-relative">
-                                                    <label>Re-type New password :</label>
-                                                    <i class="mdi mdi-key ml-3 icons"></i>
-                                                    <input type="password" class="form-control pl-5" placeholder="Re-type New password" required="">
-                                                </div>
-                                            </div><!--end col-->
-        
-                                            <div class="col-lg-12 mt-2 mb-0">
-                                                <button class="btn btn-primary">Save password</button>
-                                            </div><!--end col-->
-                                        </div><!--end row-->
-                                    </form>
-                                </div><!--end col-->
-                            </div><!--end row-->
                         </div>
                     </div><!--end col-->
                 </div><!--end row-->

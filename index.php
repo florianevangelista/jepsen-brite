@@ -1,9 +1,10 @@
+
 <!DOCTYPE html>
     <html lang="en">
 
     <head>
         <meta charset="utf-8" />
-        <title>Landrick - Saas & Software Landing Page Template</title>
+        <title>Jepsen-Brite</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta name="description" content="Premium Bootstrap 4 Landing Page Template" />
         <meta name="keywords" content="bootstrap 4, premium, marketing, multipurpose" />
@@ -135,12 +136,13 @@
                 </div><!--end row-->
 
                  <div class="row">  <!-- This is the container for the collection-->
-                      <!--ADD-->
-                      
+
+                      <!--ADD-->     
                       <a href="pages/page-login.html" class="col-lg-4 col-md-6 col-12 mt-4 pt-2 courses-desc" style="cursor: pointer; background-color:rgba(58, 31, 61, 0.02); border: 1px #eee solid; border-radius: 20px; display: flex; align-items: center; justify-content: center;">
                             <img src="https://img.icons8.com/all/500/add.png" style="width: 70%; "> 
                       </a>
                     <!--end ADD-->
+                    
                      <!--start collection-->
                      <div class="col-lg-4 col-md-6 col-12 mt-4 pt-2">
                         <div class="courses-desc position-relative overflow-hidden rounded border">
@@ -289,3 +291,17 @@
         <script src="js/app.js"></script>
     </body>
 </html>
+
+<?php 
+
+$bdd = new PDO("mysql:host=localhost;dbname=events;charset=utf8", "root", "");
+      
+   
+$allbdd = $bdd->query("SELECT * FROM events");
+
+while ($row = $allbdd->fetch(PDO::FETCH_ASSOC)) {
+    echo $row["title"] . '<br>';
+}
+
+
+?>

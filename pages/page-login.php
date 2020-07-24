@@ -1,3 +1,38 @@
+<?php
+session_start();
+
+try
+{
+    $bdd = new PDO('mysql:host=localhost;dbname=jepsenBrite;charset=utf8', 'root', 'root', array(PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION));
+}
+catch (Exception $e)
+{
+        die('Erreur : ' . $e->getMessage());
+}
+
+    if(isset($_POST['submitConnexion'])) {
+        $EmailConnect = htmlspecialchars($_POST['EmailConnect']);
+        $MdpConnect = sha1($_POST['MdpConnect']);
+        if(!empty($EmailConnect) AND !empty($MdpConnect)) {
+            $requser = $bdd->prepare("SELECT * FROM persons WHERE Email = ? AND Mdp = ?");
+            $requser->execute(array($EmailConnect, $MdpConnect));
+            $userexist = $requser->rowCount();
+            if($userexist == 1) {
+                $userinfo = $requser->fetch();
+                $_SESSION['Personid'] = $userinfo['Personid'];
+                $_SESSION['FirstName'] = $userinfo['FirstName'];
+                $_SESSION['LastName'] = $userinfo['LastName'];
+                $_SESSION['Email'] = $userinfo['mail'];
+                header("Location: profilValider.php?Personid=".$_SESSION['Personid']);
+            } else {
+                $erreur = "Mauvais mail ou mot de passe !";
+            }
+        } else {
+            $erreur = "Tous les champs doivent être complétés !";
+        }
+    }
+
+?>
 
 <!DOCTYPE html>
     <html lang="en">
@@ -10,13 +45,13 @@
         <meta name="keywords" content="bootstrap 4, premium, marketing, multipurpose" />
         <meta content="Shreethemes" name="author" />
         <!-- favicon -->
-        <link rel="shortcut icon" href="images/favicon.ico">
+        <link rel="shortcut icon" href="../images/favicon.ico">
         <!-- Bootstrap -->
-        <link href="css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+        <link href="../css/bootstrap.min.css" rel="stylesheet" type="text/css" />
         <!-- Icons -->
-        <link href="css/materialdesignicons.min.css" rel="stylesheet" type="text/css" />
+        <link href="../css/materialdesignicons.min.css" rel="stylesheet" type="text/css" />
         <!-- Main css -->
-        <link href="css/style.css" rel="stylesheet" type="text/css" />
+        <link href="../css/style.css" rel="stylesheet" type="text/css" />
 
     </head>
 
@@ -44,7 +79,7 @@
                         <div class="row align-items-center">
                             <div class="col-lg-7 col-md-6">
                                 <div class="mr-lg-5">   
-                                    <img src="images/user/login.png" class="img-fluid d-block mx-auto" alt="">
+                                    <img src="../images/user/login.png" class="img-fluid d-block mx-auto" alt="">
                                 </div>
                             </div>
                             <div class="col-lg-5 col-md-6 mt-4 mt-sm-0 pt-2 pt-sm-0">
@@ -52,13 +87,13 @@
                                     <div class="text-center">
                                         <h4 class="mb-4">Login</h4>  
                                     </div>
-                                    <form class="login-form">
+                                    <form class="login-form" action="" method="POST">
                                         <div class="row">
                                             <div class="col-lg-12">
                                                 <div class="form-group position-relative">
                                                     <label>Your Email <span class="text-danger">*</span></label>
                                                     <i class="mdi mdi-account ml-3 icons"></i>
-                                                    <input type="email" class="form-control pl-5" placeholder="Email" name="email" required="">
+                                                    <input type="email" class="form-control pl-5" placeholder="Email" name="EmailConnect" required="">
                                                 </div>
                                             </div>
     
@@ -66,7 +101,8 @@
                                                 <div class="form-group position-relative">
                                                     <label>Password <span class="text-danger">*</span></label>
                                                     <i class="mdi mdi-key ml-3 icons"></i>
-                                                    <input type="password" class="form-control pl-5" placeholder="Password" required="">
+                                                    <input type="password" class="form-control pl-5" placeholder="Password" 
+                                                    name="MdpConnect" required="">
                                                 </div>
                                             </div>
 
@@ -80,15 +116,7 @@
                                                 </div>
                                             </div>
                                             <div class="col-lg-12 mb-0">
-                                                <button class="btn btn-primary w-100">Sign in</button>
-                                            </div>
-                                            <div class="col-lg-12 mt-4 text-center">
-                                                <h6>Or Login With</h6>
-                                                <ul class="list-unstyled social-icon mb-0 mt-3">
-                                                    <li class="list-inline-item"><a href="javascript:void(0)" class="rounded"><i class="mdi mdi-facebook" title="Facebook"></i></a></li>
-                                                    <li class="list-inline-item"><a href="javascript:void(0)" class="rounded"><i class="mdi mdi-google-plus" title="Google"></i></a></li>
-                                                    <li class="list-inline-item"><a href="javascript:void(0)" class="rounded"><i class="mdi mdi-github-circle" title="Github"></i></a></li>
-                                                </ul><!--end icon-->
+                                                <input type="submit" name="submitConnexion" class="btn btn-primary w-100" value="Sign in">
                                             </div>
                                             <div class="col-12 text-center">
                                                 <p class="mb-0 mt-3"><small class="text-dark mr-2">Don't have an account ?</small> <a href="page-signup.html" class="text-dark font-weight-bold">Sign Up</a></p>
@@ -105,11 +133,11 @@
         <!-- Hero End -->
 
         <!-- javascript -->
-        <script src="js/jquery.min.js"></script>
-        <script src="js/bootstrap.bundle.min.js"></script>
-        <script src="js/jquery.easing.min.js"></script>
-        <script src="js/scrollspy.min.js"></script>
+        <script src="../js/jquery.min.js"></script>
+        <script src="../js/bootstrap.bundle.min.js"></script>
+        <script src="../js/jquery.easing.min.js"></script>
+        <script src="../js/scrollspy.min.js"></script>
         <!-- Main Js -->
-        <script src="js/app.js"></script>
+        <script src="../js/app.js"></script>
     </body>
 </html>

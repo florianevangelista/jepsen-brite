@@ -43,50 +43,54 @@
             <div class="container">
                 <!-- Logo container-->
                 <div>
-                    <a class="logo" href="index.html">Jepsen-Brite<span class="text-primary">.</span></a>
+                    <a class="logo" href="index.php">Jepsen-Brite<span class="text-primary">.</span></a>
                 </div>                 
-                <!--end login button-->
-                <!-- End Logo container-->
-                <div class="menu-extras">
-                    <div class="menu-item">
-                        <!-- Mobile menu toggle-->
-                        <a class="navbar-toggle">
-                            <div class="lines">
-                                <span></span>
-                                <span></span>
-                                <span></span>
-                            </div>
-                        </a>
-                        <!-- End mobile menu toggle-->
-                    </div>
-                </div>
-        
+                <!-- Navigation Menu-->   
                 <div id="navigation">
-                    <!-- Navigation Menu-->   
-                    <ul class="navigation-menu">
-                        <li><a href="index.html">Home</a></li>
-                        <li class="has-submenu">
-                            <a href="javascript:void(0)">Categories</a><span class="menu-arrow"></span>
-                            <ul class="submenu">
-                                <li><a href="">Concert</a></li>
-                                <li><a href="">Festival</a></li>
-                                <li><a href="">Exhibition</a></li>
-                                <li><a href="">Conferences</a></li>
-                                <li><a href="">Random Category</a></li>
-                                <li><a href="">Random Category</a></li>
-                            </ul>
+                    <ul class="navigation-menu" style="align-items:center;">
+                        <li><a href="index.php">Home</a></li>
+                        <li>
+                            <form action="" method="POST">
+                            <select id="category" name="category">
+                                <option value="" disabled select>Event Categories</option>
+                                <option value="Concert">Concert</option>
+                                <option value="Festival">Festival</option>
+                                <option value="Exhibition">Exhibition</option>
+                                <option value="Conferences">Conferences</option>
+                                <option value="Random">Random</option>
+                            </select>
+                            <input type="submit" value="Search">
+                            </form>
                         </li>
                         <li class="has-submenu">
-                            <a href="javascript:void(0)">Previous Events</a><span class="menu-arrow"></span>
-                            <ul class="submenu">
-                                <li><a href="">Previous Concert</a></li>
-                                <li><a href="">Previous Festival</a></li>
-                                <li><a href="">Previous Exhibition</a></li>
-                                <li><a href="">Previous Conferences</a></li>
-                                <li><a href="">Previous Random Category</a></li>
-                                <li><a href="">Previous Random Category</a></li>
-                            </ul>
+                            <form action="" method="POST">
+                            <select id="category" name="previous_category">
+                                <option value="" disable select>Previous Event Categories</option>
+                                <option value="Concert">Previous Concert</option>
+                                <option value="Festival">Previous Festival</option>
+                                <option value="Exhibition">Previous Exhibition</option>
+                                <option value="Conferences">Previous Conferences</option>
+                                <option value="Random">Previous Random</option>
+                            </select>
+                            <input type="submit" value="Search">
+                            </form>
                         </li>
+
+                        <?php 
+                        
+                        if (isset($_POST['category']))
+                        {
+                            $ChosenCategory = $_POST['category'];
+                        }
+
+                        if (isset($_POST['previous_category']))
+                        {
+                            $ChosenPreviousCategory = $_POST['previous_category'];
+                        }
+
+                        ?>
+
+
                         <li><a href="pages/page-login.html">Login</a></li>
                     </ul>
                     <!--end navigation menu-->
@@ -144,115 +148,76 @@
                     <!--end ADD-->
                     
                      <!--start collection-->
-                     <div class="col-lg-4 col-md-6 col-12 mt-4 pt-2">
+                     <?php 
+
+                    $bdd = new PDO("mysql:host=localhost;dbname=event_manager;charset=utf8", "root", "");
+
+
+                    #FilteredRequest can be the default request or a specific category request
+
+
+                    $FilteredRequest = "SELECT * FROM persons p INNER JOIN evenements e ON p.Personid = e.Personid WHERE dt>=" . "'" . date("Y-m-d H:i:s") . "'" . "ORDER BY dt ASC";
+
+                    if (isset($ChosenCategory))
+                    {
+                        $FilteredRequest = "SELECT * FROM persons p INNER JOIN evenements e ON p.Personid = e.Personid WHERE Category='" . $ChosenCategory . "'" . "AND dt>=" . "'" . date("Y-m-d H:i:s") . "'" . "ORDER BY dt ASC";
+                    } 
+
+                    if (isset($ChosenPreviousCategory)) 
+                    {
+                        $FilteredRequest = "SELECT * FROM persons p INNER JOIN evenements e ON p.Personid = e.Personid WHERE Category='" . $ChosenPreviousCategory . "'" . "AND dt<" . "'" . date("Y-m-d H:i:s") . "'" . "ORDER BY dt DESC";
+                    } 
+
+                    
+                        
+                    
+                    $EventsTable = $bdd->query("$FilteredRequest");
+
+
+
+                    while ($row = $EventsTable->fetch(PDO::FETCH_ASSOC)) {?> 
+                        <div class="col-lg-4 col-md-6 col-12 mt-4 pt-2">
                         <div class="courses-desc position-relative overflow-hidden rounded border">
                             <div class="position-relative d-block overflow-hidden">
                                 <img src="https://d22ir9aoo7cbf6.cloudfront.net/wp-content/uploads/sites/2/2016/06/Atlantis-04.jpg" class="img-fluid rounded-top mx-auto" alt="">
                             </div>
                             <div class="content p-3"><br>
-                                <h5><a href="javascript:void(0)" class="title text-dark">Title of the Event</a></h5><br>
+                                <h5><a href="javascript:void(0)" class="title text-dark"></a></h5>
                                 <div class="fees">
                                     <ul class="list-unstyled mb-0 numbers">
-                                        <li><i class="mdi mdi-timer text-muted"></i> Date and Time</li>
-                                        <li><i class="mdi mdi-city text-muted"></i> Type of Event</li><br>
-                                        <li><i class="mdi mdi-message-text-outline"></i> Lorem ipsum dolor, sit amet consectetur adipisicing elit. Accusamus vel, cupiditate architecto quidem quas maxime earum quisquam fuga explicabo doloribus error distinctio architecto saepe, earum facilis, atque tenetur placeat itaque!</li><br>
-                                        <li><i class="mdi mdi-human"></i> Number of Participants</li>
-                                        <li><i class="mdi mdi-book text-muted"></i> Name of the Compay</li><br><br>
-                                        <li><i class="mdi mdi-cash-multiple"></i> Price</li><br>
+                                        <li><i class="mdi mdi-timer text-muted"></i> <?php echo $row["Title"] . '<br>';?></li><br>
+                                        <li><i class="mdi mdi-timer text-muted"></i> <?php echo $row["dt"] . '<br>';?></li>
+                                        <li><i class="mdi mdi-city text-muted"></i> <?php echo $row["Category"] . '<br>';?></li><br>
+                                        <li><i class="mdi mdi-message-text-outline"></i> <?php echo $row["Description"] . '<br>';?></li><br>
+                                        <li><i class="mdi mdi-account-box-outline"></i> <?php echo $row["FirstName"] . " " . $row["LastName"] .'<br>';?></li><br>
+                                        <li>
+                                            <form action="" method="POST">
+                                                <input placeholder="Comments here" type="text" name="comment" data-UserId="<?php echo $row["EventId"]?>" data-Personid="<?php echo $row["Personid"]?>" >
+                                                <input type="submit" value="Validate">
+                                            </form>
+                                            <?php 
+                                            
+                                            if (isset($_POST['comment']))
+                                            {
+                        
+                                            $CommentTableQuery = "INSERT INTO `comments` (`id`, `comment`, `user_LastName`, `user_FirstName`, `event_Title`, `event_dt`)
+                                                        VALUES(?, ?, ?, ?, ?, ?)";
+                                            $stmt = $bdd->prepare($CommentTableQuery);
+                                            $stmt->execute(array(NULL, $_POST['comment'], 'a definir', 'a definir', 'a definir', '2020-10-28 10:10:10'));
+                                            }
+
+                                            $_POST['comment'] = NULL;
+
+                                            ?>
+                                        </li>
                                     </ul> 
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <!--end collection-->
-                     <!--start collection-->
-                     <div class="col-lg-4 col-md-6 col-12 mt-4 pt-2">
-                        <div class="courses-desc position-relative overflow-hidden rounded border">
-                            <div class="position-relative d-block overflow-hidden">
-                                <img src="https://d22ir9aoo7cbf6.cloudfront.net/wp-content/uploads/sites/2/2016/06/Atlantis-04.jpg" class="img-fluid rounded-top mx-auto" alt="">
-                            </div>
-                            <div class="content p-3"><br>
-                                <h5><a href="javascript:void(0)" class="title text-dark">Title of the Event</a></h5><br>
-                                <div class="fees">
-                                    <ul class="list-unstyled mb-0 numbers">
-                                        <li><i class="mdi mdi-timer text-muted"></i> Date and Time</li>
-                                        <li><i class="mdi mdi-city text-muted"></i> Type of Event</li><br>
-                                        <li><i class="mdi mdi-message-text-outline"></i> Lorem ipsum dolor, sit amet consectetur adipisicing elit. Accusamus vel, cupiditate architecto quidem quas maxime earum quisquam fuga explicabo doloribus error distinctio architecto saepe, earum facilis, atque tenetur placeat itaque!</li><br>
-                                        <li><i class="mdi mdi-human"></i> Number of Participants</li>
-                                        <li><i class="mdi mdi-book text-muted"></i> Name of the Compay</li><br><br>
-                                        <li><i class="mdi mdi-cash-multiple"></i> Price</li><br>
-                                    </ul> 
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <!--end collection-->
-                     <!--start collection-->
-                     <div class="col-lg-4 col-md-6 col-12 mt-4 pt-2">
-                        <div class="courses-desc position-relative overflow-hidden rounded border">
-                            <div class="position-relative d-block overflow-hidden">
-                                <img src="https://d22ir9aoo7cbf6.cloudfront.net/wp-content/uploads/sites/2/2016/06/Atlantis-04.jpg" class="img-fluid rounded-top mx-auto" alt="">
-                            </div>
-                            <div class="content p-3"><br>
-                                <h5><a href="javascript:void(0)" class="title text-dark">Title of the Event</a></h5><br>
-                                <div class="fees">
-                                    <ul class="list-unstyled mb-0 numbers">
-                                        <li><i class="mdi mdi-timer text-muted"></i> Date and Time</li>
-                                        <li><i class="mdi mdi-city text-muted"></i> Type of Event</li><br>
-                                        <li><i class="mdi mdi-message-text-outline"></i> Lorem ipsum dolor, sit amet consectetur adipisicing elit. Accusamus vel, cupiditate architecto quidem quas maxime earum quisquam fuga explicabo doloribus error distinctio architecto saepe, earum facilis, atque tenetur placeat itaque!</li><br>
-                                        <li><i class="mdi mdi-human"></i> Number of Participants</li>
-                                        <li><i class="mdi mdi-book text-muted"></i> Name of the Compay</li><br><br>
-                                        <li><i class="mdi mdi-cash-multiple"></i> Price</li><br>
-                                    </ul> 
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <!--end collection-->
-                     <!--start collection-->
-                     <div class="col-lg-4 col-md-6 col-12 mt-4 pt-2">
-                        <div class="courses-desc position-relative overflow-hidden rounded border">
-                            <div class="position-relative d-block overflow-hidden">
-                                <img src="https://d22ir9aoo7cbf6.cloudfront.net/wp-content/uploads/sites/2/2016/06/Atlantis-04.jpg" class="img-fluid rounded-top mx-auto" alt="">
-                            </div>
-                            <div class="content p-3"><br>
-                                <h5><a href="javascript:void(0)" class="title text-dark">Title of the Event</a></h5><br>
-                                <div class="fees">
-                                    <ul class="list-unstyled mb-0 numbers">
-                                        <li><i class="mdi mdi-timer text-muted"></i> Date and Time</li>
-                                        <li><i class="mdi mdi-city text-muted"></i> Type of Event</li><br>
-                                        <li><i class="mdi mdi-message-text-outline"></i> Lorem ipsum dolor, sit amet consectetur adipisicing elit. Accusamus vel, cupiditate architecto quidem quas maxime earum quisquam fuga explicabo doloribus error distinctio architecto saepe, earum facilis, atque tenetur placeat itaque!</li><br>
-                                        <li><i class="mdi mdi-human"></i> Number of Participants</li>
-                                        <li><i class="mdi mdi-book text-muted"></i> Name of the Compay</li><br><br>
-                                        <li><i class="mdi mdi-cash-multiple"></i> Price</li><br>
-                                    </ul> 
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <!--end collection-->
-                     <!--start collection-->
-                     <div class="col-lg-4 col-md-6 col-12 mt-4 pt-2">
-                        <div class="courses-desc position-relative overflow-hidden rounded border">
-                            <div class="position-relative d-block overflow-hidden">
-                                <img src="https://d22ir9aoo7cbf6.cloudfront.net/wp-content/uploads/sites/2/2016/06/Atlantis-04.jpg" class="img-fluid rounded-top mx-auto" alt="">
-                            </div>
-                            <div class="content p-3"><br>
-                                <h5><a href="javascript:void(0)" class="title text-dark">Title of the Event</a></h5><br>
-                                <div class="fees">
-                                    <ul class="list-unstyled mb-0 numbers">
-                                        <li><i class="mdi mdi-timer text-muted"></i> Date and Time</li>
-                                        <li><i class="mdi mdi-city text-muted"></i> Type of Event</li><br>
-                                        <li><i class="mdi mdi-message-text-outline"></i> Lorem ipsum dolor, sit amet consectetur adipisicing elit. Accusamus vel, cupiditate architecto quidem quas maxime earum quisquam fuga explicabo doloribus error distinctio architecto saepe, earum facilis, atque tenetur placeat itaque!</li><br>
-                                        <li><i class="mdi mdi-human"></i> Number of Participants</li>
-                                        <li><i class="mdi mdi-book text-muted"></i> Name of the Compay</li><br><br>
-                                        <li><i class="mdi mdi-cash-multiple"></i> Price</li><br>
-                                    </ul> 
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <!--end collection-->
+                    <?php }
+
+                    ?>
                     
 
 
@@ -292,16 +257,3 @@
     </body>
 </html>
 
-<?php 
-
-$bdd = new PDO("mysql:host=localhost;dbname=events;charset=utf8", "root", "");
-      
-   
-$allbdd = $bdd->query("SELECT * FROM events");
-
-while ($row = $allbdd->fetch(PDO::FETCH_ASSOC)) {
-    echo $row["title"] . '<br>';
-}
-
-
-?>

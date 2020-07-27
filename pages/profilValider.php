@@ -286,7 +286,7 @@ session_start();
                                         </div> 
                                     </div><!--end col-->
                                     <?php
-                                        if(isset($_SESSION['id']) AND $userinfo['id'] == $_SESSION['id']) {
+                                        if(isset($_SESSION['Personid']) AND $userinfo['Personid'] == $_SESSION['Personid']) {
                                     ?>
 
                                     <a href="deconnexion.php">Se deconnecter</a>

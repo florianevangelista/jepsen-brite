@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>Create Event</title>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+	<link rel="stylesheet" type="text/css" href="../css/styleCreatEvent.css">
+
+</head>
+<body>
+	<h1>Création de votre évenenement</h1>
+
+	<form class="container" action="validationCreatEvent.php" method="post">
+		<div class="form-group">
+		    <label for="formGroupExampleInput">Titre de l'évenenement</label>
+
+		    <input type="text" class="form-control" id="formGroupExampleInput" placeholder="Nom de l'évenenement" name="title">
+
+		</div>
+	  	<div class="form-group">
+	    	<label for="formGroupExampleInput">Organisateur</label>
+	    	<input type="text" class="form-control" id="formGroupExampleInput" placeholder="Organisateur" name="author">
+	  	</div>
+	   	<div class="form-group">
+	    	<label for="formGroupExampleInput">Type d'évenenement</label>
+	    	<input type="text" class="form-control" id="formGroupExampleInput" placeholder="Type d'évenenement" name="category">
+	  	</div>
+	  	<div class="form-group">
+	  		<label for="start">Start date:</label>
+
+			<input type="date" id="start" name="start-event"
+		       value=""
+		       min="2020-01-01" max="2022-12-31">
+		    <input type="time" id="startTime" name="startTime" min="17:00" max="00:00" required>
+		</div>
+		<div class="custom-file form-group">
+	  		<input type="file" class="custom-file-input" id="customFile">
+		  	<label class="custom-file-label" for="customFile">Choose file</label>
+		</div>
+		<div class="form-group">
+	    	<label for="validationTextarea">Description</label>
+	    	<textarea class="form-control is-invalid" id="validationTextarea" placeholder="écrivez ici" required></textarea>
+	  	</div>
+
+	  	<input class="btn btn-primary btn-lg" type="submit" name="ValideCreatEvent" value="Valider" >
+	</form>
+
+<!-- <h2>Vos évenements</h2>
+	<div class="container">
+  		<div class="row">
+    		<div class="col-sm">
+      			<div class="card" style="width: 18rem;">
+  					<img src="https://www.bapteme.fr/media/catalog/product/cache/2/image/9df78eab33525d08d6e5fb8d27136e95/2/5/2575001_copier__2.jpg" class="card-img-top" alt="...">
+  					<div class="card-body">
+	    				<h5 class="card-title">Card title</h5>
+	    				<p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+	    				<a href="#" class="btn btn-primary">Go somewhere</a>
+  					</div>
+				</div>
+    		</div>
+    		<div class="col-sm">
+      			<div class="card" style="width: 18rem;">
+  					<img src="https://www.bapteme.fr/media/catalog/product/cache/2/image/9df78eab33525d08d6e5fb8d27136e95/2/5/2575001_copier__2.jpg" class="card-img-top" alt="...">
+  					<div class="card-body">
+	    				<h5 class="card-title">Card title</h5>
+	    				<p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+	    				<a href="#" class="btn btn-primary">Go somewhere</a>
+  					</div>
+				</div>
+    		</div>
+    		<div class="col-sm">
+      			<div class="card" style="width: 18rem;">
+  					<img src="https://www.bapteme.fr/media/catalog/product/cache/2/image/9df78eab33525d08d6e5fb8d27136e95/2/5/2575001_copier__2.jpg" class="card-img-top" alt="...">
+  					<div class="card-body">
+	    				<h5 class="card-title">Card title</h5>
+	    				<p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+	    				<a href="#" class="btn btn-primary">Go somewhere</a>
+  					</div>
+				</div>
+    		</div>
+  		</div>
+	</div> -->
+	
+
+</body>
+</html>

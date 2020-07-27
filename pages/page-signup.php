@@ -1,4 +1,58 @@
+<?php
 
+try
+{
+    $bdd = new PDO('mysql:host=localhost;dbname=jepsenBrite;charset=utf8', 'root', 'root', array(PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION));
+}
+catch (Exception $e)
+{
+        die('Erreur : ' . $e->getMessage());
+}
+if(isset($_POST['submitSignup'])) {
+
+$FirstName=htmlspecialchars($_POST['FirstName']);
+$LastName=htmlspecialchars($_POST['LastName']);
+$Email=htmlspecialchars($_POST['Email']);
+$Mdp = sha1($_POST['Mdp']);
+$confirmationMdp = sha1($_POST['confirmationMdp']);
+
+// on verifie que les cases ne sont pas vide
+
+    if(!empty($_POST['FirstName']) AND !empty($_POST['LastName']) AND !empty($_POST['Email']) AND !empty($_POST['Mdp']) AND !empty($_POST['confirmationMdp'])){
+       
+        $FirstNamelength = strlen($FirstName);
+        $LastNamelength = strlen($LastName);
+
+            if($FirstNamelength <= 255 AND $FirstNamelength <= 255) {
+                if(filter_var($Email, FILTER_VALIDATE_EMAIL)) {
+                    $reqmail = $bdd->prepare("SELECT * FROM persons WHERE Email = ?");
+                    $reqmail->execute(array($Email));
+                    $mailexist = $reqmail->rowCount();
+                        if($mailexist == 0) {
+                            if($Mdp == $confirmationMdp) {
+                                $insertmbr = $bdd->prepare("INSERT INTO persons(FirstName, LastName, Email, Mdp) VALUES(?, ?, ?, ?)");
+                                $insertmbr->execute(array($FirstName, $LastName, $Email, $Mdp));
+                                $_SESSION ['validatonCompte'] = "Votre compte a bien été créé ! <a href=\"connexion.php\">Me connecter</a>";
+                                header("Location: page-login.php");
+                            } else {
+                                $erreur = "Vos mots de passes ne correspondent pas !";
+                            }
+                        } else {
+                          $erreur = "Adresse mail déjà utilisée !";
+                       }
+                } else {
+                       $erreur = "Votre adresse mail n'est pas valide !";
+                    }
+            
+        } else {
+            $erreur = "Votre Prenom et Nom ne doivent pas dépasser 255 caractères !";
+        }
+    } else {
+        $erreur = "Tous les champs doivent être complétés !";
+    }
+}
+
+?>
 <!DOCTYPE html>
     <html lang="en">
 
@@ -52,41 +106,41 @@
                                     <div class="text-center">
                                         <h4 class="mb-4">Signup</h4>  
                                     </div>
-                                    <form class="login-form">
+                                    <form class="login-form" action="" method="POST">
                                         <div class="row">
                                             <div class="col-md-6">
                                                 <div class="form-group position-relative">
-                                                    <label>First name <span class="text-danger">*</span></label>
+                                                    <label for="FirstName">First name <span class="text-danger">*</span></label>
                                                     <i class="mdi mdi-account ml-3 icons"></i>
-                                                    <input type="text" class="form-control pl-5" placeholder="First Name" name="s" required="">
+                                                    <input type="text" class="form-control pl-5" placeholder="First Name" name="FirstName" value="<?php if(isset($FirstName)) { echo $FirstName; } ?>">
                                                 </div>
                                             </div>
                                             <div class="col-md-6">
                                                 <div class="form-group position-relative">                                                
-                                                    <label>Last name <span class="text-danger">*</span></label>
+                                                    <label for="LastName">Last name <span class="text-danger">*</span></label>
                                                     <i class="mdi mdi-account ml-3 icons"></i>
-                                                    <input type="text" class="form-control pl-5" placeholder="Last Name" name="s" required="">
+                                                    <input type="text" class="form-control pl-5" placeholder="Last Name" name="LastName" value="<?php if(isset($LastName)) { echo $LastName; } ?>">
                                                 </div>
                                             </div>
                                             <div class="col-md-12">
                                                 <div class="form-group position-relative">
-                                                    <label>Your Email <span class="text-danger">*</span></label>
+                                                    <label for="">Your Email <span class="text-danger">*</span></label>
                                                     <i class="mdi mdi-account ml-3 icons"></i>
-                                                    <input type="email" class="form-control pl-5" placeholder="Email" name="email" required="">
+                                                    <input type="email" class="form-control pl-5" placeholder="Email" name="Email" value="<?php if(isset($Email)) { echo $Email; } ?>">
                                                 </div>
                                             </div>
                                             <div class="col-md-12">
                                                 <div class="form-group position-relative">
-                                                    <label>Password <span class="text-danger">*</span></label>
+                                                    <label for="Mdp">Password <span class="text-danger">*</span></label>
                                                     <i class="mdi mdi-key ml-3 icons"></i>
-                                                    <input type="password" class="form-control pl-5" placeholder="Password" required="">
+                                                    <input type="password" class="form-control pl-5" placeholder="Password" name="Mdp">
                                                 </div>
                                             </div>
                                             <div class="col-md-12">
                                                 <div class="form-group position-relative">
-                                                    <label>Confirm Password <span class="text-danger">*</span></label>
+                                                    <label for="confirmationMdp">Confirm Password <span class="text-danger">*</span></label>
                                                     <i class="mdi mdi-key ml-3 icons"></i>
-                                                    <input type="password" class="form-control pl-5" placeholder="Confirm Password" required="">
+                                                    <input type="password" class="form-control pl-5" placeholder="Confirm Password" name="confirmationMdp">
                                                 </div>
                                             </div>
                                             <div class="col-md-12">
@@ -98,7 +152,7 @@
                                                 </div>
                                             </div>
                                             <div class="col-md-12">
-                                                <button class="btn btn-primary w-100">Register</button>
+                                                <input class="btn btn-primary w-100" value="Register" type="submit" name="submitSignup">
                                             </div>
                                                 
                                             <div class="mx-auto">
@@ -106,6 +160,12 @@
                                             </div>
                                         </div>
                                     </form>
+
+                                    <?php
+                                        if(isset($erreur)) {
+                                            echo '<font color="red">'.$erreur."</font>";
+                                        }
+                                    ?>
                                 </div>
                             </div> <!--end col-->
                         </div><!--end row-->

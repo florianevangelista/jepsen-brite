@@ -8,12 +8,48 @@ session_start();
     {
         die('Erreur : ' . $e->getMessage());
     }
-        if(isset($_GET['Personid']) AND $_GET['Personid'] > 0) {
-            $getid = intval($_GET['Personid']);
-            $requser = $bdd->prepare('SELECT * FROM persons WHERE Personid = ?');
-            $requser->execute(array($getid));
-            $userinfo = $requser->fetch();
+         
 
+    if (isset($_SESSION['Personid'])) {
+        // echo $_SESSION['PersonId'];
+            // $getid = intval($_SESSION['Personid']);
+            // $requser = $bdd->prepare('SELECT * FROM persons WHERE Personid = ?');
+            // $requser->execute(array($getid));
+            // $user = $requser->fetch();
+
+          $requser = $bdd->prepare("SELECT * FROM persons WHERE PersonId = ?");
+   $requser->execute(array($_SESSION['PersonId']));
+   $user = $requser->fetch();
+        
+        if(isset($_POST['newFirstName']) AND !empty($_POST['newFirstName']) AND $_POST['newFirstName'] != $user['FirstName']) {
+            $newFirstName = htmlspecialchars($_POST['newFirstName']);
+            $insertFirstName = $bdd->prepare("UPDATE persons SET FirstName = ? WHERE PersonId = ?");
+            $insertFirstName->execute(array($newFirstName, $_SESSION['PersonId']));
+            header('Location: profilValider.php?PersonId='.$_SESSION['PersonId']);
+        }
+        if(isset($_POST['newLastName']) AND !empty($_POST['newLastName']) AND $_POST['newLastName'] != $user['LastName']) {
+            $newLastName = htmlspecialchars($_POST['newLastName']);
+            $insertLastName = $bdd->prepare("UPDATE persons SET LastName = ? WHERE PersonId = ?");
+            $insertLastName->execute(array($newLastName, $_SESSION['PersonId']));
+            header('Location: profilValider.php?PersonId='.$_SESSION['PersonId']);
+        }
+        if(isset($_POST['newEmail']) AND !empty($_POST['newEmail']) AND $_POST['newEmail'] != $user['Email']) {
+            $newmail = htmlspecialchars($_POST['newEmail']);
+            $insertEmail = $bdd->prepare("UPDATE persons SET Email = ? WHERE PersonId = ?");
+            $insertEmail->execute(array($newEmail, $_SESSION['PersonId']));
+            header('Location: profilValider.php?PersonId='.$_SESSION['PersonId']);
+        }
+        // if(isset($_POST['newMdp']) AND !empty($_POST['newMdp']) AND isset($_POST['newConfirmationMdp']) AND !empty($_POST['newConfirmationMdp'])) {
+        //     $mdp1 = sha1($_POST['newMdp']);
+        //     $mdp2 = sha1($_POST['newConfirmationMdp']);
+        //         if($newMdp == $newConfirmationMdp) {
+        //             $insertMdp = $bdd->prepare("UPDATE persons SET Mdp = ? WHERE PersonId = ?");
+        //             $insertMdp->execute(array($mdp1, $_SESSION['PersonId']));
+        //             header('Location: profilValider.php?PersonId='.$_SESSION['PersonId']);
+        //         } else {
+        //             $msg = "Vos mots de passe ne correspondent pas !";
+        //         }
+        // }
 ?>
 
 <!DOCTYPE html>
@@ -242,9 +278,7 @@ session_start();
         </div>
         <!--Shape End-->
 
-        <!-- Profile Setting Start -->
-
-        <section class="section">
+       <section class="section">
             <div class="container">
                 <div class="row justify-content-center">
                     <div class="col-lg-10">
@@ -255,42 +289,81 @@ session_start();
                                 <img src="../images/client/05.jpg" class="avatar float-md-left avatar-medium rounded-pill shadow mr-md-4" alt="">
                                 
                                 <div class="mt-md-4 mt-3 mt-sm-0">
-                                    <a href="profilValideEdit.php" class="rounded-pill bg-dark"><i class="mdi mdi-tools text-light" title="Edit Profile"></i></a>
+                                    <a href="javascript:void(0)" class="btn btn-primary mt-2">Change Picture</a>
+                                    <a href="javascript:void(0)" class="btn btn-outline-primary mt-2 ml-2">Delete</a>
                                 </div>
                             </div>
 
-                    
+                            <form method="POST" action="" enctype="multipart/form-data">
                                 <div class="row mt-4">
                                     <div class="col-md-6">
                                         <div class="form-group position-relative">
                                             <label>First Name</label>
-                                            <div><i class="mdi mdi-account icons"></i></div>
-                                        <p class="nameUser marginUserInfo">
-                                            <?php echo $userinfo['FirstName']; ?>
-                                        </p>
-                                        
+                                            <i class="mdi mdi-account ml-3 icons"></i>
+                                            <input name="newFirstName"  type="text" class="form-control pl-5" placeholder="First Name :" value="<?php echo $user['FirstName']; ?>">
                                         </div>
                                     </div><!--end col-->
                                     <div class="col-md-6">
                                         <div class="form-group position-relative">
                                             <label>Last Name</label>
-                                            <i class="mdi mdi-account-plus icons"></i>
-                                            <p class="lastNameUser marginUserInfo"><?php echo $userinfo['LastName']; ?></p>
+                                            <i class="mdi mdi-account-plus ml-3 icons"></i>
+                                            <input name="newLastName" type="text" class="form-control pl-5" placeholder="Last Name :" value="<?php echo $user['LastName']; ?>">
                                         </div>
                                     </div><!--end col-->
                                     <div class="col-md-6">
                                         <div class="form-group position-relative">
                                             <label>Your Email</label>
-                                            <i class="mdi mdi-email icons"></i>
-                                            <p class="mailUser marginUserInfo"><?php echo $userinfo['Email']; ?></p>
+                                            <i class="mdi mdi-email ml-3 icons"></i>
+                                            <input name="newEmail" type="email" class="form-control pl-5" placeholder="Your email :" value="<?php echo $user['Email']; ?>">
                                         </div> 
                                     </div><!--end col-->
-                                    <?php
-                                        if(isset($_SESSION['Personid']) AND $userinfo['Personid'] == $_SESSION['Personid']) {
-                                    ?>
-
-                                    <a href="deconnexion.php">Se deconnecter</a>
+                                    
                                 </div><!--end row-->
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                        <input type="submit" id="submit" class="btn btn-primary" value="Save Changes">
+                                    </div><!--end col-->
+                                </div><!--end row-->
+                            </form><!--end form-->
+
+                            
+                         <!--    <div class="row">
+                                
+                                <div class="col-md-6 mt-4 pt-2"> 
+                                    <h5>Change password :</h5>
+                                    <form>
+                                        <div class="row mt-4">
+                                            <div class="col-lg-12">
+                                                <div class="form-group position-relative">
+                                                    <label>Old password :</label>
+                                                    <i class="mdi mdi-key ml-3 icons"></i>
+                                                    <input type="password" class="form-control pl-5" placeholder="Old password" required="">
+                                                </div>
+                                            </div> end col-->
+        
+                                           <!--  <div class="col-lg-12">
+                                                <div class="form-group position-relative">
+                                                    <label>New password :</label>
+                                                    <i class="mdi mdi-key ml-3 icons"></i>
+                                                    <input type="password" class="form-control pl-5" placeholder="New password" required="">
+                                                </div>
+                                            </div> --><!--end col-->
+        
+                                            <!-- <div class="col-lg-12">
+                                                <div class="form-group position-relative">
+                                                    <label>Re-type New password :</label>
+                                                    <i class="mdi mdi-key ml-3 icons"></i>
+                                                    <input type="password" class="form-control pl-5" placeholder="Re-type New password" required="">
+                                                </div>
+                                            </div> --><!--end col-->
+        
+                                           <!--  <div class="col-lg-12 mt-2 mb-0">
+                                                <button class="btn btn-primary">Save password</button>
+                                            </div> --><!--end col-->
+                                        <!-- </div> --><!--end row-->
+                                   <!--  </form> -->
+                              <!--   </div> --><!--end col-->
+                           <!--  </div> --><!--end row--> -->
                         </div>
                     </div><!--end col-->
                 </div><!--end row-->
@@ -358,9 +431,7 @@ session_start();
                 </div><!--end row-->
             </div><!--end container-->
         </footer><!--end footer-->
-<?php
-}
-?>
+
         <hr>
         <footer class="footer footer-bar">
             <div class="container text-center">
@@ -404,7 +475,9 @@ session_start();
     </body>
 </html>
 <?php   
-}else{
-    header('Location: page-signup.php');
+}
+else{
+    echo "c est la merde";
+    // header('Location: page-login.php');
 }
 ?>

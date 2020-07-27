@@ -91,7 +91,7 @@
                         ?>
 
 
-                        <li><a href="pages/page-login.html">Login</a></li>
+                        <li><a href="pages/page-login.php">Login</a></li>
                     </ul>
                     <!--end navigation menu-->
                 </div><!--end navigation-->
@@ -142,7 +142,7 @@
                  <div class="row">  <!-- This is the container for the collection-->
 
                       <!--ADD-->     
-                      <a href="pages/page-login.html" class="col-lg-4 col-md-6 col-12 mt-4 pt-2 courses-desc" style="cursor: pointer; background-color:rgba(58, 31, 61, 0.02); border: 1px #eee solid; border-radius: 20px; display: flex; align-items: center; justify-content: center;">
+                      <a href="pages/page-login.php" class="col-lg-4 col-md-6 col-12 mt-4 pt-2 courses-desc" style="cursor: pointer; background-color:rgba(58, 31, 61, 0.02); border: 1px #eee solid; border-radius: 20px; display: flex; align-items: center; justify-content: center;">
                             <img src="https://img.icons8.com/all/500/add.png" style="width: 70%; "> 
                       </a>
                     <!--end ADD-->
@@ -222,7 +222,7 @@
 
 
                     <div class="col-12 mt-4 pt-2 text-center">
-                        <a href="pages/page-login.html" class="btn btn-primary">Launch an event <i class="mdi mdi-chevron-right"></i></a>
+                        <a href="pages/page-login.php" class="btn btn-primary">Launch an event <i class="mdi mdi-chevron-right"></i></a>
                     </div>
                 </div><!--end row-->
             </div><!--end container-->

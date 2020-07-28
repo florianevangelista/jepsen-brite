@@ -982,32 +982,32 @@ button:not(:disabled) {
 }
 
 .avatar.avatar-ex-sm {
-  max-height: 30px;
+  max-height: 50px;
 }
 
 .avatar.avatar-md-sm {
-  height: 45px;
-  width: 45px;
+  height: 65px;
+  width: 65px;
 }
 
 .avatar.avatar-small {
-  height: 70px;
-  width: 70px;
+  height: 100px;
+  width: 100px;
 }
 
 .avatar.avatar-medium {
-  height: 110px;
-  width: 110px;
-}
-
-.avatar.avatar-large {
   height: 140px;
   width: 140px;
 }
 
-.avatar.avatar-ex-large {
+.avatar.avatar-large {
   height: 180px;
   width: 180px;
+}
+
+.avatar.avatar-ex-large {
+  height: 280px;
+  width: 280px;
 }
 
 .faq-container .question {

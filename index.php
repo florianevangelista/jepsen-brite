@@ -175,7 +175,8 @@
 
 
 
-                    while ($row = $EventsTable->fetch(PDO::FETCH_ASSOC)) {?> 
+                    while ($row = $EventsTable->fetch(PDO::FETCH_ASSOC)) {?>
+                    
                         <div class="col-lg-4 col-md-6 col-12 mt-4 pt-2">
                         <div class="courses-desc position-relative overflow-hidden rounded border">
                             <div class="position-relative d-block overflow-hidden">
@@ -190,42 +191,115 @@
                                         <li><i class="mdi mdi-city text-muted"></i> <?php echo $row["Category"] . '<br>';?></li><br>
                                         <li><i class="mdi mdi-message-text-outline"></i> <?php echo $row["Description"] . '<br>';?></li><br>
                                         <li><i class="mdi mdi-account-box-outline"></i> <?php echo $row["FirstName"] . " " . $row["LastName"] .'<br>';?></li><br>
-                                        <li>
-                                            <form action="" method="POST">
-                                                <input placeholder="Comments here" type="text" name="comment" data-UserId="<?php echo $row["EventId"]?>" data-Personid="<?php echo $row["Personid"]?>" >
-                                                <input type="submit" value="Validate">
-                                            </form>
-                                            <?php 
-                                            
-                                            if (isset($_POST['comment']))
-                                            {
-                        
-                                            $CommentTableQuery = "INSERT INTO `comments` (`id`, `comment`, `user_LastName`, `user_FirstName`, `event_Title`, `event_dt`)
-                                                        VALUES(?, ?, ?, ?, ?, ?)";
-                                            $stmt = $bdd->prepare($CommentTableQuery);
-                                            $stmt->execute(array(NULL, $_POST['comment'], 'a definir', 'a definir', 'a definir', '2020-10-28 10:10:10'));
-                                            }
+                                        <!-- Button trigger modal -->
+                                        <!-- Button trigger modal -->
+                                       
+                                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalCenter<?php echo $row['EventId']?>">
+                                        Inserer un commentaire
+                                        </button>
 
-                                            $_POST['comment'] = NULL;
-
-                                            ?>
-                                        </li>
+                                       </li>
                                     </ul> 
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <?php }
+                    <!-- Modal -->
+                    <div class="modal fade" id="exampleModalCenter<?php echo $row['EventId'];?>" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                   
 
-                    ?>
+                      <div class="modal-dialog modal-dialog-centered" role="document">
+                        <div class="modal-content">
+                          <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLongTitle">Modal title</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                              <span aria-hidden="true">&times;</span>
+                            </button>
+                          </div>
+                          <div >
+                            <form action="" method="POST" style="display:flex;margin: 3vh; flex-direction:column;align-items:center; justify-content: space-around;">
+                                <label style="display:none;" for="EventId">Event ID (hide)</label> 
+                                <input style="display:none;" type="text" name="comments_EventId" value="<?php echo $row["EventId"];?>" ><br>
+                                <label for="EventTitle">Event Title</label> 
+                                <input type="text" value="<?php echo $row["Title"];?>"><br>
+                                <label style="display:none;" for="UserId">User ID (hide)</label> 
+                                <input style="display:none;" type="text" name="comments_UserId" value="5"><br> 
+
+                                <!-- il faudra adapter la value 5 avec la session  -->
+                                <label for="Username">Username</label> 
+                                <input type="text" value="$SESSION"><br>
+                                <label for="CommentaireID">Commentaire</label> 
+                                <textarea type="textarea" name="comments_comment" style="height:100px;"></textarea><br>
+                                <input type="submit" value="Valider">
+                            </form>
+                            
+
+
+                          </div>
+                          <div class="modal-footer">
+                          <input type="submit" class="btn btn-secondary" value="Cancel" data-dismiss="modal"></input>
+                          <input type="submit" class="btn btn-primary" value="Send" data-dismiss="modal"></input>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <?php }?>
                     
-
-
+                            <?php if (isset($_POST['comments_EventId']))
+                            {
+                                echo 'Donovan';
+                                $insertcomments = $bdd->prepare("INSERT INTO `comments` (`id`, `comment`, `evenements_id`, `person_id`) VALUES (?, ?, ?, ?);");
+                                $insertcomments->execute(array(NULL, $_POST['comments_comment'] , $_POST['comments_EventId'] , $_POST['comments_UserId']));
+                            }
+                            ?>
+                    
+                    
                     <div class="col-12 mt-4 pt-2 text-center">
                         <a href="pages/page-login.php" class="btn btn-primary">Launch an event <i class="mdi mdi-chevron-right"></i></a>
                     </div>
                 </div><!--end row-->
             </div><!--end container-->
+
+
+
+    <!-- Testi Start -->
+        <section class="section pb-0">
+            <div class="container">
+                <div class="row justify-content-center">
+                    <div class="col-12 text-center">
+                        <div class="section-title mb-60">
+                            <h4 class="title mb-4">Our Happy Customers</h4>
+                            <p class="text-muted para-desc mx-auto mb-0">Start working with <span class="text-primary font-weight-bold">Jepsen-Brite</span> that can provide everything you need to generate awareness, drive traffic, connect.</p>
+                        </div>
+                    </div><!--end col-->
+                </div><!--end row-->
+
+                <div class="row">
+                    <div class="col-12">
+                        <div id="customer-testi" class="owl-carousel owl-theme">
+                            
+                    <?php $CommentairesTable = $bdd->query("SELECT *
+                                                            FROM comments c
+                                                            INNER JOIN evenements e ON  c.evenements_id = e.EventId
+                                                            INNER JOiN persons p ON c.person_id = p.Personid");
+
+                    while ($row = $CommentairesTable->fetch(PDO::FETCH_ASSOC)) {?> 
+                        
+                            <div class="customer-testi mr-2 ml-2 text-center p-4 rounded border">
+                                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcSU9M7jcv6itu1s10N-TzVLojb3rsmCN699JQ&usqp=CAU" style="height: 100px;width:100px;margin: 0 auto; border-radius:50%;"><br>
+                                <p style="color:#777;"><?php echo $row['Title'];?></p>
+                                <p class="text-muted mt-4">" <?php echo $row['comment'];?> "</p>
+                                <h6 class="text-primary">- <?php echo $row['LastName'] . " " . $row['FirstName']?></h6>
+                            </div>
+
+                    <?php } ?>
+                           
+                        </div>
+                    </div><!--end col-->
+                </div><!--end row-->
+            </div><!--end container-->
+        </section><!--end section-->
+        <!-- Testi End -->
 
       
 

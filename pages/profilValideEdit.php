@@ -11,41 +11,36 @@ session_start();
          
 
     if (isset($_SESSION['Personid'])) {
-        // echo $_SESSION['PersonId'];
-            // $getid = intval($_SESSION['Personid']);
-            // $requser = $bdd->prepare('SELECT * FROM persons WHERE Personid = ?');
-            // $requser->execute(array($getid));
-            // $user = $requser->fetch();
 
-          $requser = $bdd->prepare("SELECT * FROM persons WHERE PersonId = ?");
-   $requser->execute(array($_SESSION['PersonId']));
-   $user = $requser->fetch();
+        $requser = $bdd->prepare("SELECT * FROM persons WHERE Personid = ?");
+        $requser->execute(array($_SESSION['Personid']));
+        $userinfo = $requser->fetch();
         
         if(isset($_POST['newFirstName']) AND !empty($_POST['newFirstName']) AND $_POST['newFirstName'] != $user['FirstName']) {
             $newFirstName = htmlspecialchars($_POST['newFirstName']);
-            $insertFirstName = $bdd->prepare("UPDATE persons SET FirstName = ? WHERE PersonId = ?");
-            $insertFirstName->execute(array($newFirstName, $_SESSION['PersonId']));
-            header('Location: profilValider.php?PersonId='.$_SESSION['PersonId']);
+            $insertFirstName = $bdd->prepare("UPDATE persons SET FirstName = ? WHERE Personid = ?");
+            $insertFirstName->execute(array($newFirstName, $_SESSION['Personid']));
+            header('Location: profilValider.php?Personid='.$_SESSION['Personid']);
         }
         if(isset($_POST['newLastName']) AND !empty($_POST['newLastName']) AND $_POST['newLastName'] != $user['LastName']) {
             $newLastName = htmlspecialchars($_POST['newLastName']);
-            $insertLastName = $bdd->prepare("UPDATE persons SET LastName = ? WHERE PersonId = ?");
-            $insertLastName->execute(array($newLastName, $_SESSION['PersonId']));
-            header('Location: profilValider.php?PersonId='.$_SESSION['PersonId']);
+            $insertLastName = $bdd->prepare("UPDATE persons SET LastName = ? WHERE Personid = ?");
+            $insertLastName->execute(array($newLastName, $_SESSION['Personid']));
+            header('Location: profilValider.php?Personid='.$_SESSION['Personid']);
         }
         if(isset($_POST['newEmail']) AND !empty($_POST['newEmail']) AND $_POST['newEmail'] != $user['Email']) {
             $newmail = htmlspecialchars($_POST['newEmail']);
-            $insertEmail = $bdd->prepare("UPDATE persons SET Email = ? WHERE PersonId = ?");
-            $insertEmail->execute(array($newEmail, $_SESSION['PersonId']));
-            header('Location: profilValider.php?PersonId='.$_SESSION['PersonId']);
+            $insertEmail = $bdd->prepare("UPDATE persons SET Email = ? WHERE Personid = ?");
+            $insertEmail->execute(array($newEmail, $_SESSION['Personid']));
+            header('Location: profilValider.php?Personid='.$_SESSION['Personid']);
         }
         // if(isset($_POST['newMdp']) AND !empty($_POST['newMdp']) AND isset($_POST['newConfirmationMdp']) AND !empty($_POST['newConfirmationMdp'])) {
         //     $mdp1 = sha1($_POST['newMdp']);
         //     $mdp2 = sha1($_POST['newConfirmationMdp']);
         //         if($newMdp == $newConfirmationMdp) {
-        //             $insertMdp = $bdd->prepare("UPDATE persons SET Mdp = ? WHERE PersonId = ?");
-        //             $insertMdp->execute(array($mdp1, $_SESSION['PersonId']));
-        //             header('Location: profilValider.php?PersonId='.$_SESSION['PersonId']);
+        //             $insertMdp = $bdd->prepare("UPDATE persons SET Mdp = ? WHERE Personid = ?");
+        //             $insertMdp->execute(array($mdp1, $_SESSION['Personid']));
+        //             header('Location: profilValider.php?Personid='.$_SESSION['Personid']);
         //         } else {
         //             $msg = "Vos mots de passe ne correspondent pas !";
         //         }
@@ -300,21 +295,21 @@ session_start();
                                         <div class="form-group position-relative">
                                             <label>First Name</label>
                                             <i class="mdi mdi-account ml-3 icons"></i>
-                                            <input name="newFirstName"  type="text" class="form-control pl-5" placeholder="First Name :" value="<?php echo $user['FirstName']; ?>">
+                                            <input name="newFirstName"  type="text" class="form-control pl-5" placeholder="First Name :" value="<?php echo $userinfo['FirstName']; ?>">
                                         </div>
                                     </div><!--end col-->
                                     <div class="col-md-6">
                                         <div class="form-group position-relative">
                                             <label>Last Name</label>
                                             <i class="mdi mdi-account-plus ml-3 icons"></i>
-                                            <input name="newLastName" type="text" class="form-control pl-5" placeholder="Last Name :" value="<?php echo $user['LastName']; ?>">
+                                            <input name="newLastName" type="text" class="form-control pl-5" placeholder="Last Name :" value="<?php echo $userinfo['LastName']; ?>">
                                         </div>
                                     </div><!--end col-->
                                     <div class="col-md-6">
                                         <div class="form-group position-relative">
                                             <label>Your Email</label>
                                             <i class="mdi mdi-email ml-3 icons"></i>
-                                            <input name="newEmail" type="email" class="form-control pl-5" placeholder="Your email :" value="<?php echo $user['Email']; ?>">
+                                            <input name="newEmail" type="email" class="form-control pl-5" placeholder="Your email :" value="<?php echo $userinfo['Email']; ?>">
                                         </div> 
                                     </div><!--end col-->
                                     
@@ -363,7 +358,7 @@ session_start();
                                         <!-- </div> --><!--end row-->
                                    <!--  </form> -->
                               <!--   </div> --><!--end col-->
-                           <!--  </div> --><!--end row--> -->
+                           <!--  </div> --><!--end row--> 
                         </div>
                     </div><!--end col-->
                 </div><!--end row-->

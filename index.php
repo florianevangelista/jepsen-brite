@@ -2,6 +2,12 @@
 // page1.php
 
 session_start();
+
+
+#Pour le markdown
+include 'Parsedown.php';
+$Parsedown = new Parsedown();
+
 ?>
 
 <!DOCTYPE html>
@@ -240,7 +246,7 @@ if (isset($_POST['comments_comment']))
 {
 
 $insertcomments = $bdd->prepare("INSERT INTO `comments` (`id`, `comment`, `evenements_id`, `person_id`) VALUES (?, ?, ?, ?);");
-$insertcomments->execute(array(NULL, $_POST['comments_comment'] , $_POST['comments_EventId'] , $_POST['comments_UserId']));
+$insertcomments->execute(array(NULL, $Parsedown->line($_POST['comments_comment']) , $_POST['comments_EventId'] , $_POST['comments_UserId']));
 }
 ?>
                     

@@ -29,22 +29,23 @@ session_start();
             header('Location: profilValider.php?Personid='.$_SESSION['Personid']);
         }
         if(isset($_POST['newEmail']) AND !empty($_POST['newEmail']) AND $_POST['newEmail'] != $user['Email']) {
-            $newmail = htmlspecialchars($_POST['newEmail']);
+            $newEmail = htmlspecialchars($_POST['newEmail']);
             $insertEmail = $bdd->prepare("UPDATE persons SET Email = ? WHERE Personid = ?");
             $insertEmail->execute(array($newEmail, $_SESSION['Personid']));
             header('Location: profilValider.php?Personid='.$_SESSION['Personid']);
         }
-        // if(isset($_POST['newMdp']) AND !empty($_POST['newMdp']) AND isset($_POST['newConfirmationMdp']) AND !empty($_POST['newConfirmationMdp'])) {
-        //     $mdp1 = sha1($_POST['newMdp']);
-        //     $mdp2 = sha1($_POST['newConfirmationMdp']);
-        //         if($newMdp == $newConfirmationMdp) {
-        //             $insertMdp = $bdd->prepare("UPDATE persons SET Mdp = ? WHERE Personid = ?");
-        //             $insertMdp->execute(array($mdp1, $_SESSION['Personid']));
-        //             header('Location: profilValider.php?Personid='.$_SESSION['Personid']);
-        //         } else {
-        //             $msg = "Vos mots de passe ne correspondent pas !";
-        //         }
-        // }
+        if(isset($_POST['newMdp']) AND !empty($_POST['newMdp']) AND isset($_POST['newConfirmationMdp']) AND !empty($_POST['newConfirmationMdp'])) {
+            $newMdp = sha1($_POST['newMdp']);
+            $newConfirmationMdp = sha1($_POST['newConfirmationMdp']);
+                if($newMdp == $newConfirmationMdp) {
+                    $insertMdp = $bdd->prepare("UPDATE persons SET Mdp = ? WHERE Personid = ?");
+                    $insertMdp->execute(array($newMdp, $_SESSION['Personid']));
+                    header('Location: profilValider.php?Personid='.$_SESSION['Personid']);
+                } else {
+                    $msg = "Vos mots de passe ne correspondent pas !";
+                }
+        }
+
 ?>
 
 <!DOCTYPE html>
@@ -69,6 +70,8 @@ session_start();
         <!-- Main css -->
         <link href="../css/style.css" rel="stylesheet" type="text/css" />
         <link rel="stylesheet" type="text/css" href="../css/styleProfil.css">
+        <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css">
+
 
     </head>
 
@@ -91,9 +94,7 @@ session_start();
                 <div>
                     <a class="logo" href="index.html">Landrick<span class="text-primary">.</span></a>
                 </div>                 
-                <div class="buy-button">
-                    <a href="https://1.envato.market/4n73n" target="_blank" class="btn btn-primary">Buy Now</a>
-                </div><!--end login button-->
+            
                 <!-- End Logo container-->
                 <div class="menu-extras">
                     <div class="menu-item">
@@ -283,9 +284,11 @@ session_start();
                             <div class="mt-3 text-md-left text-center d-sm-flex">
                                 <img src="../images/client/05.jpg" class="avatar float-md-left avatar-medium rounded-pill shadow mr-md-4" alt="">
                                 
-                                <div class="mt-md-4 mt-3 mt-sm-0">
+                                <div class="mt-md-4 mt-3 mt-sm-0 width">
                                     <a href="javascript:void(0)" class="btn btn-primary mt-2">Change Picture</a>
-                                    <a href="javascript:void(0)" class="btn btn-outline-primary mt-2 ml-2">Delete</a>
+                                    <!-- <input name="delete" class="btn btn-danger mt-2 ml-2" value="Delete"> -->
+                                    <a href="deleteProfile.php" class="btn btn-danger mt-2 ml-2">Delete</a>
+                                    <a href="profilValider.php" class="btn btn-dark mt-2"><i class="fas fa-undo-alt"></i></i>return</a>
                                 </div>
                             </div>
 
@@ -322,43 +325,38 @@ session_start();
                             </form><!--end form-->
 
                             
-                         <!--    <div class="row">
+                             <div class="row">
                                 
                                 <div class="col-md-6 mt-4 pt-2"> 
                                     <h5>Change password :</h5>
-                                    <form>
+                                    <form method="POST" action="">
                                         <div class="row mt-4">
-                                            <div class="col-lg-12">
-                                                <div class="form-group position-relative">
-                                                    <label>Old password :</label>
-                                                    <i class="mdi mdi-key ml-3 icons"></i>
-                                                    <input type="password" class="form-control pl-5" placeholder="Old password" required="">
-                                                </div>
-                                            </div> end col-->
-        
-                                           <!--  <div class="col-lg-12">
+                                        
+                                             <div class="col-lg-12">
                                                 <div class="form-group position-relative">
                                                     <label>New password :</label>
                                                     <i class="mdi mdi-key ml-3 icons"></i>
-                                                    <input type="password" class="form-control pl-5" placeholder="New password" required="">
+                                                    <input type="password" class="form-control pl-5" placeholder="New password" name="newMdp" required="">
                                                 </div>
-                                            </div> --><!--end col-->
+                                            </div> <!-- end col -->
         
-                                            <!-- <div class="col-lg-12">
+                                             <div class="col-lg-12">
                                                 <div class="form-group position-relative">
                                                     <label>Re-type New password :</label>
                                                     <i class="mdi mdi-key ml-3 icons"></i>
-                                                    <input type="password" class="form-control pl-5" placeholder="Re-type New password" required="">
+                                                    <input type="password" class="form-control pl-5" placeholder="Re-type New password" name="newConfirmationMdp" required="">
                                                 </div>
-                                            </div> --><!--end col-->
+                                            </div><!--  end col -->
         
-                                           <!--  <div class="col-lg-12 mt-2 mb-0">
-                                                <button class="btn btn-primary">Save password</button>
-                                            </div> --><!--end col-->
-                                        <!-- </div> --><!--end row-->
-                                   <!--  </form> -->
-                              <!--   </div> --><!--end col-->
-                           <!--  </div> --><!--end row--> 
+                                            <div class="col-lg-12 mt-2 mb-0">
+                                                <input type="submit" class="btn btn-primary" value="Save password">
+                                                
+                                            </div> <!-- end col -->
+                                         </div> <!--end row-->
+                                 </form>
+                                 <?php if(isset($msg)) { echo $msg; } ?>
+                             </div> <!--end col-->
+                          </div> <!--end row-->
                         </div>
                     </div><!--end col-->
                 </div><!--end row-->
@@ -472,7 +470,6 @@ session_start();
 <?php   
 }
 else{
-    echo "c est la merde";
-    // header('Location: page-login.php');
+    header('Location: page-login.php');
 }
 ?>

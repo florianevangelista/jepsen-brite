@@ -1,3 +1,8 @@
+<?php
+// page1.php
+
+session_start();
+?>
 
 <!DOCTYPE html>
     <html lang="en">
@@ -38,14 +43,14 @@
         </div>
         <!-- Loader -->
         
-        <!-- Navbar STart -->
+        <!-- Navbar Start -->
         <header id="topnav" class="defaultscroll sticky bg-white">
             <div class="container">
-                <!-- Logo container-->
+                <!-- Logo -->
                 <div>
                     <a class="logo" href="index.php">Jepsen-Brite<span class="text-primary">.</span></a>
                 </div>                 
-                <!-- Navigation Menu-->   
+                <!-- Home & Categories-->   
                 <div id="navigation">
                     <ul class="navigation-menu" style="align-items:center;">
                         <li><a href="index.php">Home</a></li>
@@ -62,10 +67,10 @@
                             <input type="submit" value="Search">
                             </form>
                         </li>
-                        <li class="has-submenu">
+                        <li>
                             <form action="" method="POST">
                             <select id="category" name="previous_category">
-                                <option value="" disable select>Previous Event Categories</option>
+                                <option value="" disabled select>Previous Event Categories</option>
                                 <option value="Concert">Previous Concert</option>
                                 <option value="Festival">Previous Festival</option>
                                 <option value="Exhibition">Previous Exhibition</option>
@@ -75,6 +80,7 @@
                             <input type="submit" value="Search">
                             </form>
                         </li>
+                        <li style="color: #ccc; position: absolute; top: 0px; left: 0px;"><?php if (isset($_SESSION['FirstName'])) { echo $_SESSION['FirstName'] . "<br>" .  $_SESSION['LastName'] . "<br>" . "connecte" ; }?></li>
 
                         <?php 
                         
@@ -93,13 +99,12 @@
 
                         <li><a href="pages/page-login.php">Login</a></li>
                     </ul>
-                    <!--end navigation menu-->
-                </div><!--end navigation-->
-            </div><!--end container-->
-        </header><!--end header-->
+                </div>
+            </div>
+        </header>
         <!-- Navbar End -->
         
-        <!-- Hero Start -->
+        <!-- First Highlighted Event -->
         <section class="main-slider">
             <ul class="slides"> 
                 <li class="bg-slider" style="background-image:url('https://www.amfiweb.net/wp-content/uploads/2016/12/holi-feast-3.jpg')">
@@ -115,67 +120,76 @@
                                                 <a href="#courses" class="btn btn-primary mt-2 mr-2 mouse-down"><i class="mdi mdi-book-open-variant"></i> More Events</a>
                                             </div>
                                         </div>
-                                    </div><!--end col-->
-                                </div><!--end row-->
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </li>
             </ul>
-        </section><!--end section-->
-        <!-- Hero End --> 
+        </section>
+        <!-- First Highlighted Event --> 
 
 
 
-        <!-- Courses Start -->
+        <!-- Event Start -->
         <section class="section" id="courses">
             <div class="container">
+                <!-- Texte d'avant section -->
                 <div class="row justify-content-center">
                     <div class="col-12 text-center">
                         <div class="section-title mb-4 pb-2">
                             <h4 class="title mb-4">Explore Our Upcoming Events</h4>
                             <p class="text-muted para-desc mx-auto mb-0">Jepsen-Brite can provide everything you need to generate awareness and bring people together to your event.</p>
                         </div>
-                    </div><!--end col-->
-                </div><!--end row-->
+                    </div>
+                </div>
 
-                 <div class="row">  <!-- This is the container for the collection-->
+                <!-- Container pour les events et modals -->
+                <div class="row">
 
-                      <!--ADD-->     
-                      <a href="pages/page-login.html" class="col-lg-4 col-md-6 col-12 mt-4 pt-2 courses-desc" style="cursor: pointer; background-color:rgba(58, 31, 61, 0.02); border: 1px #eee solid; border-radius: 20px; display: flex; align-items: center; justify-content: center;">
-                            <img src="https://img.icons8.com/all/500/add.png" style="width: 70%; "> 
-                      </a>
-                    <!--end ADD-->
+                    <!--Add an Event-->     
+                    <a href="pages/page-login.php" class="col-lg-4 col-md-6 col-12 mt-4 pt-2 courses-desc" style="cursor: pointer; background-color:rgba(58, 31, 61, 0.02); border: 1px #eee solid; border-radius: 20px; display: flex; align-items: center; justify-content: center;">
+                        <img src="https://img.icons8.com/all/500/add.png" style="width: 70%; "> 
+                    </a>
+
+                 
                     
-                     <!--start collection-->
-                     <?php 
+                   
+<?php 
 
-                    $bdd = new PDO("mysql:host=localhost;dbname=event_manager;charset=utf8", "root", "");
+$bdd = new PDO("mysql:host=localhost;dbname=event_manager;charset=utf8", "root", "");
+
+if (isset($_POST['category']))
+{
+$ChosenCategory = $_POST['category'];
+}
+
+if (isset($_POST['previous_category']))
+{
+$ChosenPreviousCategory = $_POST['previous_category'];
+}
+
+#FilteredRequest can be the default request or a specific category request
 
 
-                    #FilteredRequest can be the default request or a specific category request
+$FilteredRequest = "SELECT * FROM persons p INNER JOIN evenements e ON p.Personid = e.Personid WHERE dt>=" . "'" . date("Y-m-d H:i:s") . "'" . "ORDER BY dt ASC";
 
+if (isset($ChosenCategory))
+{
+$FilteredRequest = "SELECT * FROM persons p INNER JOIN evenements e ON p.Personid = e.Personid WHERE Category='" . $ChosenCategory . "'" . "AND dt>=" . "'" . date("Y-m-d H:i:s") . "'" . "ORDER BY dt ASC";
+} 
 
-                    $FilteredRequest = "SELECT * FROM persons p INNER JOIN evenements e ON p.Personid = e.Personid WHERE dt>=" . "'" . date("Y-m-d H:i:s") . "'" . "ORDER BY dt ASC";
+if (isset($ChosenPreviousCategory)) 
+{
+$FilteredRequest = "SELECT * FROM persons p INNER JOIN evenements e ON p.Personid = e.Personid WHERE Category='" . $ChosenPreviousCategory . "'" . "AND dt<" . "'" . date("Y-m-d H:i:s") . "'" . "ORDER BY dt DESC";
+} 
 
-                    if (isset($ChosenCategory))
-                    {
-                        $FilteredRequest = "SELECT * FROM persons p INNER JOIN evenements e ON p.Personid = e.Personid WHERE Category='" . $ChosenCategory . "'" . "AND dt>=" . "'" . date("Y-m-d H:i:s") . "'" . "ORDER BY dt ASC";
-                    } 
+$EventsTable = $bdd->query("$FilteredRequest");
 
-                    if (isset($ChosenPreviousCategory)) 
-                    {
-                        $FilteredRequest = "SELECT * FROM persons p INNER JOIN evenements e ON p.Personid = e.Personid WHERE Category='" . $ChosenPreviousCategory . "'" . "AND dt<" . "'" . date("Y-m-d H:i:s") . "'" . "ORDER BY dt DESC";
-                    } 
-
+                    #Code qui va se repeter (Event + Modal pour chaque event)
+                    while ($row = $EventsTable->fetch(PDO::FETCH_ASSOC)) {?>
                     
-                        
-                    
-                    $EventsTable = $bdd->query("$FilteredRequest");
-
-
-
-                    while ($row = $EventsTable->fetch(PDO::FETCH_ASSOC)) {?> 
                         <div class="col-lg-4 col-md-6 col-12 mt-4 pt-2">
                         <div class="courses-desc position-relative overflow-hidden rounded border">
                             <div class="position-relative d-block overflow-hidden">
@@ -189,59 +203,112 @@
                                         <li><i class="mdi mdi-timer text-muted"></i> <?php echo $row["dt"] . '<br>';?></li>
                                         <li><i class="mdi mdi-city text-muted"></i> <?php echo $row["Category"] . '<br>';?></li><br>
                                         <li><i class="mdi mdi-message-text-outline"></i> <?php echo $row["Description"] . '<br>';?></li><br>
-                                        <li><i class="mdi mdi-account-box-outline"></i> <?php echo $row["FirstName"] . " " . $row["LastName"] .'<br>';?></li><br>
-                                        <li>
-                                            <form action="" method="POST">
-                                                <input placeholder="Comments here" type="text" name="comment" data-UserId="<?php echo $row["EventId"]?>" data-Personid="<?php echo $row["Personid"]?>" >
-                                                <input type="submit" value="Validate">
-                                            </form>
-                                            <?php 
-                                            
-                                            if (isset($_POST['comment']))
-                                            {
-                        
-                                            $CommentTableQuery = "INSERT INTO `comments` (`id`, `comment`, `user_LastName`, `user_FirstName`, `event_Title`, `event_dt`)
-                                                        VALUES(?, ?, ?, ?, ?, ?)";
-                                            $stmt = $bdd->prepare($CommentTableQuery);
-                                            $stmt->execute(array(NULL, $_POST['comment'], 'a definir', 'a definir', 'a definir', '2020-10-28 10:10:10'));
-                                            }
-
-                                            $_POST['comment'] = NULL;
-
-                                            ?>
-                                        </li>
+                                        <li><i class="mdi mdi-account-box-outline"></i> <?php echo $row["FirstName"] . " " . $row["LastName"] .'<br>';?></li><br>                                       
+                                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalCenter<?php echo $row['EventId']?>">
+                                        Inserer un commentaire
+                                        </button><br><br>
+                                       </li>
                                     </ul> 
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <?php }
-
-                    ?>
-                    
 
 
-                    <div class="col-12 mt-4 pt-2 text-center">
-                        <a href="pages/page-login.html" class="btn btn-primary">Launch an event <i class="mdi mdi-chevron-right"></i></a>
+                    <!-- Modals -->
+                    <div class="modal fade" id="exampleModalCenter<?php echo $row['EventId'];?>" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                      <div class="modal-dialog modal-dialog-centered" role="document">
+                        <div class="modal-content">
+                          <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLongTitle">Espace Commentaires</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                              <span aria-hidden="true">&times;</span>
+                            </button>
+                          </div>
+                          <div>
+                            <form action="" method="POST" style="display:flex;margin: 3vh; flex-direction:column;align-items:center; justify-content: space-around;">
+                                <label style="display:none;" for="EventId">Event ID (hide)</label> 
+                                <input style="display:none;" type="text" name="comments_EventId" value="<?php echo $row["EventId"];?>" ><br>
+                                <label for="EventTitle">Evenement</label> 
+                                <input type="text" disabled value="<?php echo $row["Title"];?>">
+                                <label style="display:none;" for="UserId">User ID (hide)</label> 
+                                <input style="display:none;" type="text" name="comments_UserId" value="<?php echo $_SESSION["Personid"];?>"><br> 
+                                <label for="Username">Auteur</label> 
+                                <input disabled type="text" value="<?php echo $_SESSION["FirstName"] . ' ' . $_SESSION["LastName"];?>"><br>
+                                <label>Commentaire</label> 
+                                <textarea type="textarea" name="comments_comment" style="height:100px;"></textarea><br>
+                                <div class="modal-footer">
+                                    <input type="submit" class="btn btn-secondary" value="Cancel" data-dismiss="modal"></input>
+                                    <input type="submit" class="btn btn-primary" value="Send" ></input>
+                                </div>
+
+                             </form>
+                            </div>
+                        </div>
+                      </div>
                     </div>
-                </div><!--end row-->
-            </div><!--end container-->
+                <?php }
 
-      
 
-    
-        <!-- Back to top -->
-        <a href="#" class="back-to-top rounded text-center" id="back-to-top"> 
-            <i class="mdi mdi-chevron-up d-block"> </i> 
-        </a>
-        <!-- Back to top -->
+#Insert commentaires
+if (isset($_POST['comments_comment']))
+{
+
+$insertcomments = $bdd->prepare("INSERT INTO `comments` (`id`, `comment`, `evenements_id`, `person_id`) VALUES (?, ?, ?, ?);");
+$insertcomments->execute(array(NULL, $_POST['comments_comment'] , $_POST['comments_EventId'] , $_POST['comments_UserId']));
+}
+?>
+                    
+                
+            </div>
+        </div>
+
+
+
+    <!-- Carousel Commentaires -->
+        <section class="section pb-0">
+            <div class="container">
+
+                <!-- Texte de debut de section -->
+                <div class="row justify-content-center">
+                    <div class="col-12 text-center">
+                        <div class="section-title mb-60">
+                            <h4 class="title mb-4">Our Happy Customers</h4>
+                            <p class="text-muted para-desc mx-auto mb-0">Start working with <span class="text-primary font-weight-bold">Jepsen-Brite</span> that can provide everything you need to generate awareness, drive traffic, connect.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Carousel loop -->
+                <div class="row">
+                    <div class="col-12">
+                        <div id="customer-testi" class="owl-carousel owl-theme">
+                            
+<?php $CommentairesTable = $bdd->query("SELECT *
+FROM comments c
+INNER JOIN evenements e ON  c.evenements_id = e.EventId
+INNER JOiN persons p ON c.person_id = p.Personid");
+
+                    while ($row = $CommentairesTable->fetch(PDO::FETCH_ASSOC)) {?>              
+                            <div class="customer-testi mr-2 ml-2 text-center p-4 rounded border">
+                                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcSU9M7jcv6itu1s10N-TzVLojb3rsmCN699JQ&usqp=CAU" style="height: 100px;width:100px;margin: 0 auto; border-radius:50%;"><br>
+                                <p style="color:#777;"><?php echo $row['Title'];?></p>
+                                <p class="text-muted mt-4">" <?php echo $row['comment'];?> "</p>
+                                <h6 class="text-primary">- <?php echo $row['LastName'] . " " . $row['FirstName']?></h6>
+                            </div>
+<?php } ?>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
 
         <!-- javascript -->
         <script src="js/jquery.min.js"></script>
         <script src="js/bootstrap.bundle.min.js"></script>
         <script src="js/jquery.easing.min.js"></script>
         <script src="js/scrollspy.min.js"></script>
-        <!-- Magnific Popup -->
         <script src="js/jquery.magnific-popup.min.js"></script>
         <script src="js/magnific.init.js"></script>
         <!-- SLIDER -->

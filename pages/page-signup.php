@@ -143,20 +143,20 @@ $confirmationMdp = sha1($_POST['confirmationMdp']);
                                                     <input type="password" class="form-control pl-5" placeholder="Confirm Password" name="confirmationMdp">
                                                 </div>
                                             </div>
-                                            <div class="col-md-12">
+                                    <!--         <div class="col-md-12">
                                                 <div class="form-group">
                                                     <div class="custom-control custom-checkbox">
                                                         <input type="checkbox" class="custom-control-input" id="customCheck1">
                                                         <label class="custom-control-label" for="customCheck1">I Accept <a href="#" class="text-primary">Terms And Condition</a></label>
                                                     </div>
                                                 </div>
-                                            </div>
+                                            </div> -->
                                             <div class="col-md-12">
                                                 <input class="btn btn-primary w-100" value="Register" type="submit" name="submitSignup">
                                             </div>
                                                 
                                             <div class="mx-auto">
-                                                <p class="mb-0 mt-3"><small class="text-dark mr-2">Already have an account ?</small> <a href="page-login.html" class="text-dark font-weight-bold">Sign in</a></p>
+                                                <p class="mb-0 mt-3"><small class="text-dark mr-2">Already have an account ?</small> <a href="page-login.php" class="text-dark font-weight-bold">Sign in</a></p>
                                             </div>
                                         </div>
                                     </form>

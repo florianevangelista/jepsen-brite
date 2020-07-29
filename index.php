@@ -35,6 +35,7 @@ $Parsedown = new Parsedown();
         <link href="css/flexslider.css" rel="stylesheet" type="text/css" />
         <!-- Main css --> 
         <link href="css/style.css" rel="stylesheet" type="text/css" />
+        <link href="https://fonts.googleapis.com/css2?family=Nunito:ital,wght@1,600&display=swap" rel="stylesheet">
     </head>
 
     <body>
@@ -61,49 +62,33 @@ $Parsedown = new Parsedown();
                     <ul class="navigation-menu" style="align-items:center;">
                         <li><a href="index.php">Home</a></li>
                         <li>
-                            <form action="" method="POST">
-                            <select id="category" name="category">
-                                <option value="" disable select>Event Categories</option>
+                            <form action="" method="POST" name="eventlist">
+                            <select style="cursor:pointer; border: none; font-weight: 600; font-family: Nunito;" class="form-control" id="category" name="category" onchange="eventlist.submit();">
+                                <option selected disabled>Evénements Futurs</option>
                                 <option value="Concert">Concert</option>
                                 <option value="Festival">Festival</option>
                                 <option value="Exhibition">Exhibition</option>
-                                <option value="Conferences">Conferences</option>
+                                <option value="Conferences">Conférences</option>
                                 <option value="Random">Random</option>
                             </select>
-                            <input type="submit" value="Search">
                             </form>
                         </li>
                         <li>
-                            <form action="" method="POST">
-                            <select id="category" name="previous_category">
-                                <option value="" disabled select>Previous Event Categories</option>
-                                <option value="Concert">Previous Concert</option>
-                                <option value="Festival">Previous Festival</option>
-                                <option value="Exhibition">Previous Exhibition</option>
-                                <option value="Conferences">Previous Conferences</option>
-                                <option value="Random">Previous Random</option>
+                            <form action="" method="POST" name="previouseventlist">
+                            <select style="cursor:pointer; border: none; font-weight: 600; font-family: Nunito;" class="form-control" id="category" name="previous_category" title="Evénements Passés" onchange="previouseventlist.submit();">
+                                <option selected disabled>Evénements Passés</option>
+                                <option value="Concert">Concert</option>
+                                <option value="Festival">Festival</option>
+                                <option value="Exhibition">Exhibition</option>
+                                <option value="Conferences">Conférences</option>
+                                <option value="Random">Random</option>
                             </select>
-                            <input type="submit" value="Search">
                             </form>
                         </li>
                         <li style="color: #ccc; position: absolute; top: 0px; left: 0px;"><?php if (isset($_SESSION['FirstName'])) { echo $_SESSION['FirstName'] . "<br>" .  $_SESSION['LastName'] . "<br>" . "connecte" ; }?></li>
-
-                        <?php 
-                        
-                        if (isset($_POST['category']))
-                        {
-                            $ChosenCategory = $_POST['category'];
-                        }
-
-                        if (isset($_POST['previous_category']))
-                        {
-                            $ChosenPreviousCategory = $_POST['previous_category'];
-                        }
-
-                        ?>
-
-
                         <li><a href="pages/page-login.php">Login</a></li>
+
+
                     </ul>
                 </div>
             </div>

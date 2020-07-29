@@ -63,7 +63,7 @@ $Parsedown = new Parsedown();
                         <li>
                             <form action="" method="POST">
                             <select id="category" name="category">
-                                <option value="" disabled select>Event Categories</option>
+                                <option value="" disable select>Event Categories</option>
                                 <option value="Concert">Concert</option>
                                 <option value="Festival">Festival</option>
                                 <option value="Exhibition">Exhibition</option>
@@ -87,6 +87,21 @@ $Parsedown = new Parsedown();
                             </form>
                         </li>
                         <li style="color: #ccc; position: absolute; top: 0px; left: 0px;"><?php if (isset($_SESSION['FirstName'])) { echo $_SESSION['FirstName'] . "<br>" .  $_SESSION['LastName'] . "<br>" . "connecte" ; }?></li>
+
+                        <?php 
+                        
+                        if (isset($_POST['category']))
+                        {
+                            $ChosenCategory = $_POST['category'];
+                        }
+
+                        if (isset($_POST['previous_category']))
+                        {
+                            $ChosenPreviousCategory = $_POST['previous_category'];
+                        }
+
+                        ?>
+
 
                         <li><a href="pages/page-login.php">Login</a></li>
                     </ul>

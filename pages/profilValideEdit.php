@@ -282,18 +282,24 @@ session_start();
                         <div class="p-4 rounded shadow">
                             <h5 class="text-md-left text-center">Personal Detail :</h5>
 
+                        <form method="POST" action="" enctype="multipart/form-data">
+
                             <div class="mt-3 text-md-left text-center d-sm-flex">
+                                <div>
+                                <input type="file" name="avatar">
                                 <img src="../images/client/05.jpg" class="avatar float-md-left avatar-medium rounded-pill shadow mr-md-4" alt="">
+                                </div>
+                                
                                 
                                 <div class="mt-md-4 mt-3 mt-sm-0 width">
                                     <a href="javascript:void(0)" class="btn btn-primary mt-2">Change Picture</a>
                                     <!-- <input name="delete" class="btn btn-danger mt-2 ml-2" value="Delete"> -->
-                                    <a href="deleteProfile.php" class="btn btn-danger mt-2 ml-2">Delete</a>
+                                    <a href="deleteProfile.php?Personid=<?=$_SESSION['Personid']?>" class="btn btn-danger mt-2 ml-2">Delete</a>
                                     <a href="profilValider.php" class="btn btn-dark mt-2"><i class="fas fa-undo-alt"></i></i>return</a>
                                 </div>
                             </div>
 
-                            <form method="POST" action="" enctype="multipart/form-data">
+                           
                                 <div class="row mt-4">
                                     <div class="col-md-6">
                                         <div class="form-group position-relative">

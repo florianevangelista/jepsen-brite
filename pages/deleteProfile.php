@@ -10,14 +10,10 @@ session_start();
     }
  
 if(isset($_GET['Personid']) AND $_GET['Personid'] > 0) { 
-$deleteId = $_SESSION['Personid'];
- // if(isset($_POST['delete'])){
-           echo "je suis la";
-
-				$delete = $bdd->prepare("DELETE FROM persons WHERE Personid = ?");
-            	$delete->execute(array($deleteId));
-            	echo "supprimé";
-            	             // header('Location: page-signup.php');
+    $deleteId = $_SESSION['Personid'];
+	$delete = $bdd->prepare("DELETE FROM persons WHERE Personid = ?");
+	$delete->execute(array($deleteId));
+	
+    header('Location: page-signup.php');
         }
-echo "bon c est pas ca";
 ?>

@@ -38,6 +38,7 @@ session_start();
         <!-- Main css -->
         <link href="../css/style.css" rel="stylesheet" type="text/css" />
         <link rel="stylesheet" type="text/css" href="../css/styleProfil.css">
+        <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css">
 
     </head>
 
@@ -254,8 +255,9 @@ session_start();
                             <div class="mt-3 text-md-left text-center d-sm-flex">
                                 <img src="../images/client/05.jpg" class="avatar float-md-left avatar-medium rounded-pill shadow mr-md-4" alt="">
                                 
-                                <div class="mt-md-4 mt-3 mt-sm-0">
-                                    <a href="profilValideEdit.php" class="rounded-pill bg-dark"><i class="mdi mdi-tools text-light" title="Edit Profile"></i></a>
+                                <div class="mt-md-4 mt-3 mt-sm-0" id="iconPageProfile">
+                                    <a href="profilValideEdit.php" class="rounded-pill bg-dark"><i class="mdi mdi-tools" title="Edit Profile"></i>Edit Profile</a>
+                                    <a href="deconnexion.php" class="rounded-pill bg-dark"><i class="fas fa-sign-out-alt"></i>Logout</a>
                                 </div>
                             </div>
 
@@ -289,7 +291,7 @@ session_start();
                                         if(isset($_SESSION['Personid']) AND $userinfo['Personid'] == $_SESSION['Personid']) {
                                     ?>
 
-                                    <a href="deconnexion.php">Se deconnecter</a>
+                                    
                                 </div><!--end row-->
                         </div>
                     </div><!--end col-->

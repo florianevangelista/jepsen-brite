@@ -53,6 +53,7 @@ catch (Exception $e)
         <!-- Main css -->
         <link href="../css/style.css" rel="stylesheet" type="text/css" />
 
+
     </head>
 
     <body>
@@ -106,7 +107,7 @@ catch (Exception $e)
                                                 </div>
                                             </div>
 
-                                            <div class="col-lg-12">
+                                        <!--     <div class="col-lg-12">
                                                 <p class="float-right forgot-pass"><a href="page-recovery-password.html" class="text-dark font-weight-bold">Forgot password ?</a></p>
                                                 <div class="form-group">
                                                     <div class="custom-control custom-checkbox">
@@ -114,12 +115,12 @@ catch (Exception $e)
                                                         <label class="custom-control-label" for="customCheck1">Remember me</label>
                                                     </div>
                                                 </div>
-                                            </div>
+                                            </div> -->
                                             <div class="col-lg-12 mb-0">
                                                 <input type="submit" name="submitConnexion" class="btn btn-primary w-100" value="Sign in">
                                             </div>
                                             <div class="col-12 text-center">
-                                                <p class="mb-0 mt-3"><small class="text-dark mr-2">Don't have an account ?</small> <a href="page-signup.html" class="text-dark font-weight-bold">Sign Up</a></p>
+                                                <p class="mb-0 mt-3"><small class="text-dark mr-2">Don't have an account ?</small> <a href="page-signup.php" class="text-dark font-weight-bold">Sign Up</a></p>
                                             </div>
                                         </div>
                                     </form>

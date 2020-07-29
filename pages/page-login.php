@@ -3,7 +3,7 @@ session_start();
 
 try
 {
-    $bdd = new PDO('mysql:host=localhost;dbname=jepsenBrite;charset=utf8', 'root', 'root', array(PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION));
+    $bdd = new PDO('mysql:host=localhost;dbname=event_manager;charset=utf8', 'root', '', array(PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION));
 }
 catch (Exception $e)
 {
@@ -68,7 +68,7 @@ catch (Exception $e)
         <!-- Loader -->
         
         <div class="back-to-home rounded d-none d-sm-block">
-            <a href="index.html" class="text-white rounded d-inline-block text-center"><i class="mdi mdi-home"></i></a>
+            <a href="../index.php" class="text-white rounded d-inline-block text-center"><i class="mdi mdi-home"></i></a>
         </div>
 
         <!-- Hero Start -->
@@ -119,7 +119,7 @@ catch (Exception $e)
                                                 <input type="submit" name="submitConnexion" class="btn btn-primary w-100" value="Sign in">
                                             </div>
                                             <div class="col-12 text-center">
-                                                <p class="mb-0 mt-3"><small class="text-dark mr-2">Don't have an account ?</small> <a href="page-signup.html" class="text-dark font-weight-bold">Sign Up</a></p>
+                                                <p class="mb-0 mt-3"><small class="text-dark mr-2">Don't have an account ?</small> <a href="page-signup.php" class="text-dark font-weight-bold">Sign Up</a></p>
                                             </div>
                                         </div>
                                     </form>

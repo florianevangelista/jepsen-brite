@@ -52,7 +52,7 @@
                         <li>
                             <form action="" method="POST">
                             <select id="category" name="category">
-                                <option value="" disabled select>Event Categories</option>
+                                <option value="" disable select>Event Categories</option>
                                 <option value="Concert">Concert</option>
                                 <option value="Festival">Festival</option>
                                 <option value="Exhibition">Exhibition</option>
@@ -91,7 +91,7 @@
                         ?>
 
 
-                        <li><a href="pages/page-login.html">Login</a></li>
+                        <li><a href="pages/page-login.php">Login</a></li>
                     </ul>
                     <!--end navigation menu-->
                 </div><!--end navigation-->

@@ -2,7 +2,7 @@
 session_start();
     try
     {
-        $bdd = new PDO('mysql:host=localhost;dbname=jepsenBrite;charset=utf8', 'root', 'root', array(PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION));
+        $bdd = new PDO('mysql:host=localhost;dbname=event_manager;charset=utf8', 'root', '', array(PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION));
     }
     catch (Exception $e)
     {
@@ -58,7 +58,7 @@ session_start();
             <div class="container">
                 <!-- Logo container-->
                 <div>
-                    <a class="logo" href="index.html">Landrick<span class="text-primary">.</span></a>
+                    <a class="logo" href="../index.php">Landrick<span class="text-primary">.</span></a>
                 </div>                 
                 <div class="buy-button">
                     <a href="https://1.envato.market/4n73n" target="_blank" class="btn btn-primary">Buy Now</a>

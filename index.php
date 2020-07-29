@@ -60,7 +60,7 @@ $Parsedown = new Parsedown();
                 <!-- Home & Categories-->   
                 <div id="navigation">
                     <ul class="navigation-menu" style="align-items:center;">
-                        <li><a href="index.php">Home</a></li>
+                        <li><a href="index.php">Accueil</a></li>
                         <li>
                             <form action="" method="POST" name="eventlist">
                             <select style="cursor:pointer; border: none; font-weight: 600; font-family: Nunito;" class="form-control" id="category" name="category" onchange="eventlist.submit();">
@@ -194,10 +194,15 @@ $EventsTable = $bdd->query("$FilteredRequest");
                                         <li><i class="mdi mdi-timer text-muted"></i> <?php echo $row["dt"] . '<br>';?></li>
                                         <li><i class="mdi mdi-city text-muted"></i> <?php echo $row["Category"] . '<br>';?></li><br>
                                         <li><i class="mdi mdi-message-text-outline"></i> <?php echo $row["Description"] . '<br>';?></li><br>
-                                        <li><i class="mdi mdi-account-box-outline"></i> <?php echo $row["FirstName"] . " " . $row["LastName"] .'<br>';?></li><br>                                       
-                                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalCenter<?php echo $row['EventId']?>">
-                                        Inserer un commentaire
-                                        </button><br><br>
+                                        <li><i class="mdi mdi-account-box-outline"></i> <?php echo $row["FirstName"] . " " . $row["LastName"] .'<br>';?></li><br>
+                                        <?php if (isset($_SESSION['FirstName'])) {
+
+                                            echo '<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalCenter'. $row["EventId"] . '">
+                                            Inserer un commentaire </button><br><br>';
+                                        }  else {
+                                            echo '<button type="button" class="btn btn-primary" data-toggle="modal" href="pages/page-login.php" >
+                                            <a style="text-decoration:none;color: white;" href="pages/page-login.php">Se connecter pour commenter</a></button><br><br>';
+                                        } ?>                                   
                                        </li>
                                     </ul> 
                                 </div>
@@ -278,7 +283,7 @@ $insertcomments->execute(array(NULL, $Parsedown->line($_POST['comments_comment']
 <?php $CommentairesTable = $bdd->query("SELECT *
 FROM comments c
 INNER JOIN evenements e ON  c.evenements_id = e.EventId
-INNER JOiN persons p ON c.person_id = p.Personid");
+INNER JOIN persons p ON c.person_id = p.Personid ORDER BY id DESC");
 
                     while ($row = $CommentairesTable->fetch(PDO::FETCH_ASSOC)) {?>              
                             <div class="customer-testi mr-2 ml-2 text-center p-4 rounded border">

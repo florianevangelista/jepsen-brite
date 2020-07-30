@@ -128,7 +128,7 @@ $Parsedown = new Parsedown();
 
 
         <!-- Event Start -->
-        <section class="section" id="courses">
+        <section class="section" id="courses" style="padding-bottom: 0;">
             <div class="container">
                 <!-- Texte d'avant section -->
                 <div class="row justify-content-center">
@@ -143,10 +143,17 @@ $Parsedown = new Parsedown();
                 <!-- Container pour les events et modals -->
                 <div class="row">
 
+                <?php if (isset($_SESSION['FirstName'])) {?>
+                     <!--Add an Event-->     
+                     <a href="pages/page-creatEvent.php" class="col-lg-4 col-md-6 col-12 mt-4 pt-2 courses-desc" style="cursor: pointer; background-color:rgba(58, 31, 61, 0.02); border: 1px #eee solid; border-radius: 20px; display: flex; align-items: center; justify-content: center;">
+                         <img src="https://img.icons8.com/all/500/add.png" style="width: 70%; "> 
+                     </a>
+                <?php } else { ?>
                     <!--Add an Event-->     
                     <a href="pages/page-login.php" class="col-lg-4 col-md-6 col-12 mt-4 pt-2 courses-desc" style="cursor: pointer; background-color:rgba(58, 31, 61, 0.02); border: 1px #eee solid; border-radius: 20px; display: flex; align-items: center; justify-content: center;">
                         <img src="https://img.icons8.com/all/500/add.png" style="width: 70%; "> 
                     </a>
+                <?php } ?>
 
                  
                     
@@ -266,7 +273,7 @@ $insertcomments->execute(array(NULL, $Parsedown->line($_POST['comments_comment']
 
 
     <!-- Carousel Commentaires -->
-        <section class="section pb-0">
+        <section class="section pb-0" style="margin-bottom: 100px;">
             <div class="container">
 
                 <!-- Texte de debut de section -->
@@ -303,6 +310,8 @@ INNER JOIN persons p ON c.person_id = p.Personid ORDER BY id DESC");
             </div>
         </section>
 
+
+        <?php include 'pages/footer.php';?>
 
         <!-- javascript -->
         <script src="js/jquery.min.js"></script>

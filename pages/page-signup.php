@@ -87,7 +87,7 @@ $confirmationMdp = sha1($_POST['confirmationMdp']);
         <!-- Loader -->
         
         <div class="back-to-home rounded d-none d-sm-block">
-            <a href="index.php" class="text-white rounded d-inline-block text-center"><i class="mdi mdi-home"></i></a>
+            <a href="../index.php" class="text-white rounded d-inline-block text-center"><i class="mdi mdi-home"></i></a>
         </div>
 
         <!-- Hero Start -->

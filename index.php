@@ -67,9 +67,8 @@ $Parsedown = new Parsedown();
                                 <option selected disabled>Evénements Futurs</option>
                                 <option value="Concert">Concert</option>
                                 <option value="Festival">Festival</option>
+                                <option value="Conference">Conférences</option>
                                 <option value="Exhibition">Exhibition</option>
-                                <option value="Conferences">Conférences</option>
-                                <option value="Random">Random</option>
                             </select>
                             </form>
                         </li>
@@ -79,9 +78,8 @@ $Parsedown = new Parsedown();
                                 <option selected disabled>Evénements Passés</option>
                                 <option value="Concert">Concert</option>
                                 <option value="Festival">Festival</option>
+                                <option value="Conference">Conférences</option>
                                 <option value="Exhibition">Exhibition</option>
-                                <option value="Conferences">Conférences</option>
-                                <option value="Random">Random</option>
                             </select>
                             </form>
                         </li>
@@ -98,21 +96,62 @@ $Parsedown = new Parsedown();
             </div>
         </header>
         <!-- Navbar End -->
+
+
+
+
+
+<?php 
+
+$bdd = new PDO("mysql:host=localhost;dbname=event_manager;charset=utf8", "root", "");
+
+
+if (isset($_POST['category'])) { $ChosenCategory = $_POST['category'];}
+
+if (isset($_POST['previous_category'])) { $ChosenPreviousCategory = $_POST['previous_category'];}
+
+$FilteredRequest = "SELECT * FROM persons p INNER JOIN evenements e ON p.Personid = e.Personid WHERE dt>=" . "'" . date("Y-m-d H:i:s") . "'" . "ORDER BY dt ASC";
+
+if (isset($ChosenCategory))
+{
+$FilteredRequest = "SELECT * FROM persons p INNER JOIN evenements e ON p.Personid = e.Personid WHERE Category='" . $ChosenCategory . "'" . "AND dt>=" . "'" . date("Y-m-d H:i:s") . "'" . "ORDER BY dt ASC";
+} 
+
+if (isset($ChosenPreviousCategory)) 
+{
+$FilteredRequest = "SELECT * FROM persons p INNER JOIN evenements e ON p.Personid = e.Personid WHERE Category='" . $ChosenPreviousCategory . "'" . "AND dt<" . "'" . date("Y-m-d H:i:s") . "'" . "ORDER BY dt DESC";
+} 
+
+$FirstEvent = $bdd->query("$FilteredRequest LIMIT 1");
+
+
+    while ($row = $FirstEvent->fetch(PDO::FETCH_ASSOC)) {?>
         
         <!-- First Highlighted Event -->
         <section class="main-slider">
             <ul class="slides"> 
-                <li class="bg-slider" style="background-image:url('https://www.amfiweb.net/wp-content/uploads/2016/12/holi-feast-3.jpg')">
+
+<?php if ($row['Category'] == 'concert') {?>
+                <li class="bg-slider" style="background-image:url('https://images.squarespace-cdn.com/content/v1/582f3087bebafb4bb040d3db/1498065635934-2W5ZHWFHTF3EYHBZB3T3/ke17ZwdGBToddI8pDm48kDqh_cQocK8JBSHUbTtZS4V7gQa3H78H3Y0txjaiv_0fDoOvxcdMmMKkDsyUqMSsMWxHk725yiiHCCLfrh8O1z4YTzHvnKhyp6Da-NYroOW3ZGjoBKy3azqku80C789l0mhydAgiKdIfeAoxVgE7c7otVu-iuppiBK0j_Ge_g7ihEgP-6XovtMB7o2cl57mPDg/EBYPR6.jpg?format=1500w')">
+<?php } else if ($row['Category'] == 'festival') {?>
+                <li class="bg-slider" style="background-image:url('https://www.visitflanders.com/fr/binaries/Cover-LR_crop420x210_tcm21-141348.jpg')">
+<?php } else if ($row['Category'] == 'conference') {?>
+                <li class="bg-slider" style="background-image:url('https://t3.llb.be/lGCL3jeaeO602SxR0e_wCTpwQTA=/0x45:2560x1325/1920x960/5e80e9587b50a6162bdd4e6b.jpg')">
+<?php } else if ($row['Category'] == 'exhibition') {?>
+                    <li class="bg-slider" style="background-image:url('https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcSS-xWBNyDFDacCOek2SenzzcjoggPVMhiROQ&usqp=CAU')">
+<?php } ?>
+          
+
                     <div class="home-center">
                         <div class="home-desc-center">
                             <div class="container">
                                 <div class="row justify-content-center">
                                     <div class="col-12 text-center">
                                         <div class="title-heading text-white mt-4">
-                                            <h1 class="display-4 font-weight-bold mb-3">Summer Festival</h1>
-                                            <p class="para-desc mx-auto text-light" style="font-size: 24px; font-weight: bold;">Enroll with us for the best summer time of your life !</p>
+                                            <h1 class="display-4 font-weight-bold mb-3"><?php echo $row["Title"] ?></h1>
+                                            <p class="para-desc mx-auto text-light" style="font-size: 24px; font-weight: bold;"><?php echo $row["Dsc"] ?></p>
                                             <div class="mt-4">
-                                                <a href="#courses" class="btn btn-primary mt-2 mr-2 mouse-down"><i class="mdi mdi-book-open-variant"></i> More Events</a>
+                                                <a href="#courses" class="btn btn-primary mt-2 mr-2 mouse-down"><i class="mdi mdi-book-open-variant"></i> Plus d'informations</a>
                                             </div>
                                         </div>
                                     </div>
@@ -125,7 +164,7 @@ $Parsedown = new Parsedown();
         </section>
         <!-- First Highlighted Event --> 
 
-
+    <?php } ?>
 
         <!-- Event Start -->
         <section class="section" id="courses" style="padding-bottom: 0;">
@@ -160,32 +199,8 @@ $Parsedown = new Parsedown();
                    
 <?php 
 
-$bdd = new PDO("mysql:host=localhost;dbname=event_manager;charset=utf8", "root", "");
-
-if (isset($_POST['category']))
-{
-$ChosenCategory = $_POST['category'];
-}
-
-if (isset($_POST['previous_category']))
-{
-$ChosenPreviousCategory = $_POST['previous_category'];
-}
 
 #FilteredRequest can be the default request or a specific category request
-
-
-$FilteredRequest = "SELECT * FROM persons p INNER JOIN evenements e ON p.Personid = e.Personid WHERE dt>=" . "'" . date("Y-m-d H:i:s") . "'" . "ORDER BY dt ASC";
-
-if (isset($ChosenCategory))
-{
-$FilteredRequest = "SELECT * FROM persons p INNER JOIN evenements e ON p.Personid = e.Personid WHERE Category='" . $ChosenCategory . "'" . "AND dt>=" . "'" . date("Y-m-d H:i:s") . "'" . "ORDER BY dt ASC";
-} 
-
-if (isset($ChosenPreviousCategory)) 
-{
-$FilteredRequest = "SELECT * FROM persons p INNER JOIN evenements e ON p.Personid = e.Personid WHERE Category='" . $ChosenPreviousCategory . "'" . "AND dt<" . "'" . date("Y-m-d H:i:s") . "'" . "ORDER BY dt DESC";
-} 
 
 $EventsTable = $bdd->query("$FilteredRequest");
 
@@ -204,7 +219,7 @@ $EventsTable = $bdd->query("$FilteredRequest");
                                         <li><i class="mdi mdi-timer text-muted"></i> <?php echo $row["Title"] . '<br>';?></li><br>
                                         <li><i class="mdi mdi-timer text-muted"></i> <?php echo $row["dt"] . '<br>';?></li>
                                         <li><i class="mdi mdi-city text-muted"></i> <?php echo $row["Category"] . '<br>';?></li><br>
-                                        <li><i class="mdi mdi-message-text-outline"></i> <?php echo $row["Description"] . '<br>';?></li><br>
+                                        <li><i class="mdi mdi-message-text-outline"></i> <?php echo $row["Dsc"] . '<br>';?></li><br>
                                         <li><i class="mdi mdi-account-box-outline"></i> <?php echo $row["FirstName"] . " " . $row["LastName"] .'<br>';?></li><br>
                                         <?php if (isset($_SESSION['FirstName'])) {
 

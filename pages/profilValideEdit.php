@@ -2,7 +2,7 @@
 session_start();
     try
     {
-        $bdd = new PDO("mysql:host=localhost;dbname=jepsenBrite;charset=utf8", "root", "root");
+        $bdd = new PDO("mysql:host=localhost;dbname=event_manager;charset=utf8", "root", "root");
 
     }
     catch (Exception $e)
@@ -97,38 +97,14 @@ session_start();
                     <a class="logo" href="index.php">Jepsen-Brite<span class="text-primary">.</span></a>
                 </div>                 
                 <!-- Home & Categories-->   
-                <div id="navigation">
+                 <div id="navigation">
                     <ul class="navigation-menu" style="align-items:center;">
-                        <li><a href="index.php">Accueil</a></li>
-                        <li>
-                            <form action="" method="POST" name="eventlist">
-                            <select style="cursor:pointer; border: none; font-weight: 600; font-family: Nunito;" class="form-control" id="category" name="category" onchange="eventlist.submit();">
-                                <option selected disabled>Evénements Futurs</option>
-                                <option value="Concert">Concert</option>
-                                <option value="Festival">Festival</option>
-                                <option value="Exhibition">Exhibition</option>
-                                <option value="Conferences">Conférences</option>
-                                <option value="Random">Random</option>
-                            </select>
-                            </form>
-                        </li>
-                        <li>
-                            <form action="" method="POST" name="previouseventlist">
-                            <select style="cursor:pointer; border: none; font-weight: 600; font-family: Nunito;" class="form-control" id="category" name="previous_category" title="Evénements Passés" onchange="previouseventlist.submit();">
-                                <option selected disabled>Evénements Passés</option>
-                                <option value="Concert">Concert</option>
-                                <option value="Festival">Festival</option>
-                                <option value="Exhibition">Exhibition</option>
-                                <option value="Conferences">Conférences</option>
-                                <option value="Random">Random</option>
-                            </select>
-                            </form>
-                        </li>
+                        <li><a href="../index.php">Accueil</a></li>
                         
                         <?php if (isset($_SESSION['FirstName']))
                         {?>
-                            <li><a href="pages/profilValider.php?Personid=<?=$_SESSION['Personid']?>">Mon Compte</a></li>
-                            <li><a href="pages/deconnexion-index.php">Logout <?php echo $_SESSION['FirstName'] ?></a></li>
+                            <li><a href="profilValider.php?Personid=<?=$_SESSION['Personid']?>">Mon Compte</a></li>
+                            <li><a href="deconnexion-index.php">Logout <?php echo $_SESSION['FirstName'] ?></a></li>
                         <?php }  else { ?>
                             <li><a href="pages/page-login.php">Login</a></li>
                         <?php } ?>

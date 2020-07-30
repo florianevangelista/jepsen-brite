@@ -85,10 +85,14 @@ $Parsedown = new Parsedown();
                             </select>
                             </form>
                         </li>
-                        <li style="color: #ccc; position: absolute; top: 0px; left: 0px;"><?php if (isset($_SESSION['FirstName'])) { echo $_SESSION['FirstName'] . "<br>" .  $_SESSION['LastName'] . "<br>" . "connecte" ; }?></li>
-                        <li><a href="pages/page-login.php">Login</a></li>
-
-
+                        
+                        <?php if (isset($_SESSION['FirstName']))
+                        {?>
+                            <li><a href="pages/profilValider.php?Personid=<?=$_SESSION['Personid']?>">Mon Compte</a></li>
+                            <li><a href="pages/deconnexion-index.php">Logout <?php echo $_SESSION['FirstName'] ?></a></li>
+                        <?php }  else { ?>
+                            <li><a href="pages/page-login.php">Login</a></li>
+                        <?php } ?>
                     </ul>
                 </div>
             </div>
@@ -130,8 +134,8 @@ $Parsedown = new Parsedown();
                 <div class="row justify-content-center">
                     <div class="col-12 text-center">
                         <div class="section-title mb-4 pb-2">
-                            <h4 class="title mb-4">Explore Our Upcoming Events</h4>
-                            <p class="text-muted para-desc mx-auto mb-0">Jepsen-Brite can provide everything you need to generate awareness and bring people together to your event.</p>
+                            <h4 class="title mb-4">Nos Evenements</h4>
+                            <p class="text-muted para-desc mx-auto mb-0"><span class="text-primary font-weight-bold">Jepsen-Brite</span> fournit tout ce qui est necessaire a une bonne reputation afin de rassembler et de toucher un maximum de monde.</p>
                         </div>
                     </div>
                 </div>
@@ -269,8 +273,8 @@ $insertcomments->execute(array(NULL, $Parsedown->line($_POST['comments_comment']
                 <div class="row justify-content-center">
                     <div class="col-12 text-center">
                         <div class="section-title mb-60">
-                            <h4 class="title mb-4">Our Happy Customers</h4>
-                            <p class="text-muted para-desc mx-auto mb-0">Start working with <span class="text-primary font-weight-bold">Jepsen-Brite</span> that can provide everything you need to generate awareness, drive traffic, connect.</p>
+                            <h4 class="title mb-4">Nos Clients Satisfaits</h4>
+                            <p class="text-muted para-desc mx-auto mb-0">Travaillez avec <span class="text-primary font-weight-bold">Jepsen-Brite</span> pour booster votre reputation, l'attention accordee par vos clients et tout ce dont vous avez besoin pour generer du trafic.</p>
                         </div>
                     </div>
                 </div>
@@ -288,9 +292,9 @@ INNER JOIN persons p ON c.person_id = p.Personid ORDER BY id DESC");
                     while ($row = $CommentairesTable->fetch(PDO::FETCH_ASSOC)) {?>              
                             <div class="customer-testi mr-2 ml-2 text-center p-4 rounded border">
                                 <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcSU9M7jcv6itu1s10N-TzVLojb3rsmCN699JQ&usqp=CAU" style="height: 100px;width:100px;margin: 0 auto; border-radius:50%;"><br>
-                                <p style="color:#777;"><?php echo $row['Title'];?></p>
-                                <p class="text-muted mt-4">" <?php echo $row['comment'];?> "</p>
-                                <h6 class="text-primary">- <?php echo $row['LastName'] . " " . $row['FirstName']?></h6>
+                                <h6 style="color:#777;"><?php echo $row['LastName'] . " " . $row['FirstName'];?></h6>
+                                <p class="text-muted mt-4">" <?php echo $row['comment'];?> "</p><br>
+                                <h6 class="text-primary">- <?php echo $row['Title']?></h6>
                             </div>
 <?php } ?>
                         </div>

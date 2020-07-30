@@ -2,7 +2,7 @@
 
 try
 {
-    $bdd = new PDO('mysql:host=localhost;dbname=event_manager;charset=utf8', 'root', '', array(PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION));
+    $bdd = new PDO('mysql:host=localhost;dbname=jepsenBrite;charset=utf8', 'root', 'root', array(PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION));
 }
 catch (Exception $e)
 {
@@ -16,7 +16,6 @@ $Email=htmlspecialchars($_POST['Email']);
 $Mdp = sha1($_POST['Mdp']);
 $confirmationMdp = sha1($_POST['confirmationMdp']);
 
-// on verifie que les cases ne sont pas vide
 
     if(!empty($_POST['FirstName']) AND !empty($_POST['LastName']) AND !empty($_POST['Email']) AND !empty($_POST['Mdp']) AND !empty($_POST['confirmationMdp'])){
        
@@ -30,8 +29,10 @@ $confirmationMdp = sha1($_POST['confirmationMdp']);
                     $mailexist = $reqmail->rowCount();
                         if($mailexist == 0) {
                             if($Mdp == $confirmationMdp) {
-                                $insertmbr = $bdd->prepare("INSERT INTO persons(FirstName, LastName, Email, Mdp) VALUES(?, ?, ?, ?)");
-                                $insertmbr->execute(array($FirstName, $LastName, $Email, $Mdp));
+                                $query = "INSERT INTO persons(FirstName, LastName, Email, Mdp, img) VALUES (?, ?, ?, ?, ?)";
+                                $img = 'https://www.gravatar.com/avatar/'.md5( strtolower( trim( $Email ) ) );
+                                $insertmbr = $bdd->prepare($query);
+                                $insertmbr->execute(array($FirstName, $LastName, $Email, $Mdp, $img));
                                 $_SESSION ['validatonCompte'] = "Votre compte a bien été créé ! <a href=\"connexion.php\">Me connecter</a>";
                                 header("Location: page-login.php");
                             } else {

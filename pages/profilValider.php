@@ -2,7 +2,7 @@
 session_start();
     try
     {
-        $bdd = new PDO('mysql:host=localhost;dbname=event_manager;charset=utf8', 'root', '', array(PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION));
+        $bdd = new PDO('mysql:host=localhost;dbname=jepsenBrite;charset=utf8', 'root', 'root', array(PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION));
     }
     catch (Exception $e)
     {
@@ -13,6 +13,7 @@ session_start();
             $requser = $bdd->prepare('SELECT * FROM persons WHERE Personid = ?');
             $requser->execute(array($getid));
             $userinfo = $requser->fetch();
+
 
 ?>
 
@@ -61,9 +62,9 @@ session_start();
                 <div>
                     <a class="logo" href="../index.php">Landrick<span class="text-primary">.</span></a>
                 </div>                 
-                <div class="buy-button">
+                <!-- <div class="buy-button">
                     <a href="https://1.envato.market/4n73n" target="_blank" class="btn btn-primary">Buy Now</a>
-                </div><!--end login button-->
+                </div> --><!--end login button-->
                 <!-- End Logo container-->
                 <div class="menu-extras">
                     <div class="menu-item">
@@ -253,7 +254,18 @@ session_start();
                             <h5 class="text-md-left text-center">Personal Detail :</h5>
 
                             <div class="mt-3 text-md-left text-center d-sm-flex">
-                                <img src="../images/client/05.jpg" class="avatar float-md-left avatar-medium rounded-pill shadow mr-md-4" alt="">
+
+                                <?php
+                                    if(!empty($userinfo['img'])){
+                                        ?>
+                                    <img src="<?php echo $userinfo['img'];?>" class="avatar float-md-left avatar-medium rounded-pill shadow mr-md-4" alt="">
+                                    <?php
+                                    }
+                                    ?>
+
+                                
+
+                             <!--    <img src="" class="avatar float-md-left avatar-medium rounded-pill shadow mr-md-4" alt=""> -->
                                 
                                 <div class="mt-md-4 mt-3 mt-sm-0" id="iconPageProfile">
                                     <a href="profilValideEdit.php" class="rounded-pill bg-dark"><i class="mdi mdi-tools" title="Edit Profile"></i>Edit Profile</a>

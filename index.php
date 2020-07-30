@@ -134,7 +134,7 @@ $FirstEvent = $bdd->query("$FilteredRequest LIMIT 1");
 <?php if ($row['Category'] == 'concert') {?>
                 <li class="bg-slider" style="background-image:url('https://images.squarespace-cdn.com/content/v1/582f3087bebafb4bb040d3db/1498065635934-2W5ZHWFHTF3EYHBZB3T3/ke17ZwdGBToddI8pDm48kDqh_cQocK8JBSHUbTtZS4V7gQa3H78H3Y0txjaiv_0fDoOvxcdMmMKkDsyUqMSsMWxHk725yiiHCCLfrh8O1z4YTzHvnKhyp6Da-NYroOW3ZGjoBKy3azqku80C789l0mhydAgiKdIfeAoxVgE7c7otVu-iuppiBK0j_Ge_g7ihEgP-6XovtMB7o2cl57mPDg/EBYPR6.jpg?format=1500w')">
 <?php } else if ($row['Category'] == 'festival') {?>
-                <li class="bg-slider" style="background-image:url('https://www.visitflanders.com/fr/binaries/Cover-LR_crop420x210_tcm21-141348.jpg')">
+                <li class="bg-slider" style="background-image:url('https://www.amfiweb.net/wp-content/uploads/2016/12/holi-feast-3.jpg')">
 <?php } else if ($row['Category'] == 'conference') {?>
                 <li class="bg-slider" style="background-image:url('https://t3.llb.be/lGCL3jeaeO602SxR0e_wCTpwQTA=/0x45:2560x1325/1920x960/5e80e9587b50a6162bdd4e6b.jpg')">
 <?php } else if ($row['Category'] == 'exhibition') {?>

@@ -3,7 +3,7 @@ session_start();
 
 try
 {
-    $bdd = new PDO('mysql:host=localhost;dbname=event_manager;charset=utf8', 'root', 'root', array(PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION));
+    $bdd = new PDO('mysql:host=localhost;dbname=event_manager;charset=utf8', 'root', '', array(PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION));
 }
 catch (Exception $e)
 {
@@ -23,7 +23,6 @@ catch (Exception $e)
                 $_SESSION['FirstName'] = $userinfo['FirstName'];
                 $_SESSION['LastName'] = $userinfo['LastName'];
                 $_SESSION['Email'] = $userinfo['Email'];
-                $_SESSION['img'] = $userinfo['img'];
                 header("Location: profilValider.php?Personid=".$_SESSION['Personid']);
             } else {
                 $erreur = "Mauvais mail ou mot de passe !";

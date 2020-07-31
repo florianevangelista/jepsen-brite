@@ -35,6 +35,7 @@ $confirmationMdp = sha1($_POST['confirmationMdp']);
                                 $insertmbr = $bdd->prepare("INSERT INTO persons(FirstName, LastName, Email, Mdp) VALUES(?, ?, ?, ?)");
                                 $insertmbr->execute(array($FirstName, $LastName, $Email, $Mdp));
                                 $erreur = "Votre compte a bien été créé ! <a href=\"connexion.php\">Me connecter</a>";
+                                header('location: mail.php');
                             } else {
                                 $erreur = "Vos mots de passes ne correspondent pas !";
                             }

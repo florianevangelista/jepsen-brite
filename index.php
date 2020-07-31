@@ -60,15 +60,16 @@ $Parsedown = new Parsedown();
                 <!-- Home & Categories-->   
                 <div id="navigation">
                     <ul class="navigation-menu" style="align-items:center;">
-                        <li><a href="index.php">Accueil</a></li>
+                        <li><a href="index.php">Home</a></li>
                         <li>
                             <form action="" method="POST" name="eventlist">
                             <select style="cursor:pointer; border: none; font-weight: 600; font-family: Nunito;" class="form-control" id="category" name="category" onchange="eventlist.submit();">
                                 <option selected disabled>Evénements Futurs</option>
                                 <option value="Concert">Concert</option>
                                 <option value="Festival">Festival</option>
-                                <option value="Conference">Conférences</option>
                                 <option value="Exhibition">Exhibition</option>
+                                <option value="Conferences">Conférences</option>
+                                <option value="Random">Random</option>
                             </select>
                             </form>
                         </li>
@@ -78,80 +79,36 @@ $Parsedown = new Parsedown();
                                 <option selected disabled>Evénements Passés</option>
                                 <option value="Concert">Concert</option>
                                 <option value="Festival">Festival</option>
-                                <option value="Conference">Conférences</option>
                                 <option value="Exhibition">Exhibition</option>
+                                <option value="Conferences">Conférences</option>
+                                <option value="Random">Random</option>
                             </select>
                             </form>
                         </li>
-                        
-                        <?php if (isset($_SESSION['FirstName']))
-                        {?>
-                            <li><a href="pages/profilValider.php?Personid=<?=$_SESSION['Personid']?>">Mon Compte</a></li>
-                            <li><a href="pages/deconnexion-index.php">Logout <?php echo $_SESSION['FirstName'] ?></a></li>
-                        <?php }  else { ?>
-                            <li><a href="pages/page-login.php">Login</a></li>
-                        <?php } ?>
+                        <li style="color: #ccc; position: absolute; top: 0px; left: 0px;"><?php if (isset($_SESSION['FirstName'])) { echo $_SESSION['FirstName'] . "<br>" .  $_SESSION['LastName'] . "<br>" . "connecte" ; }?></li>
+                        <li><a href="pages/page-login.php">Login</a></li>
+
+
                     </ul>
                 </div>
             </div>
         </header>
         <!-- Navbar End -->
-
-
-
-
-
-<?php 
-
-$bdd = new PDO("mysql:host=localhost;dbname=event_manager;charset=utf8", "root", "");
-
-
-if (isset($_POST['category'])) { $ChosenCategory = $_POST['category'];}
-
-if (isset($_POST['previous_category'])) { $ChosenPreviousCategory = $_POST['previous_category'];}
-
-$FilteredRequest = "SELECT * FROM persons p INNER JOIN evenements e ON p.Personid = e.Personid WHERE dt>=" . "'" . date("Y-m-d H:i:s") . "'" . "ORDER BY dt ASC";
-
-if (isset($ChosenCategory))
-{
-$FilteredRequest = "SELECT * FROM persons p INNER JOIN evenements e ON p.Personid = e.Personid WHERE Category='" . $ChosenCategory . "'" . "AND dt>=" . "'" . date("Y-m-d H:i:s") . "'" . "ORDER BY dt ASC";
-} 
-
-if (isset($ChosenPreviousCategory)) 
-{
-$FilteredRequest = "SELECT * FROM persons p INNER JOIN evenements e ON p.Personid = e.Personid WHERE Category='" . $ChosenPreviousCategory . "'" . "AND dt<" . "'" . date("Y-m-d H:i:s") . "'" . "ORDER BY dt DESC";
-} 
-
-$FirstEvent = $bdd->query("$FilteredRequest LIMIT 1");
-
-
-    while ($row = $FirstEvent->fetch(PDO::FETCH_ASSOC)) {?>
         
         <!-- First Highlighted Event -->
         <section class="main-slider">
             <ul class="slides"> 
-
-<?php if ($row['Category'] == 'concert') {?>
-                <li class="bg-slider" style="background-image:url('https://images.squarespace-cdn.com/content/v1/582f3087bebafb4bb040d3db/1498065635934-2W5ZHWFHTF3EYHBZB3T3/ke17ZwdGBToddI8pDm48kDqh_cQocK8JBSHUbTtZS4V7gQa3H78H3Y0txjaiv_0fDoOvxcdMmMKkDsyUqMSsMWxHk725yiiHCCLfrh8O1z4YTzHvnKhyp6Da-NYroOW3ZGjoBKy3azqku80C789l0mhydAgiKdIfeAoxVgE7c7otVu-iuppiBK0j_Ge_g7ihEgP-6XovtMB7o2cl57mPDg/EBYPR6.jpg?format=1500w')">
-<?php } else if ($row['Category'] == 'festival') {?>
                 <li class="bg-slider" style="background-image:url('https://www.amfiweb.net/wp-content/uploads/2016/12/holi-feast-3.jpg')">
-<?php } else if ($row['Category'] == 'conference') {?>
-                <li class="bg-slider" style="background-image:url('https://t3.llb.be/lGCL3jeaeO602SxR0e_wCTpwQTA=/0x45:2560x1325/1920x960/5e80e9587b50a6162bdd4e6b.jpg')">
-<?php } else if ($row['Category'] == 'exhibition') {?>
-                    <li class="bg-slider" style="background-image:url('https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcSS-xWBNyDFDacCOek2SenzzcjoggPVMhiROQ&usqp=CAU')">
-<?php } ?>
-          
-
                     <div class="home-center">
                         <div class="home-desc-center">
                             <div class="container">
                                 <div class="row justify-content-center">
                                     <div class="col-12 text-center">
                                         <div class="title-heading text-white mt-4">
-                                            <h1 class="display-4 font-weight-bold mb-3"><?php echo $row["Title"] ?></h1>
-                                            <p class="para-desc mx-auto text-light" style="font-size: 24px; font-weight: bold;"><?php echo $row["Dsc"] ?></p>
+                                            <h1 class="display-4 font-weight-bold mb-3">Summer Festival</h1>
+                                            <p class="para-desc mx-auto text-light" style="font-size: 24px; font-weight: bold;">Enroll with us for the best summer time of your life !</p>
                                             <div class="mt-4">
-                                                <a href="#courses" class="btn btn-primary mt-2 mr-2 mouse-down"><i class="mdi mdi-book-open-variant"></i> Plus d'informations</a>
+                                                <a href="#courses" class="btn btn-primary mt-2 mr-2 mouse-down"><i class="mdi mdi-book-open-variant"></i> More Events</a>
                                             </div>
                                         </div>
                                     </div>
@@ -164,17 +121,17 @@ $FirstEvent = $bdd->query("$FilteredRequest LIMIT 1");
         </section>
         <!-- First Highlighted Event --> 
 
-    <?php } ?>
+
 
         <!-- Event Start -->
-        <section class="section" id="courses" style="padding-bottom: 0;">
+        <section class="section" id="courses">
             <div class="container">
                 <!-- Texte d'avant section -->
                 <div class="row justify-content-center">
                     <div class="col-12 text-center">
                         <div class="section-title mb-4 pb-2">
-                            <h4 class="title mb-4">Nos Evenements</h4>
-                            <p class="text-muted para-desc mx-auto mb-0"><span class="text-primary font-weight-bold">Jepsen-Brite</span> fournit tout ce qui est necessaire a une bonne reputation afin de rassembler et de toucher un maximum de monde.</p>
+                            <h4 class="title mb-4">Explore Our Upcoming Events</h4>
+                            <p class="text-muted para-desc mx-auto mb-0">Jepsen-Brite can provide everything you need to generate awareness and bring people together to your event.</p>
                         </div>
                     </div>
                 </div>
@@ -182,25 +139,42 @@ $FirstEvent = $bdd->query("$FilteredRequest LIMIT 1");
                 <!-- Container pour les events et modals -->
                 <div class="row">
 
-                <?php if (isset($_SESSION['FirstName'])) {?>
-                     <!--Add an Event-->     
-                     <a href="pages/page-creatEvent.php" class="col-lg-4 col-md-6 col-12 mt-4 pt-2 courses-desc" style="cursor: pointer; background-color:rgba(58, 31, 61, 0.02); border: 1px #eee solid; border-radius: 20px; display: flex; align-items: center; justify-content: center;">
-                         <img src="https://img.icons8.com/all/500/add.png" style="width: 70%; "> 
-                     </a>
-                <?php } else { ?>
                     <!--Add an Event-->     
                     <a href="pages/page-login.php" class="col-lg-4 col-md-6 col-12 mt-4 pt-2 courses-desc" style="cursor: pointer; background-color:rgba(58, 31, 61, 0.02); border: 1px #eee solid; border-radius: 20px; display: flex; align-items: center; justify-content: center;">
                         <img src="https://img.icons8.com/all/500/add.png" style="width: 70%; "> 
                     </a>
-                <?php } ?>
 
                  
                     
                    
 <?php 
 
+$bdd = new PDO("mysql:host=localhost;dbname=event_manager;charset=utf8", "root", "");
+
+if (isset($_POST['category']))
+{
+$ChosenCategory = $_POST['category'];
+}
+
+if (isset($_POST['previous_category']))
+{
+$ChosenPreviousCategory = $_POST['previous_category'];
+}
 
 #FilteredRequest can be the default request or a specific category request
+
+
+$FilteredRequest = "SELECT * FROM persons p INNER JOIN evenements e ON p.Personid = e.Personid WHERE dt>=" . "'" . date("Y-m-d H:i:s") . "'" . "ORDER BY dt ASC";
+
+if (isset($ChosenCategory))
+{
+$FilteredRequest = "SELECT * FROM persons p INNER JOIN evenements e ON p.Personid = e.Personid WHERE Category='" . $ChosenCategory . "'" . "AND dt>=" . "'" . date("Y-m-d H:i:s") . "'" . "ORDER BY dt ASC";
+} 
+
+if (isset($ChosenPreviousCategory)) 
+{
+$FilteredRequest = "SELECT * FROM persons p INNER JOIN evenements e ON p.Personid = e.Personid WHERE Category='" . $ChosenPreviousCategory . "'" . "AND dt<" . "'" . date("Y-m-d H:i:s") . "'" . "ORDER BY dt DESC";
+} 
 
 $EventsTable = $bdd->query("$FilteredRequest");
 
@@ -219,16 +193,11 @@ $EventsTable = $bdd->query("$FilteredRequest");
                                         <li><i class="mdi mdi-timer text-muted"></i> <?php echo $row["Title"] . '<br>';?></li><br>
                                         <li><i class="mdi mdi-timer text-muted"></i> <?php echo $row["dt"] . '<br>';?></li>
                                         <li><i class="mdi mdi-city text-muted"></i> <?php echo $row["Category"] . '<br>';?></li><br>
-                                        <li><i class="mdi mdi-message-text-outline"></i> <?php echo $row["Dsc"] . '<br>';?></li><br>
-                                        <li><i class="mdi mdi-account-box-outline"></i> <?php echo $row["FirstName"] . " " . $row["LastName"] .'<br>';?></li><br>
-                                        <?php if (isset($_SESSION['FirstName'])) {
-
-                                            echo '<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalCenter'. $row["EventId"] . '">
-                                            Inserer un commentaire </button><br><br>';
-                                        }  else {
-                                            echo '<button type="button" class="btn btn-primary" data-toggle="modal" href="pages/page-login.php" >
-                                            <a style="text-decoration:none;color: white;" href="pages/page-login.php">Se connecter pour commenter</a></button><br><br>';
-                                        } ?>                                   
+                                        <li><i class="mdi mdi-message-text-outline"></i> <?php echo $row["Description"] . '<br>';?></li><br>
+                                        <li><i class="mdi mdi-account-box-outline"></i> <?php echo $row["FirstName"] . " " . $row["LastName"] .'<br>';?></li><br>                                       
+                                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalCenter<?php echo $row['EventId']?>">
+                                        Inserer un commentaire
+                                        </button><br><br>
                                        </li>
                                     </ul> 
                                 </div>
@@ -288,15 +257,15 @@ $insertcomments->execute(array(NULL, $Parsedown->line($_POST['comments_comment']
 
 
     <!-- Carousel Commentaires -->
-        <section class="section pb-0" style="margin-bottom: 100px;">
+        <section class="section pb-0">
             <div class="container">
 
                 <!-- Texte de debut de section -->
                 <div class="row justify-content-center">
                     <div class="col-12 text-center">
                         <div class="section-title mb-60">
-                            <h4 class="title mb-4">Nos Clients Satisfaits</h4>
-                            <p class="text-muted para-desc mx-auto mb-0">Travaillez avec <span class="text-primary font-weight-bold">Jepsen-Brite</span> pour booster votre reputation, l'attention accordee par vos clients et tout ce dont vous avez besoin pour generer du trafic.</p>
+                            <h4 class="title mb-4">Our Happy Customers</h4>
+                            <p class="text-muted para-desc mx-auto mb-0">Start working with <span class="text-primary font-weight-bold">Jepsen-Brite</span> that can provide everything you need to generate awareness, drive traffic, connect.</p>
                         </div>
                     </div>
                 </div>
@@ -309,14 +278,14 @@ $insertcomments->execute(array(NULL, $Parsedown->line($_POST['comments_comment']
 <?php $CommentairesTable = $bdd->query("SELECT *
 FROM comments c
 INNER JOIN evenements e ON  c.evenements_id = e.EventId
-INNER JOIN persons p ON c.person_id = p.Personid ORDER BY id DESC");
+INNER JOiN persons p ON c.person_id = p.Personid");
 
                     while ($row = $CommentairesTable->fetch(PDO::FETCH_ASSOC)) {?>              
                             <div class="customer-testi mr-2 ml-2 text-center p-4 rounded border">
                                 <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcSU9M7jcv6itu1s10N-TzVLojb3rsmCN699JQ&usqp=CAU" style="height: 100px;width:100px;margin: 0 auto; border-radius:50%;"><br>
-                                <h6 style="color:#777;"><?php echo $row['LastName'] . " " . $row['FirstName'];?></h6>
-                                <p class="text-muted mt-4">" <?php echo $row['comment'];?> "</p><br>
-                                <h6 class="text-primary">- <?php echo $row['Title']?></h6>
+                                <p style="color:#777;"><?php echo $row['Title'];?></p>
+                                <p class="text-muted mt-4">" <?php echo $row['comment'];?> "</p>
+                                <h6 class="text-primary">- <?php echo $row['LastName'] . " " . $row['FirstName']?></h6>
                             </div>
 <?php } ?>
                         </div>
@@ -324,9 +293,6 @@ INNER JOIN persons p ON c.person_id = p.Personid ORDER BY id DESC");
                 </div>
             </div>
         </section>
-
-
-        <?php include 'pages/footer.php';?>
 
         <!-- javascript -->
         <script src="js/jquery.min.js"></script>

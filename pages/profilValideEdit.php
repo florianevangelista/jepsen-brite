@@ -17,19 +17,19 @@ session_start();
         $requser->execute(array($_SESSION['Personid']));
         $userinfo = $requser->fetch();
         
-        if(isset($_POST['newFirstName']) AND !empty($_POST['newFirstName']) AND $_POST['newFirstName'] != $user['FirstName']) {
+        if(isset($_POST['newFirstName']) AND !empty($_POST['newFirstName']) AND $_POST['newFirstName'] != $userinfo['FirstName']) {
             $newFirstName = htmlspecialchars($_POST['newFirstName']);
             $insertFirstName = $bdd->prepare("UPDATE persons SET FirstName = ? WHERE Personid = ?");
             $insertFirstName->execute(array($newFirstName, $_SESSION['Personid']));
             header('Location: profilValider.php?Personid='.$_SESSION['Personid']);
         }
-        if(isset($_POST['newLastName']) AND !empty($_POST['newLastName']) AND $_POST['newLastName'] != $user['LastName']) {
+        if(isset($_POST['newLastName']) AND !empty($_POST['newLastName']) AND $_POST['newLastName'] != $userinfo['LastName']) {
             $newLastName = htmlspecialchars($_POST['newLastName']);
             $insertLastName = $bdd->prepare("UPDATE persons SET LastName = ? WHERE Personid = ?");
             $insertLastName->execute(array($newLastName, $_SESSION['Personid']));
             header('Location: profilValider.php?Personid='.$_SESSION['Personid']);
         }
-        if(isset($_POST['newEmail']) AND !empty($_POST['newEmail']) AND $_POST['newEmail'] != $user['Email']) {
+        if(isset($_POST['newEmail']) AND !empty($_POST['newEmail']) AND $_POST['newEmail'] != $userinfo['Email']) {
             $newEmail = htmlspecialchars($_POST['newEmail']);
             $insertEmail = $bdd->prepare("UPDATE persons SET Email = ? WHERE Personid = ?");
             $insertEmail->execute(array($newEmail, $_SESSION['Personid']));
@@ -146,16 +146,15 @@ session_start();
 
                             <div class="mt-3 text-md-left text-center d-sm-flex">
                                 <div>
-                                <input type="file" name="avatar">
-                                <img src="../images/client/05.jpg" class="avatar float-md-left avatar-medium rounded-pill shadow mr-md-4" alt="">
+                                    <label>Photo Profile</label>
+                                     <img src="<?php echo $userinfo['img'];?>" class="avatar float-md-left avatar-medium rounded-pill shadow mr-md-4" alt="" />
                                 </div>
                                 
                                 
                                 <div class="mt-md-4 mt-3 mt-sm-0 width">
-                                    <a href="javascript:void(0)" class="btn btn-primary mt-2">Change Picture</a>
-                                    <!-- <input name="delete" class="btn btn-danger mt-2 ml-2" value="Delete"> -->
+                                    
                                     <a href="deleteProfile.php?Personid=<?=$_SESSION['Personid']?>" class="btn btn-danger mt-2 ml-2">Delete</a>
-                                    <a href="profilValider.php" class="btn btn-dark mt-2"><i class="fas fa-undo-alt"></i></i>return</a>
+                                    <a href="profilValider.php?Personid=<?=$_SESSION['Personid']?>" class="btn btn-dark mt-2"><i class="fas fa-undo-alt"></i></i>return</a>
                                 </div>
                             </div>
 

@@ -23,6 +23,7 @@ catch (Exception $e)
                 $_SESSION['FirstName'] = $userinfo['FirstName'];
                 $_SESSION['LastName'] = $userinfo['LastName'];
                 $_SESSION['Email'] = $userinfo['Email'];
+                $_SESSION['img'] = $userinfo['img'];
                 header("Location: profilValider.php?Personid=".$_SESSION['Personid']);
             } else {
                 $erreur = "Mauvais mail ou mot de passe !";

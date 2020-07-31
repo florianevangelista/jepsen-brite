@@ -40,13 +40,13 @@ catch (Exception $e)
 
     <head>
         <meta charset="utf-8" />
-        <title>Landrick - Saas & Software Landing Page Template</title>
+        <title>Jepsen-Brite</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta name="description" content="Premium Bootstrap 4 Landing Page Template" />
         <meta name="keywords" content="bootstrap 4, premium, marketing, multipurpose" />
         <meta content="Shreethemes" name="author" />
         <!-- favicon -->
-        <link rel="shortcut icon" href="../images/favicon.ico">
+        <link rel="shortcut icon" href="../images/favicon.png">
         <!-- Bootstrap -->
         <link href="../css/bootstrap.min.css" rel="stylesheet" type="text/css" />
         <!-- Icons -->

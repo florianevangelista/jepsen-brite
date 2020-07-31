@@ -313,7 +313,7 @@ INNER JOIN persons p ON c.person_id = p.Personid ORDER BY id DESC");
 
                     while ($row = $CommentairesTable->fetch(PDO::FETCH_ASSOC)) {?>              
                             <div class="customer-testi mr-2 ml-2 text-center p-4 rounded border">
-                                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcSU9M7jcv6itu1s10N-TzVLojb3rsmCN699JQ&usqp=CAU" style="height: 100px;width:100px;margin: 0 auto; border-radius:50%;"><br>
+                                <img src="<?php if (!empty($row['img'])) {echo $row['img'];} else { echo 'https://res.cloudinary.com/apilama/image/fetch/f_auto,c_thumb,q_auto,w_300,h_300/https://s3-us-west-2.amazonaws.com/orfium-public/images/profiles/c88175d44b894f3183ed5c7ce816b907.jpg';}?>" style="height: 100px;width:100px;margin: 0 auto; border-radius:50%;"><br>
                                 <h6 style="color:#777;"><?php echo $row['LastName'] . " " . $row['FirstName'];?></h6>
                                 <p class="text-muted mt-4">" <?php echo $row['comment'];?> "</p><br>
                                 <h6 class="text-primary">- <?php echo $row['Title']?></h6>

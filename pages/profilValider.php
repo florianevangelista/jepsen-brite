@@ -111,7 +111,7 @@ session_start();
                             <h5 class="text-md-left text-center">Personal Detail :</h5>
 
                             <div class="mt-3 text-md-left text-center d-sm-flex">
-                                <img src="../images/client/05.jpg" class="avatar float-md-left avatar-medium rounded-pill shadow mr-md-4" alt="">
+                                <img src="<?php echo $userinfo['img'];?>" class="avatar float-md-left avatar-medium rounded-pill shadow mr-md-4" alt="" />
                                 
                                 <div class="mt-md-4 mt-3 mt-sm-0" id="iconPageProfile">
                                     <a href="profilValideEdit.php" class="rounded-pill bg-dark"><i class="mdi mdi-tools" title="Edit Profile"></i>Edit Profile</a>

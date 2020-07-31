@@ -4,7 +4,7 @@ session_start();
 
 try
 {
-    $bdd = new PDO("mysql:host=zpfp07ebhm2zgmrm.chr7pe7iynqr.eu-west-1.rds.amazonaws.com;dbname=iaj0d3bfcqdzn9jm", 'pec75srf9evxqr4q', 'vaaj2gywif3r1p6h', array(PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION));
+    $bdd = new PDO('mysql:host=localhost;dbname=event_manager;charset=utf8', 'root', '', array(PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION));
 }
 catch (Exception $e)
 {
@@ -32,10 +32,8 @@ $confirmationMdp = sha1($_POST['confirmationMdp']);
                     $mailexist = $reqmail->rowCount();
                         if($mailexist == 0) {
                             if($Mdp == $confirmationMdp) {
-                                $query = "INSERT INTO persons(LastName, FirstName, img, Email, Mdp) VALUES (?, ?, ?, ?, ?)";
-                                 $img = 'https://www.gravatar.com/avatar/'.md5( strtolower( trim( $Email ) ) );
-                                 $insertmbr = $bdd->prepare($query);
-                                 $insertmbr->execute(array($LastName, $FirstName, $img, $Email, $Mdp));
+                                $insertmbr = $bdd->prepare("INSERT INTO persons(FirstName, LastName, Email, Mdp) VALUES(?, ?, ?, ?)");
+                                $insertmbr->execute(array($FirstName, $LastName, $Email, $Mdp));
                                 $_SESSION ['validatonCompte'] = "Votre compte a bien été créé ! <a href=\"connexion.php\">Me connecter</a>";
                                 $_SESSION['Email'] = $Email;
                                 header('location: mail.php');

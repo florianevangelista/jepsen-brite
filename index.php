@@ -103,7 +103,7 @@ $Parsedown = new Parsedown();
 
 <?php 
 
-$bdd = new PDO("mysql:host=localhost;dbname=event_manager;charset=utf8", "root", "");
+$bdd = new PDO("mysql:host=zpfp07ebhm2zgmrm.chr7pe7iynqr.eu-west-1.rds.amazonaws.com;dbname=jmgevcvn8tc1r1u3", 'ppitvzphdz3rrjs4', 'rcsmt0yc25rgs1zj', array(PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION));
 
 
 if (isset($_POST['category'])) { $ChosenCategory = $_POST['category'];}
@@ -132,13 +132,13 @@ $FirstEvent = $bdd->query("$FilteredRequest LIMIT 1");
             <ul class="slides"> 
 
 <?php if ($row['Category'] == 'concert') {?>
-                <li class="bg-slider" style="background-image:url('https://images.squarespace-cdn.com/content/v1/582f3087bebafb4bb040d3db/1498065635934-2W5ZHWFHTF3EYHBZB3T3/ke17ZwdGBToddI8pDm48kDqh_cQocK8JBSHUbTtZS4V7gQa3H78H3Y0txjaiv_0fDoOvxcdMmMKkDsyUqMSsMWxHk725yiiHCCLfrh8O1z4YTzHvnKhyp6Da-NYroOW3ZGjoBKy3azqku80C789l0mhydAgiKdIfeAoxVgE7c7otVu-iuppiBK0j_Ge_g7ihEgP-6XovtMB7o2cl57mPDg/EBYPR6.jpg?format=1500w')">
+                <li class="bg-slider" style="background-image:url('https://limonadier.net/wp-content/uploads/2015/03/concert.jpg')">
 <?php } else if ($row['Category'] == 'festival') {?>
                 <li class="bg-slider" style="background-image:url('https://www.amfiweb.net/wp-content/uploads/2016/12/holi-feast-3.jpg')">
 <?php } else if ($row['Category'] == 'conference') {?>
                 <li class="bg-slider" style="background-image:url('https://t3.llb.be/lGCL3jeaeO602SxR0e_wCTpwQTA=/0x45:2560x1325/1920x960/5e80e9587b50a6162bdd4e6b.jpg')">
 <?php } else if ($row['Category'] == 'exhibition') {?>
-                    <li class="bg-slider" style="background-image:url('https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcSS-xWBNyDFDacCOek2SenzzcjoggPVMhiROQ&usqp=CAU')">
+                    <li class="bg-slider" style="background-image:url('https://cdn.zabludowiczcollection.com/exhibitions-events/_fullRectangular/Rachel-Rossin_Stalking-the-Trace.jpg?mtime=20190626154404&focal=none&tmtime=20191203205628')">
 <?php } ?>
           
 
@@ -210,7 +210,7 @@ $EventsTable = $bdd->query("$FilteredRequest");
                         <div class="col-lg-4 col-md-6 col-12 mt-4 pt-2">
                         <div class="courses-desc position-relative overflow-hidden rounded border">
                             <div class="position-relative d-block overflow-hidden">
-                                <img src="https://d22ir9aoo7cbf6.cloudfront.net/wp-content/uploads/sites/2/2016/06/Atlantis-04.jpg" class="img-fluid rounded-top mx-auto" alt="">
+                                <img src="<?php echo $row["Img"];?>" class="img-fluid rounded-top mx-auto" alt="">
                             </div>
                             <div class="content p-3"><br>
                                 <h5><a href="javascript:void(0)" class="title text-dark"></a></h5>
@@ -221,14 +221,20 @@ $EventsTable = $bdd->query("$FilteredRequest");
                                         <li><i class="mdi mdi-city text-muted"></i> <?php echo $row["Category"] . '<br>';?></li><br>
                                         <li><i class="mdi mdi-message-text-outline"></i> <?php echo $row["Dsc"] . '<br>';?></li><br>
                                         <li><i class="mdi mdi-account-box-outline"></i> <?php echo $row["FirstName"] . " " . $row["LastName"] .'<br>';?></li><br>
-                                        <?php if (isset($_SESSION['FirstName'])) {
+                                        <?php if (!empty($_SESSION['Personid'])) {
+                                           if ($_SESSION['Personid'] == $row['Personid']) {
 
                                             echo '<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalCenter'. $row["EventId"] . '">
+                                            Inserer un commentaire </button><br><br>' . '<button type="button" class="btn btn-outline-primary" data-toggle="modal" data-target="#exampleModalCenter-modify-'. $row["EventId"] . '">
+                                            Modifier l\'evenement </button><br><br>';
+                                        } else if ($_SESSION['Personid'] !== $row['Personid']) {
+                                            echo '<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalCenter'. $row["EventId"] . '">
                                             Inserer un commentaire </button><br><br>';
+                                        } 
                                         }  else {
                                             echo '<button type="button" class="btn btn-primary" data-toggle="modal" href="pages/page-login.php" >
                                             <a style="text-decoration:none;color: white;" href="pages/page-login.php">Se connecter pour commenter</a></button><br><br>';
-                                        } ?>                                   
+                                    }?>                                   
                                        </li>
                                     </ul> 
                                 </div>
@@ -269,6 +275,54 @@ $EventsTable = $bdd->query("$FilteredRequest");
                         </div>
                       </div>
                     </div>
+
+
+                    <!-- Modify  -->
+                    <div class="modal fade" id="exampleModalCenter-modify-<?php echo $row['EventId'];?>" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                      <div class="modal-dialog modal-dialog-centered" role="document">
+                        <div class="modal-content">
+                          <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLongTitle">Modification de l'evenement</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                              <span aria-hidden="true">&times;</span>
+                            </button>
+                          </div>
+                          <div>
+                            <form action="pages/modify-event.php" method="POST" style="display:flex;margin: 3vh; flex-direction:column;align-items:center; justify-content: space-around;">
+                                
+                                    <input style="display: none;" type="text" class="form-control" value="<?php echo $row['EventId']?>" placeholder="Nom de l'évenenement" name="modify-eventid">
+
+                                    <label for="formGroupExampleInput">Titre de l'évenenement</label>
+                                    <input type="text" class="form-control" id="formGroupExampleInput" value="<?php echo $row['Title']?>" placeholder="Nom de l'évenenement" name="modify-title"><br>
+
+                                    <label for="formGroupExampleInput">Categorie (non modifiable)</label>
+                                    <input type="text" class="form-control" id="formGroupExampleInput" disabled value="<?php echo $row['Category']?>" placeholder="Nom de l'évenenement" name="modify-category"><br>                               
+                               
+                                    <label for="start">Start date:</label>
+                                    <div style="display: flex;">
+                                    <input type="date" id="start" name="modify-dt" value="<?php echo $row['dt']?>" required>
+                                    <input type="time" id="startTime" name="modify-hr" value="<?php echo $row['hr']?>" required>
+                                    </div><br>
+                               
+                                    <label for="imageUrl">Choisissez une image</label>
+                                    <input type="text" class="form-control" id="imageUrl" value="<?php echo $row['Img']?>" placeholder="URL de l'image" name="modify-img" required><br>
+                                
+                                    <label for="validationTextarea">Description</label>
+                                    <textarea class="form-control" id="validationTextarea" placeholder="écrivez ici" name="modify-dsc" required><?php echo $row['Dsc']?></textarea><br>
+                                
+                          
+                                <div class="modal-footer">
+                                    <input type="submit" class="btn btn-primary" value="Modifier" ></input>
+                                    <a onclick="return confirm('voulez-vous vraiment supprimer l\'evenement?'" href="pages/delete-event.php?do=delete&EventId=<?php echo $row['EventId']?>" class="btn btn-danger" role="button"  >Supprimer</a>
+                                </div>
+
+                             </form>
+                            </div>
+                        </div>
+                      </div>
+                    </div>
+
+
                 <?php }
 
 
@@ -325,8 +379,51 @@ INNER JOIN persons p ON c.person_id = p.Personid ORDER BY id DESC");
             </div>
         </section>
 
+        <!-- Footer Start -->
+        <footer class="footer">
+            <div class="container">
+                <div class="row d-flex justify-content-around">
+                    <div class="col-lg-4 col-12 mb-0 mb-md-4 pb-0 pb-md-2">
+                        <a class="logo-footer" href="../index.php">Jepsen-brite<span class="text-primary">.</span></a>
+                        <p class="mt-4">Start working with Jepsen-brite.</p>
+                        <ul class="list-unstyled social-icon social mb-0 mt-4">
+                            <li class="list-inline-item"><a href="javascript:void(0)" class="rounded"><i class="mdi mdi-facebook" title="Facebook"></i></a></li>
+                            <li class="list-inline-item"><a href="javascript:void(0)" class="rounded"><i class="mdi mdi-instagram" title="Instagram"></i></a></li>
+                            <li class="list-inline-item"><a href="javascript:void(0)" class="rounded"><i class="mdi mdi-twitter" title="Twitter"></i></a></li>
+                        </ul><!--end icon-->
+                    </div><!--end col-->
+                    
+                    <div class="col-lg-2 col-md-4 col-12 mt-4 mt-sm-0 pt-2 pt-sm-0">
+                        <h4 class="text-light footer-head">Quick link</h4>
+                        <ul class="list-unstyled footer-list mt-4">
+                            <li><a href="pages/page-creatEvent.php" class="text-foot"><i class="mdi mdi-chevron-right mr-1"></i>Event</a></li>
+                            <li><a href="pages/page-login.php" class="text-foot"><i class="mdi mdi-chevron-right mr-1"></i>Login</a></li>
+                            <li><a href="pages/page-signup.php" class="text-foot"><i class="mdi mdi-chevron-right mr-1"></i>Signup</a></li>
+                            <li><a href="pages/profilValider.php" class="text-foot"><i class="mdi mdi-chevron-right mr-1"></i>Profil</a></li>
+                        </ul>
+                    </div><!--end col-->
 
-        <?php include 'pages/footer.php';?>
+                    <div class="col-lg-3 col-md-4 col-12 mt-4 mt-sm-0 pt-2 pt-sm-0">
+                        <h4 class="text-light footer-head">Newsletter</h4>
+                        <p class="mt-4">Sign up and receive the latest tips via email.</p>
+                        <form>
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <div class="foot-subscribe form-group position-relative">
+                                        <label>Write your email <span class="text-danger">*</span></label>
+                                        <i class="mdi mdi-email ml-3 icons"></i>
+                                        <input type="email" name="email" id="emailsubscribe" class="form-control pl-5 rounded" placeholder="Your email : " required>
+                                    </div>
+                                </div>
+                                <div class="col-lg-12">
+                                    <input type="submit" id="submitsubscribe" name="send" class="btn btn-primary rounded w-100" value="Subscribe">
+                                </div>
+                            </div>
+                        </form>
+                    </div><!--end col-->
+                </div><!--end row-->
+            </div><!--end container-->
+        </footer><!--end footer-->
 
         <!-- javascript -->
         <script src="js/jquery.min.js"></script>

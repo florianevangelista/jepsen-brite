@@ -1,8 +1,14 @@
 <?php
 
+session_start();
+
 try
 {
+<<<<<<< HEAD
     $bdd = new PDO('mysql:host=localhost;dbname=event_manager;charset=utf8', 'root', '', array(PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION));
+=======
+    $bdd = new PDO("mysql:host=zpfp07ebhm2zgmrm.chr7pe7iynqr.eu-west-1.rds.amazonaws.com;dbname=jmgevcvn8tc1r1u3", 'ppitvzphdz3rrjs4', 'rcsmt0yc25rgs1zj', array(PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION));
+>>>>>>> master
 }
 catch (Exception $e)
 {
@@ -16,6 +22,7 @@ $Email=htmlspecialchars($_POST['Email']);
 $Mdp = sha1($_POST['Mdp']);
 $confirmationMdp = sha1($_POST['confirmationMdp']);
 
+// on verifie que les cases ne sont pas vide
 
     if(!empty($_POST['FirstName']) AND !empty($_POST['LastName']) AND !empty($_POST['Email']) AND !empty($_POST['Mdp']) AND !empty($_POST['confirmationMdp'])){
        
@@ -29,12 +36,11 @@ $confirmationMdp = sha1($_POST['confirmationMdp']);
                     $mailexist = $reqmail->rowCount();
                         if($mailexist == 0) {
                             if($Mdp == $confirmationMdp) {
-                                $query = "INSERT INTO persons(FirstName, LastName, Email, Mdp, img) VALUES (?, ?, ?, ?, ?)";
-                                $img = 'https://www.gravatar.com/avatar/'.md5( strtolower( trim( $Email ) ) );
-                                $insertmbr = $bdd->prepare($query);
-                                $insertmbr->execute(array($FirstName, $LastName, $Email, $Mdp, $img));
+                                $insertmbr = $bdd->prepare("INSERT INTO persons(FirstName, LastName, Email, Mdp) VALUES(?, ?, ?, ?)");
+                                $insertmbr->execute(array($FirstName, $LastName, $Email, $Mdp));
                                 $_SESSION ['validatonCompte'] = "Votre compte a bien été créé ! <a href=\"connexion.php\">Me connecter</a>";
-                                header("Location: page-login.php");
+                                $_SESSION['Email'] = $Email;
+                                header('location: mail.php');
                             } else {
                                 $erreur = "Vos mots de passes ne correspondent pas !";
                             }
@@ -59,13 +65,13 @@ $confirmationMdp = sha1($_POST['confirmationMdp']);
 
     <head>
         <meta charset="utf-8" />
-        <title>Jepsen-Brite</title>
+        <title>Landrick - Saas & Software Landing Page Template</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta name="description" content="Premium Bootstrap 4 Landing Page Template" />
         <meta name="keywords" content="bootstrap 4, premium, marketing, multipurpose" />
         <meta content="Shreethemes" name="author" />
         <!-- favicon -->
-        <link rel="shortcut icon" href="../../images/favicon.ico">
+        <link rel="shortcut icon" href="../images/favicon.ico">
         <!-- Bootstrap -->
         <link href="../css/bootstrap.min.css" rel="stylesheet" type="text/css" />
         <!-- Icons -->

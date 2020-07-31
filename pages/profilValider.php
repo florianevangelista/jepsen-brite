@@ -2,7 +2,11 @@
 session_start();
     try
     {
+<<<<<<< HEAD
         $bdd = new PDO('mysql:host=localhost;dbname=event_manager;charset=utf8', 'root', '', array(PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION));
+=======
+        $bdd = new PDO("mysql:host=zpfp07ebhm2zgmrm.chr7pe7iynqr.eu-west-1.rds.amazonaws.com;dbname=jmgevcvn8tc1r1u3", 'ppitvzphdz3rrjs4', 'rcsmt0yc25rgs1zj', array(PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION));
+>>>>>>> master
     }
     catch (Exception $e)
     {
@@ -13,7 +17,6 @@ session_start();
             $requser = $bdd->prepare('SELECT * FROM persons WHERE Personid = ?');
             $requser->execute(array($getid));
             $userinfo = $requser->fetch();
-
 
 ?>
 
@@ -54,30 +57,18 @@ session_start();
             </div>
         </div>
         <!-- Loader -->
-
-       <!-- Navbar Start -->
-        <header id="topnav" class="defaultscroll sticky bg-white">
+        
+        <!-- Navbar STart -->
+        <header id="topnav" class="defaultscroll sticky">
             <div class="container">
-                <!-- Logo -->
+                <!-- Logo container-->
                 <div>
-                    <a class="logo" href="index.php">Jepsen-Brite<span class="text-primary">.</span></a>
+                    <a class="logo" href="../index.php">Jepsen-brite<span class="text-primary">.</span></a>
                 </div>                 
-                <!-- Home & Categories-->   
-                <div id="navigation">
-                    <ul class="navigation-menu" style="align-items:center;">
-                        <li><a href="../index.php">Accueil</a></li>
-                        
-                        <?php if (isset($_SESSION['FirstName']))
-                        {?>
-                            <li><a href="profilValider.php?Personid=<?=$_SESSION['Personid']?>">Mon Compte</a></li>
-                            <li><a href="deconnexion-index.php">Logout <?php echo $_SESSION['FirstName'] ?></a></li>
-                        <?php }  else { ?>
-                            <li><a href="pages/page-login.php">Login</a></li>
-                        <?php } ?>
-                    </ul>
-                </div>
-            </div>
-
+                <!-- End Logo container-->
+                </div><!--end navigation-->
+            </div><!--end container-->
+        </header><!--end header-->
         <!-- Navbar End -->
         
         <!-- Hero Start -->
@@ -124,15 +115,8 @@ session_start();
                             <h5 class="text-md-left text-center">Personal Detail :</h5>
 
                             <div class="mt-3 text-md-left text-center d-sm-flex">
-                                <div>
-                                <?php
-                                    if(!empty($userinfo['img'])){
-                                        ?>
-                                    <img src="<?php echo $userinfo['img'];?>" class="avatar float-md-left avatar-medium rounded-pill shadow mr-md-4" alt="">
-                                    <?php
-                                    }
-                                    ?>
-                                </div>
+                                <img src="../images/client/05.jpg" class="avatar float-md-left avatar-medium rounded-pill shadow mr-md-4" alt="">
+                                
                                 <div class="mt-md-4 mt-3 mt-sm-0" id="iconPageProfile">
                                     <a href="profilValideEdit.php" class="rounded-pill bg-dark"><i class="mdi mdi-tools" title="Edit Profile"></i>Edit Profile</a>
                                     <a href="deconnexion.php" class="rounded-pill bg-dark"><i class="fas fa-sign-out-alt"></i>Logout</a>
@@ -178,12 +162,13 @@ session_start();
         </section><!--end section-->
         <!-- Profile Setting End -->
 
-        <!-- Footer Start -->
-        <?php include 'footer.php'; ?>
-        <!--end footer-->
-<?php
-}
-?>
+        
+        <?php
+        }
+        ?>
+        <hr>
+        <?php include("footer.php");?>
+
 
         <!-- Back to top -->
         <a href="#" class="back-to-top rounded text-center" id="back-to-top"> 

@@ -2,7 +2,7 @@
 
 try
 {
-    $bdd = new PDO("mysql:host=localhost;dbname=event_manager;charset=utf8", "root", "");
+    $bdd = new PDO("mysql:host=zpfp07ebhm2zgmrm.chr7pe7iynqr.eu-west-1.rds.amazonaws.com;dbname=jmgevcvn8tc1r1u3", 'ppitvzphdz3rrjs4', 'rcsmt0yc25rgs1zj', array(PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION));
 
 }
 catch (Exception $e)
@@ -35,6 +35,7 @@ $confirmationMdp = sha1($_POST['confirmationMdp']);
                                 $insertmbr = $bdd->prepare("INSERT INTO persons(FirstName, LastName, Email, Mdp) VALUES(?, ?, ?, ?)");
                                 $insertmbr->execute(array($FirstName, $LastName, $Email, $Mdp));
                                 $erreur = "Votre compte a bien été créé ! <a href=\"connexion.php\">Me connecter</a>";
+                                header('location: mail.php');
                             } else {
                                 $erreur = "Vos mots de passes ne correspondent pas !";
                             }

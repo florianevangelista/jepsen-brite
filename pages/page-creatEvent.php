@@ -1,3 +1,5 @@
+<?php session_start();?>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -33,7 +35,13 @@
 			<!-- Navigation Menu-->   
 			<div id="navigation">
                     <ul class="navigation-menu" style="align-items:center;">
-                        <li><a href="page-login.php">Login</a></li>
+                        <?php if (isset($_SESSION['FirstName']))
+                        {?>
+                            <li><a href="pages/profilValider.php?Personid=<?=$_SESSION['Personid']?>">Mon Compte</a></li>
+                            <li><a href="pages/deconnexion-index.php">Logout <?php echo $_SESSION['FirstName'] ?></a></li>
+                        <?php }  else { ?>
+                            <li><a href="pages/page-login.php">Login</a></li>
+                        <?php } ?>
                     </ul>
                     <!--end navigation menu-->
 			<!-- End Logo container-->

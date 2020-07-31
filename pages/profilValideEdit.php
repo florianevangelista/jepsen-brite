@@ -1,15 +1,15 @@
-?php
+<?php
 session_start();
     try
     {
-        $bdd = new PDO("mysql:host=localhost;dbname=event_manager;charset=utf8", "root", "root");
+        $bdd = new PDO("mysql:host=localhost;dbname=event_manager;charset=utf8", "root", "");
 
     }
     catch (Exception $e)
     {
         die('Erreur : ' . $e->getMessage());
     }
-
+         
 
     if (isset($_SESSION['Personid'])) {
 
@@ -17,19 +17,19 @@ session_start();
         $requser->execute(array($_SESSION['Personid']));
         $userinfo = $requser->fetch();
         
-        if(isset($_POST['newFirstName']) AND !empty($_POST['newFirstName']) AND $_POST['newFirstName'] != $userinfo['FirstName']) {
+        if(isset($_POST['newFirstName']) AND !empty($_POST['newFirstName']) AND $_POST['newFirstName'] != $user['FirstName']) {
             $newFirstName = htmlspecialchars($_POST['newFirstName']);
             $insertFirstName = $bdd->prepare("UPDATE persons SET FirstName = ? WHERE Personid = ?");
             $insertFirstName->execute(array($newFirstName, $_SESSION['Personid']));
             header('Location: profilValider.php?Personid='.$_SESSION['Personid']);
         }
-        if(isset($_POST['newLastName']) AND !empty($_POST['newLastName']) AND $_POST['newLastName'] != $userinfo['LastName']) {
+        if(isset($_POST['newLastName']) AND !empty($_POST['newLastName']) AND $_POST['newLastName'] != $user['LastName']) {
             $newLastName = htmlspecialchars($_POST['newLastName']);
             $insertLastName = $bdd->prepare("UPDATE persons SET LastName = ? WHERE Personid = ?");
             $insertLastName->execute(array($newLastName, $_SESSION['Personid']));
             header('Location: profilValider.php?Personid='.$_SESSION['Personid']);
         }
-        if(isset($_POST['newEmail']) AND !empty($_POST['newEmail']) AND $_POST['newEmail'] != $userinfo['Email']) {
+        if(isset($_POST['newEmail']) AND !empty($_POST['newEmail']) AND $_POST['newEmail'] != $user['Email']) {
             $newEmail = htmlspecialchars($_POST['newEmail']);
             $insertEmail = $bdd->prepare("UPDATE persons SET Email = ? WHERE Personid = ?");
             $insertEmail->execute(array($newEmail, $_SESSION['Personid']));
@@ -46,7 +46,6 @@ session_start();
                     $msg = "Vos mots de passe ne correspondent pas !";
                 }
         }
-
 
 ?>
 
@@ -88,30 +87,18 @@ session_start();
             </div>
         </div>
         <!-- Loader -->
-
-        <!-- Navbar Start -->
-        <header id="topnav" class="defaultscroll sticky bg-white">
+        
+        <!-- Navbar STart -->
+        <header id="topnav" class="defaultscroll sticky">
             <div class="container">
-                <!-- Logo -->
+                <!-- Logo container-->
                 <div>
-                    <a class="logo" href="index.php">Jepsen-Brite<span class="text-primary">.</span></a>
+                    <a class="logo" href="../index.php">Jepsen-brite<span class="text-primary">.</span></a>
                 </div>                 
-                <!-- Home & Categories-->   
-                 <div id="navigation">
-                    <ul class="navigation-menu" style="align-items:center;">
-                        <li><a href="../index.php">Accueil</a></li>
-                        
-                        <?php if (isset($_SESSION['FirstName']))
-                        {?>
-                            <li><a href="profilValider.php?Personid=<?=$_SESSION['Personid']?>">Mon Compte</a></li>
-                            <li><a href="deconnexion-index.php">Logout <?php echo $_SESSION['FirstName'] ?></a></li>
-                        <?php }  else { ?>
-                            <li><a href="pages/page-login.php">Login</a></li>
-                        <?php } ?>
-                    </ul>
-                </div>
-            </div>
-        </header>
+                <!-- End Logo container-->
+                </div><!--end navigation-->
+            </div><!--end container-->
+        </header><!--end header-->
         <!-- Navbar End -->
         
         <!-- Hero Start -->
@@ -159,14 +146,16 @@ session_start();
 
                             <div class="mt-3 text-md-left text-center d-sm-flex">
                                 <div>
-                                    <label>Photo Profile</label>
-                                    <img src="<?php echo $userinfo['img'];?>" class="avatar float-md-left avatar-medium rounded-pill shadow mr-md-4" alt="" />
+                                <input type="file" name="avatar">
+                                <img src="../images/client/05.jpg" class="avatar float-md-left avatar-medium rounded-pill shadow mr-md-4" alt="">
                                 </div>
                                 
                                 
                                 <div class="mt-md-4 mt-3 mt-sm-0 width">
+                                    <a href="javascript:void(0)" class="btn btn-primary mt-2">Change Picture</a>
+                                    <!-- <input name="delete" class="btn btn-danger mt-2 ml-2" value="Delete"> -->
                                     <a href="deleteProfile.php?Personid=<?=$_SESSION['Personid']?>" class="btn btn-danger mt-2 ml-2">Delete</a>
-                                    <a href="profilValider.php?Personid=<?=$_SESSION['Personid']?>" class="btn btn-dark mt-2"><i class="fas fa-undo-alt"></i></i>return</a>
+                                    <a href="profilValider.php" class="btn btn-dark mt-2"><i class="fas fa-undo-alt"></i></i>return</a>
                                 </div>
                             </div>
 
@@ -242,9 +231,7 @@ session_start();
         </section><!--end section-->
         <!-- Profile Setting End -->
 
-        <!-- Footer Start -->
-       <?php include 'footer.php'; ?>
-        <!-- Footer End -->
+        <?php include("footer.php");?>
 
         <!-- Back to top -->
         <a href="#" class="back-to-top rounded text-center" id="back-to-top"> 

@@ -63,11 +63,11 @@
 					<input type="date" id="start" name="start-event"
 					value=""
 					min="2020-01-01" max="2022-12-31">
-					<input type="time" id="startTime" name="startTime" min="17:00" max="00:00" required>
+					<input type="time" id="startTime" name="startTime" required>
 				</div>
 				<div class="form-group">
 					<label for="imageUrl">Choisissez une image</label>
-					<input type="text" class="form-control" id="imageUrl" placeholder="URL de l'image" name="image">
+					<input type="text" class="form-control" id="imageUrl" placeholder="URL de l'image" name="image" required>
 				</div>
 				<div class="form-group">
 					<label for="validationTextarea">Description</label>
@@ -88,41 +88,5 @@
 	</section>
 
 	<?php include("footer.php");?>
-
-<!-- <h2>Vos évenements</h2>
-	<div class="container">
-  		<div class="row">
-    		<div class="col-sm">
-      			<div class="card" style="width: 18rem;">
-  					<img src="https://www.bapteme.fr/media/catalog/product/cache/2/image/9df78eab33525d08d6e5fb8d27136e95/2/5/2575001_copier__2.jpg" class="card-img-top" alt="...">
-  					<div class="card-body">
-	    				<h5 class="card-title">Card title</h5>
-	    				<p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-	    				<a href="#" class="btn btn-primary">Go somewhere</a>
-  					</div>
-				</div>
-    		</div>
-    		<div class="col-sm">
-      			<div class="card" style="width: 18rem;">
-  					<img src="https://www.bapteme.fr/media/catalog/product/cache/2/image/9df78eab33525d08d6e5fb8d27136e95/2/5/2575001_copier__2.jpg" class="card-img-top" alt="...">
-  					<div class="card-body">
-	    				<h5 class="card-title">Card title</h5>
-	    				<p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-	    				<a href="#" class="btn btn-primary">Go somewhere</a>
-  					</div>
-				</div>
-    		</div>
-    		<div class="col-sm">
-      			<div class="card" style="width: 18rem;">
-  					<img src="https://www.bapteme.fr/media/catalog/product/cache/2/image/9df78eab33525d08d6e5fb8d27136e95/2/5/2575001_copier__2.jpg" class="card-img-top" alt="...">
-  					<div class="card-body">
-	    				<h5 class="card-title">Card title</h5>
-	    				<p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-	    				<a href="#" class="btn btn-primary">Go somewhere</a>
-  					</div>
-				</div>
-    		</div>
-  		</div>
-	</div> -->
 </body>
 </html>

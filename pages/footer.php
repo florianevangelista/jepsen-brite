@@ -15,10 +15,10 @@
 				<div class="col-lg-2 col-md-4 col-12 mt-4 mt-sm-0 pt-2 pt-sm-0">
 					<h4 class="text-light footer-head">Quick link</h4>
 					<ul class="list-unstyled footer-list mt-4">
-						<li><a href="page-aboutus.html" class="text-foot"><i class="mdi mdi-chevron-right mr-1"></i>Event</a></li>
-						<li><a href="page-services.html" class="text-foot"><i class="mdi mdi-chevron-right mr-1"></i>Login</a></li>
-						<li><a href="page-team.html" class="text-foot"><i class="mdi mdi-chevron-right mr-1"></i>Signup</a></li>
-						<li><a href="page-pricing.html" class="text-foot"><i class="mdi mdi-chevron-right mr-1"></i>Profil</a></li>
+						<li><a href="page-creatEvent.php" class="text-foot"><i class="mdi mdi-chevron-right mr-1"></i>Event</a></li>
+						<li><a href="page-login.php" class="text-foot"><i class="mdi mdi-chevron-right mr-1"></i>Login</a></li>
+						<li><a href="page-signup.php" class="text-foot"><i class="mdi mdi-chevron-right mr-1"></i>Signup</a></li>
+						<li><a href="profilValider.php" class="text-foot"><i class="mdi mdi-chevron-right mr-1"></i>Profil</a></li>
 					</ul>
 				</div><!--end col-->
 

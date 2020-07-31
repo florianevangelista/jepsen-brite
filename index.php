@@ -90,6 +90,7 @@ $Parsedown = new Parsedown();
                             <li><a href="pages/deconnexion-index.php">Logout <?php echo $_SESSION['FirstName'] ?></a></li>
                         <?php }  else { ?>
                             <li><a href="pages/page-login.php">Login</a></li>
+                            <li><a href="pages/page-signup.php">Sign Up</a></li>
                         <?php } ?>
                     </ul>
                 </div>
@@ -130,18 +131,7 @@ $FirstEvent = $bdd->query("$FilteredRequest LIMIT 1");
         <!-- First Highlighted Event -->
         <section class="main-slider">
             <ul class="slides"> 
-
-<?php if ($row['Category'] == 'concert') {?>
-                <li class="bg-slider" style="background-image:url('https://limonadier.net/wp-content/uploads/2015/03/concert.jpg')">
-<?php } else if ($row['Category'] == 'festival') {?>
-                <li class="bg-slider" style="background-image:url('https://www.amfiweb.net/wp-content/uploads/2016/12/holi-feast-3.jpg')">
-<?php } else if ($row['Category'] == 'conference') {?>
-                <li class="bg-slider" style="background-image:url('https://t3.llb.be/lGCL3jeaeO602SxR0e_wCTpwQTA=/0x45:2560x1325/1920x960/5e80e9587b50a6162bdd4e6b.jpg')">
-<?php } else if ($row['Category'] == 'exhibition') {?>
-                    <li class="bg-slider" style="background-image:url('https://cdn.zabludowiczcollection.com/exhibitions-events/_fullRectangular/Rachel-Rossin_Stalking-the-Trace.jpg?mtime=20190626154404&focal=none&tmtime=20191203205628')">
-<?php } ?>
-          
-
+                <li class="bg-slider" style="background-image:url('<?php echo $row['Img']?>')">
                     <div class="home-center">
                         <div class="home-desc-center">
                             <div class="container">

@@ -9,9 +9,8 @@ session_start();
     {
         die('Erreur : ' . $e->getMessage());
     }
-         
 
-    if (isset($_SESSION['Personid'])) {
+if (isset($_SESSION['Personid'])) {
 
         $requser = $bdd->prepare("SELECT * FROM persons WHERE Personid = ?");
         $requser->execute(array($_SESSION['Personid']));
@@ -47,6 +46,10 @@ session_start();
                 }
         }
 
+// GRAVATAR
+$email = $userinfo['Email'];
+$size = 150;
+$grav_url = "https://www.gravatar.com/avatar/" . md5(strtolower(trim($email))) . "?d=" . "&s=" . $size;
 ?>
 
 <!DOCTYPE html>
@@ -147,14 +150,7 @@ session_start();
                             <div class="mt-3 text-md-left text-center d-sm-flex">
                                 <div>
                                     <label>Photo Profile</label>
-                                     <img src="<?php echo $userinfo['img'];?>" class="avatar float-md-left avatar-medium rounded-pill shadow mr-md-4" alt="" />
-                                </div>
-                                
-                                
-                                <div class="mt-md-4 mt-3 mt-sm-0 width">
-                                    
-                                    <a href="deleteProfile.php?Personid=<?=$_SESSION['Personid']?>" class="btn btn-danger mt-2 ml-2">Delete</a>
-                                    <a href="profilValider.php?Personid=<?=$_SESSION['Personid']?>" class="btn btn-dark mt-2"><i class="fas fa-undo-alt"></i></i>return</a>
+                                     <img src="<?php echo $grav_url; ?>" class="avatar float-md-left avatar-medium rounded-pill shadow mr-md-4" alt="" />
                                 </div>
                             </div>
 
@@ -216,8 +212,13 @@ session_start();
         
                                             <div class="col-lg-12 mt-2 mb-0">
                                                 <input type="submit" class="btn btn-primary" value="Save password">
-                                                
                                             </div> <!-- end col -->
+
+                                            <div class="col-lg-12 mt-md-4 mt-3 mt-sm-0 width">
+                                                <a href="profilValider.php?Personid=<?=$_SESSION['Personid']?>" class="btn btn-dark mt-2"><i class="fas fa-undo-alt"></i></i>cancel</a>
+                                                <a href="deleteProfile.php?Personid=<?=$_SESSION['Personid']?>" class="btn btn-danger mt-2 ml-2">Delete Profile</a>
+                                            </div>
+
                                          </div> <!--end row-->
                                  </form>
                                  <?php if(isset($msg)) { echo $msg; } ?>

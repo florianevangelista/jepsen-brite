@@ -416,22 +416,22 @@ INNER JOIN persons p ON c.person_id = p.Personid ORDER BY id DESC");
         </footer><!--end footer-->
 
         <!-- javascript -->
-        <script src="js/jquery.min.js"></script>
-        <script src="js/bootstrap.bundle.min.js"></script>
-        <script src="js/jquery.easing.min.js"></script>
-        <script src="js/scrollspy.min.js"></script>
-        <script src="js/jquery.magnific-popup.min.js"></script>
-        <script src="js/magnific.init.js"></script>
+        <script src="../js/jquery.min.js"></script>
+        <script src="../js/bootstrap.bundle.min.js"></script>
+        <script src="../js/jquery.easing.min.js"></script>
+        <script src="../js/scrollspy.min.js"></script>
+        <script src="../js/jquery.magnific-popup.min.js"></script>
+        <script src="../js/magnific.init.js"></script>
         <!-- SLIDER -->
-        <script src="js/owl.carousel.min.js "></script>
-        <script src="js/owl.init.js "></script>
+        <script src="../js/owl.carousel.min.js "></script>
+        <script src="../js/owl.init.js "></script>
         <!--FLEX SLIDER-->
-        <script src="js/jquery.flexslider-min.js"></script>
-        <script src="js/flexslider.init.js"></script>
+        <script src="../js/jquery.flexslider-min.js"></script>
+        <script src="../js/flexslider.init.js"></script>
         <!-- Counter -->
-        <script src="js/counter.init.js "></script>
+        <script src="../js/counter.init.js "></script>
         <!-- Main Js -->
-        <script src="js/app.js"></script>
+        <script src="../js/app.js"></script>
     </body>
 </html>
 

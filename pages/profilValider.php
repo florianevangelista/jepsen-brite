@@ -1,13 +1,14 @@
 <?php
 session_start();
     try
-    {
-        $bdd = new PDO("mysql:host=zpfp07ebhm2zgmrm.chr7pe7iynqr.eu-west-1.rds.amazonaws.com;dbname=iaj0d3bfcqdzn9jm", 'pec75srf9evxqr4q', 'vaaj2gywif3r1p6h', array(PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION));
-    }
+        {
+           $bdd = new PDO('mysql:host=localhost;dbname=event_manager;charset=utf8', 'root', 'root');
+        }
     catch (Exception $e)
-    {
-        die('Erreur : ' . $e->getMessage());
-    }
+        {
+                die('Erreur : ' . $e->getMessage());
+        }
+
         if(isset($_GET['Personid']) AND $_GET['Personid'] > 0) {
             $getid = intval($_GET['Personid']);
             $requser = $bdd->prepare('SELECT * FROM persons WHERE Personid = ?');

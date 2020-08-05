@@ -9,7 +9,7 @@ session_start();
             die('Erreur : ' . $e->getMessage());
     }
 
-if (isset($_SESSION['Personid'])) {
+    if (isset($_SESSION['Personid'])) {
 
         $requser = $bdd->prepare("SELECT * FROM persons WHERE Personid = ?");
         $requser->execute(array($_SESSION['Personid']));
@@ -130,7 +130,7 @@ $grav_url = "https://www.gravatar.com/avatar/" . md5(strtolower(trim($email))) .
                                 <div class="page-next-level">
                                     <h4 class="title"> Account Setting </h4>
                                     <ul class="page-next d-inline-block bg-white shadow p-2 pl-4 pr-4 rounded mb-0">
-                                        <li><a href="../index.php" class="text-uppercase font-weight-bold text-dark">Home</a></li>
+                                        <li><a href="index.html" class="text-uppercase font-weight-bold text-dark">Home</a></li>
                                         <li><a href="#" class="text-uppercase font-weight-bold text-dark">Pages</a></li> 
                                         <li><a href="#" class="text-uppercase font-weight-bold text-dark">Account</a></li>
                                     </ul>

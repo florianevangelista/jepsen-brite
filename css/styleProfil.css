@@ -9,10 +9,8 @@
 
 #iconPageProfile{
 	position: relative;
-	left: 400px;
+	left: 400px; /*ARTI: correct width from 400px to 0*/
 	width: 100%;
-	
-
 }
 
 .width{

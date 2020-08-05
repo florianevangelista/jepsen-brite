@@ -117,6 +117,7 @@ session_start();
                                 <div class="mt-md-4 mt-3 mt-sm-0" id="iconPageProfile">
                                     <a href="profilValideEdit.php" class="rounded-pill bg-dark"><i class="mdi mdi-tools" title="Edit Profile"></i>Edit Profile</a>
                                     <a href="deconnexion.php" class="rounded-pill bg-dark"><i class="fas fa-sign-out-alt"></i>Logout</a>
+                                    
                                 </div>
                             </div>
 

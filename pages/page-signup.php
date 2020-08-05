@@ -34,7 +34,7 @@ $confirmationMdp = sha1($_POST['confirmationMdp']);
                             if($Mdp == $confirmationMdp) {
                                 $insertmbr = $bdd->prepare("INSERT INTO persons(FirstName, LastName, Email, Mdp) VALUES(?, ?, ?, ?)");
                                 $insertmbr->execute(array($FirstName, $LastName, $Email, $Mdp));
-                                $_SESSION ['validatonCompte'] = "Votre compte a bien été créé ! <a href=\"connexion.php\">Me connecter</a>";
+                                
                                 $_SESSION['Email'] = $Email;
                                 header('location: mail.php');
                             } else {

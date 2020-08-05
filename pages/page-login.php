@@ -14,6 +14,7 @@ catch (Exception $e)
         $EmailConnect = htmlspecialchars($_POST['EmailConnect']);
         $MdpConnect = sha1($_POST['MdpConnect']);
         if(!empty($EmailConnect) AND !empty($MdpConnect)) {
+
             $requser = $bdd->prepare("SELECT * FROM persons WHERE Email = ? AND Mdp = ?");
             $requser->execute(array($EmailConnect, $MdpConnect));
             $userexist = $requser->rowCount();
@@ -23,8 +24,14 @@ catch (Exception $e)
                 $_SESSION['FirstName'] = $userinfo['FirstName'];
                 $_SESSION['LastName'] = $userinfo['LastName'];
                 $_SESSION['Email'] = $userinfo['Email'];
-                $_SESSION['img'] = $userinfo['img'];
-                header("Location: profilValider.php?Personid=".$_SESSION['Personid']);
+                $_SESSION['userType'] = $userinfo['userType'];
+
+                if($userinfo['userType'] == 'admin') {
+                    header("Location: admin.php?Personid=".$_SESSION['Personid']);
+                }else{
+                    header("Location: profilValider.php?Personid=".$_SESSION['Personid']);
+                }
+
             } else {
                 $erreur = "Mauvais mail ou mot de passe !";
             }

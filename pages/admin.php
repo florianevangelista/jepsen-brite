@@ -1,5 +1,5 @@
 <?php
-
+session_start();
 try
 {
    $bdd = new PDO('mysql:host=localhost;dbname=event_manager;charset=utf8', 'root', 'root');
@@ -9,19 +9,41 @@ catch (Exception $e)
         die('Erreur : ' . $e->getMessage());
 }
 
-if(isset($_GET['delete']) AND !empty($_GET['delete'])) {
-      $delete = (int) $_GET['delete'];
-      $req = $bdd->prepare('DELETE FROM persons WHERE Personid = ?');
-      $req->execute(array($delete));
-   }
+if(isset($_SESSION['Personid']) AND $_SESSION['Personid'] == 6){
 
-if(isset($_GET['delete']) AND !empty($_GET['delete'])) {
-      $delete = (int) $_GET['delete'];
-      $req = $bdd->prepare('DELETE FROM comments WHERE id = ?');
-      $req->execute(array($supprime));
-   }
+    if(isset($_GET['delete']) AND !empty($_GET['delete'])) {
+          $delete = (int) $_GET['delete'];
+          $req = $bdd->prepare('DELETE FROM persons WHERE Personid = ?');
+          $req->execute(array($delete));
+       }
 
-$persons = $bdd->query('SELECT * FROM persons ORDER BY Personid DESC');
+    if(isset($_GET['delete']) AND !empty($_GET['delete'])) {
+          $delete = (int) $_GET['delete'];
+          $req = $bdd->prepare('DELETE FROM comments WHERE id = ?');
+          $req->execute(array($delete));
+       }
+
+    if(isset($_GET['delete']) AND !empty($_GET['delete'])) {
+          $delete = (int) $_GET['delete'];
+          $req = $bdd->prepare('DELETE FROM evenements WHERE EventId = ?');
+          $req->execute(array($delete));
+       }
+} 
+
+if(isset($_POST['Personid']) AND $_POST['Personid'] > 0) {
+            $getid = intval($_GET['Personid']);
+            $requser = $bdd->prepare('SELECT * FROM persons WHERE Personid = ?');
+            $requser->execute(array($getid));
+            $userinfo = $requser->fetch();
+
+        }
+// else{
+//     exit();
+// }
+
+$persons = $bdd->query('SELECT * FROM persons WHERE userType = "user" ORDER BY Personid DESC');
+$admins = $bdd->query('SELECT * FROM persons WHERE userType = "admin" ORDER BY Personid DESC');
+$events = $bdd->query('SELECT * FROM evenements ORDER BY EventId DESC');
 $comments = $bdd->query('SELECT * FROM comments ORDER BY comment DESC');
 
 ?>
@@ -63,162 +85,20 @@ $comments = $bdd->query('SELECT * FROM comments ORDER BY comment DESC');
         <!-- Loader -->
         
         <!-- Navbar STart -->
-        <header id="topnav" class="defaultscroll sticky bg-white">
+        <header id="topnav" class="defaultscroll sticky">
             <div class="container">
                 <!-- Logo container-->
                 <div>
-                    <a class="logo" href="index.html">Landrick<span class="text-primary">.</span></a>
+                    <a class="logo" href="../index.php">Jepsen-brite<span class="text-primary">.</span></a>
                 </div>                 
-                <div class="buy-button">
-                    <a href="https://1.envato.market/4n73n" target="_blank" class="btn btn-primary">Buy Now</a>
-                </div><!--end login button-->
                 <!-- End Logo container-->
-                <div class="menu-extras">
-                    <div class="menu-item">
-                        <!-- Mobile menu toggle-->
-                        <a class="navbar-toggle">
-                            <div class="lines">
-                                <span></span>
-                                <span></span>
-                                <span></span>
-                            </div>
-                        </a>
-                        <!-- End mobile menu toggle-->
-                    </div>
-                </div>
-        
-                <div id="navigation">
-                    <!-- Navigation Menu-->   
-                    <ul class="navigation-menu">
-                        <li><a href="index.html">Home</a></li>
-                        <li class="has-submenu">
-                            <a href="javascript:void(0)">Landing</a><span class="menu-arrow"></span>
-                            <ul class="submenu megamenu">
-                                <li>
-                                    <ul>
-                                        <li><a href="index-saas.html">Saas</a></li>
-                                        <li><a href="index-agency.html">Agency</a></li>
-                                        <li><a href="index-apps.html">Application</a></li>
-                                        <li><a href="index-studio.html">Studio</a></li>
-                                        <li><a href="index-business.html">Business</a></li>
-                                        <li><a href="index-modern-business.html">Modern Business</a></li>
-                                        <li><a href="index-hotel.html">Hotel</a></li>
-                                        <li><a href="index-marketing.html">Marketing</a></li>
-                                        <li><a href="index-enterprise.html">Enterprise </a></li>
-                                        <li><a href="index-coworking.html">Coworking</a></li>
-                                        <li><a href="index-cloud-hosting.html">Cloud Hosting</a></li>
-                                        <li><a href="index-event.html">Event</a></li>
-                                    </ul>
-                                </li>
-                                <li>
-                                    <ul>
-                                        <li><a href="index-course.html">Course </a></li>
-                                        <li><a href="index-personal.html">Personal </a></li>
-                                        <li><a href="index-single-product.html">Product </a></li>
-                                        <li><a href="index-portfolio.html">Portfolio </a></li>
-                                        <li><a href="index-services.html">Service </a></li>
-                                        <li><a href="index-payments.html">Payments </a></li>
-                                        <li><a href="index-crypto.html">Cryptocurrency </a></li>
-                                        <li><a href="index-software.html">Software </a></li>
-                                        <li><a href="index-job.html">Job <span class="badge badge-danger rounded"> v1.6 </span> </a></li>
-                                        <li><a href="index-customer.html">Customer <span class="badge badge-danger rounded"> v1.6 </span> </a></li>
-                                        <li><a href="index-onepage.html">Saas <span class="badge badge-warning rounded ml-2">Onepage</span></a></li>
-                                        <li><a href="index-rtl.html">RTL Version <span class="badge badge-primary rounded ml-2">RTL</span></a></li>
-                                    </ul>
-                                </li>   
-                            </ul>
-                        </li>
-        
-                        <li class="has-submenu">
-                            <a href="javascript:void(0)">Pages</a><span class="menu-arrow"></span>
-                            <ul class="submenu">
-                                <li><a href="page-aboutus.html"> About Us</a></li>
-                                <li><a href="page-services.html">Services</a></li>
-                                <li><a href="page-pricing.html">Pricing</a></li>
-                                <li><a href="page-team.html"> Team</a></li>
-                                <li class="has-submenu"><a href="javascript:void(0)"> Account <span class="badge badge-danger rounded"> v1.6 </span></a><span class="submenu-arrow"></span>
-                                    <ul class="submenu">
-                                        <li><a href="page-profile.html">Profile <span class="badge badge-primary rounded">New</span></a></li>
-                                        <li><a href="page-profile-edit.html">Account Setting <span class="badge badge-primary rounded">New</span></a></li>
-                                        <li><a href="page-invoice.html">Invoice <span class="badge badge-primary rounded">New</span></a></li>
-                                    </ul>  
-                                </li>
-                                <li class="has-submenu"><a href="javascript:void(0)"> Careers <span class="badge badge-success rounded"> Added </span></a><span class="submenu-arrow"></span>
-                                    <ul class="submenu">
-                                        <li><a href="page-jobs.html">Jobs</a></li>
-                                        <li><a href="page-job-detail.html">Job Detail</a></li>
-                                        <li><a href="page-job-apply.html">Job Apply</a></li>
-                                        <li><a href="page-job-company.html">Company <span class="badge badge-success rounded"> New </span></a></li>
-                                        <li><a href="page-job-candidate.html">Candidate <span class="badge badge-success rounded"> New </span></a></li>
-                                    </ul>  
-                                </li>
-                                <li class="has-submenu"><a href="javascript:void(0)"> Blog</a><span class="submenu-arrow"></span>
-                                    <ul class="submenu">
-                                        <li><a href="page-blog.html">Blog Grid</a></li>
-                                        <li><a href="page-blog-sidebar.html">Blog with Sidebar</a></li>
-                                        <li><a href="page-blog-detail.html">Blog Detail</a></li>
-                                    </ul>  
-                                </li>
-                                <li class="has-submenu"><a href="javascript:void(0)"> Works</a><span class="submenu-arrow"></span>
-                                    <ul class="submenu">
-                                        <li><a href="page-work.html">Works Grid</a></li>
-                                        <li><a href="page-work-detail.html">Work Detail</a></li>
-                                    </ul>  
-                                </li>
-                                <li class="has-submenu"><a href="javascript:void(0)"> User </a><span class="submenu-arrow"></span>
-                                    <ul class="submenu">
-                                        <li><a href="page-login.html">Login</a></li>
-                                        <li><a href="page-signup.html">Signup</a></li>
-                                        <li><a href="page-recovery-password.html">Recovery Password</a></li>
-                                        <li><a href="page-cover-login.html">Login 2</a></li>
-                                        <li><a href="page-cover-signup.html">Signup 2</a></li>
-                                        <li><a href="page-cover-re-password.html">Recovery Password 2</a></li>
-                                    </ul>  
-                                </li>
-                                <li class="has-submenu"><a href="javascript:void(0)"> Utility </a><span class="submenu-arrow"></span>
-                                    <ul class="submenu">
-                                        <li><a href="page-terms.html">Terms of Services</a></li>
-                                        <li><a href="page-privacy.html">Privacy Policy</a></li>
-                                    </ul>  
-                                </li>
-                                <li class="has-submenu"><a href="javascript:void(0)"> Special </a><span class="submenu-arrow"></span>
-                                    <ul class="submenu">
-                                        <li><a href="page-comingsoon.html">Coming Soon</a></li>
-                                        <li><a href="page-comingsoon2.html">Coming Soon Two </a></li>
-                                        <li><a href="page-maintenance.html">Maintenance</a></li>
-                                        <li><a href="page-error.html">Error</a></li>
-                                    </ul>
-                                </li>
-                                <li class="has-submenu"><a href="javascript:void(0)"> Contact </a><span class="submenu-arrow"></span>
-                                    <ul class="submenu">
-                                        <li><a href="page-contact-detail.html">Contact Detail </a></li>
-                                        <li><a href="page-contact-one.html">Contact One </a></li>
-                                        <li><a href="page-contact-two.html">Contact Two </a></li>
-                                        <li><a href="page-contact-three.html">Contact Three </a></li>
-                                    </ul>  
-                                </li>
-                            </ul>
-                        </li>
-                        <li class="has-submenu">
-                            <a href="javascript:void(0)">Docs</a><span class="menu-arrow"></span>
-                            <ul class="submenu">
-                                <li><a href="documentation.html">Documentation </a></li>
-                                <li><a href="changelog.html">Changelog </a></li>
-                                <li><a href="components.html">Components</a></li>
-                                <li><a href="widget.html">Widget <span class="badge badge-success rounded"> Added </span></a></li>
-                            </ul>
-                        </li>
-                    </ul><!--end navigation menu-->
-                    <div class="buy-menu-btn d-none">
-                        <a href="https://1.envato.market/4n73n" target="_blank" class="btn btn-primary">Buy Now</a>
-                    </div><!--end login button-->
                 </div><!--end navigation-->
             </div><!--end container-->
         </header><!--end header-->
         <!-- Navbar End -->
         
         <!-- Hero Start -->
-        <section class="bg-profile" style="background: url('../images/account/bg.jpg') center center;">
+        <section class="bg-profile" style="background-color: #202942; background: center center;">
             <div class="home-center">
                 <div class="home-desc-center">
                     <div class="container">
@@ -226,9 +106,7 @@ $comments = $bdd->query('SELECT * FROM comments ORDER BY comment DESC');
                             <div class="col-lg-12">
                                 <div class="public-profile position-relative p-4 bg-white overflow-hidden rounded shadow" style="z-index: 1;">
                                     <div class="row align-items-center">
-                                        <div class="col-lg-2 col-md-3 text-md-left text-center">
-                                            <img src="../images/client/05.jpg" class="avatar avatar-medium rounded-pill shadow d-block mx-auto" alt="">
-                                        </div><!--end col-->
+                    
 
                                         <div class="col-lg-10 col-md-9">
                                             <div class="row align-items-center">
@@ -252,13 +130,71 @@ $comments = $bdd->query('SELECT * FROM comments ORDER BY comment DESC');
             </div>
         </section><!--end section-->
         <!-- Hero End -->
-
+<?php
+      
+?>
         <!-- Profile Start -->
         <section class="section mt-60">
             <div class="container mt-lg-3">
                 <div class="row">
                     <div class="col-lg-4 col-md-5 col-12">
                         <div class="p-4 rounded shadow">
+        
+        
+                <div class="row justify-content-center">
+                   
+                        
+                            <h5 class="text-md-left text-center">Personal Detail :</h5>
+
+                            <div class="mt-3 text-md-left text-center d-sm-flex">
+                                <img src="<?php echo $userinfo['img'];?>" class="avatar float-md-left avatar-medium rounded-pill shadow mr-md-4" alt="" />
+                                
+                                <div class="mt-md-4 mt-3 mt-sm-0" id="iconPageProfile">
+                                    <a href="profilValideEdit.php" class="rounded-pill bg-dark"><i class="mdi mdi-tools" title="Edit Profile"></i>Edit Profile</a>
+                                    <a href="deconnexion.php" class="rounded-pill bg-dark"><i class="fas fa-sign-out-alt"></i>Logout</a>
+                                    
+                                </div>
+                            </div>
+
+                    
+                                <div class="row mt-4">
+                                    <div class="col-md-6">
+                                        <div class="form-group position-relative">
+                                            <label>First Name</label>
+                                            <div><i class="mdi mdi-account icons"></i></div>
+                                        <p class="nameUser marginUserInfo">
+                                            <?php echo $userinfo['FirstName']; ?>
+                                        </p>
+                                        
+                                        </div>
+                                    </div><!--end col-->
+                                    <div class="col-md-6">
+                                        <div class="form-group position-relative">
+                                            <label>Last Name</label>
+                                            <i class="mdi mdi-account-plus icons"></i>
+                                            <p class="lastNameUser marginUserInfo"><?php echo $userinfo['LastName']; ?></p>
+                                        </div>
+                                    </div><!--end col-->
+                                    <div class="col-md-6">
+                                        <div class="form-group position-relative">
+                                            <label>Your Email</label>
+                                            <i class="mdi mdi-email icons"></i>
+                                            <p class="mailUser marginUserInfo"><?php echo $userinfo['Email']; ?></p>
+                                        </div> 
+                                    </div><!--end col-->
+                                    <?php
+                                        if(isset($_SESSION['Personid']) AND $userinfo['Personid'] == $_SESSION['Personid']) {}
+                                    ?>
+
+                                    
+                                </div><!--end row-->
+                       
+                </div><!--end row-->
+            
+        
+        <!-- Profile Setting End -->
+
+
                             <h5 class="mt-4 pt-2">Members :</h5>
                             <div class="text-center">
                                 <a href="javascript:void(0)"><img src="../images/client/01.jpg" class="avatar avatar-small rounded-pill mt-3" data-toggle="tooltip" data-placement="top" title="Calvin" alt=""></a>
@@ -279,33 +215,167 @@ $comments = $bdd->query('SELECT * FROM comments ORDER BY comment DESC');
                             </div><!--end row-->
                         </div>
                     </div><!--end col-->
-
-                    <div class="col-lg-8 col-md-7 col-12 mt-4 mt-sm-0 pt-2 pt-sm-0">
-                        <div class="ml-lg-3">
-                            <div class="border-bottom pb-4">
-                                <h5>Gestion des Membres</h5>
-                                <ul>
+                <div class="col-lg-8 col-md-7 col-12 mt-4 mt-sm-0 pt-2 pt-sm-0">
+                    <div class="ml-lg-3">
+                        <div class="border-bottom pb-4">
+                            <div class="row">
+                                <div class="col-lg-6 mt-4">
+                                    <h5>Gestion des Membres</h5>
+                                    <ul>
                                     <?php while($user = $persons->fetch()) { ?>
                                     <li><?= $user['Personid'] ?> : <?= $user['FirstName'] ?>
-                                        <a href="admin.php?userType=user&delete=<?= $user['Personid'] ?>">Supprimer</a>
+                                        <a href="admin.php?userType=user&delete=<?= $user['Personid'] ?>">Supprimer</a> 
                                     </li>
                                     <?php } ?>
-                                </ul>
+                                    </ul>
+                                </div>
+                                <div class="col-lg-6 mt-4 pt-2 pt-sm-0">
+                                    <h5>
+                                    Gestion des Admins
+                                    </h5>
+                                    <ul>
+                                    <?php while($user = $admins->fetch()) { ?>
+                                    <li><?= $user['Personid'] ?> : <?= $user['FirstName'] ?> 
+                                        <a href="admin.php?userType=admin&delete=<?= $user['Personid'] ?>">Supprimer</a>
+                                    </li>
+                                    <?php } ?>
+                                    </ul>
+                                </div>
+                                
                             </div>
-                            
+                        </div>
+                    </div>
+
+                          
+
                             <div class="border-bottom pb-4">
-                              <h5>Gestion des commentaires</h5>
+                              <h5>Gestion des Commentaires</h5>
                               <ul> 
                                 <?php while($comment = $comments->fetch()) { ?>
-                                  <li><?= $comment['Personid'] ?> : <?= $comment['comment'] ?>
-                                    <a href="admin.php?userType=comment&delete=<?= $comment['comment'] ?>">Supprimer</a></li>
+                                  <li><?= $comment['comment'] ?>
+                                    <a href="admin.php?comment=comment&delete=<?= $comment['id'] ?>">Supprimer</a></li>
                                   <?php } ?>
                               </ul>
                               
                             </div>
 
                             <div class="border-bottom pb-4">
-                              <h5>Creer un nouvelle admin</h5>
+                              <h5>Gestion des Evenements</h5>
+                              <ul> 
+                                <?php while($event = $events->fetch()) { ?>
+                                  <li><?= $event['Title'] ?> : <?= $event['Category']?>
+                                    <a href="admin.php?event=EventId&delete=<?= $event['EventId'] ?>">Supprimer</a></li>
+                                  <?php } ?>
+                              </ul>
+                              
+                            </div>
+<?php
+    if(isset($_POST['submitSignup'])) {
+
+    $FirstName=htmlspecialchars($_POST['FirstName']);
+    $LastName=htmlspecialchars($_POST['LastName']);
+    $Email=htmlspecialchars($_POST['Email']);
+    $Mdp = sha1($_POST['Mdp']);
+    $confirmationMdp = sha1($_POST['confirmationMdp']);
+    $userType = ($_POST['userType']);
+
+    // on verifie que les cases ne sont pas vide
+
+        if(!empty($_POST['FirstName']) AND !empty($_POST['LastName']) AND !empty($_POST['Email']) AND !empty($_POST['Mdp']) AND !empty($_POST['confirmationMdp'])){
+           
+            $FirstNamelength = strlen($FirstName);
+            $LastNamelength = strlen($LastName);
+
+                if($FirstNamelength <= 255 AND $FirstNamelength <= 255) {
+                    if(filter_var($Email, FILTER_VALIDATE_EMAIL)) {
+                        $reqmail = $bdd->prepare("SELECT * FROM persons WHERE Email = ?");
+                        $reqmail->execute(array($Email));
+                        $mailexist = $reqmail->rowCount();
+                            if($mailexist == 0) {
+                                if($Mdp == $confirmationMdp) {
+                                    $insertmbr = $bdd->prepare("INSERT INTO persons(userType, FirstName, LastName, Email, Mdp) VALUES(?, ?, ?, ?, ?)");
+                                    $insertmbr->execute(array($userType, $FirstName, $LastName, $Email, $Mdp));
+                                    $_SESSION['Email'] = $Email;
+                                    $erreur = "Le compte a bien été crée"; 
+                                    echo "<meta http-equiv='refresh' content='0'>";
+                                    header('location: mail.php');
+                                } else {
+                                    $erreur = "Vos mots de passes ne correspondent pas !";
+                                }
+                            } else {
+                              $erreur = "Adresse mail déjà utilisée !";
+                           }
+                    } else {
+                           $erreur = "Votre adresse mail n'est pas valide !";
+                        }
+                
+            } else {
+                $erreur = "Votre Prenom et Nom ne doivent pas dépasser 255 caractères !";
+            }
+        } else {
+            $erreur = "Tous les champs doivent être complétés !";
+        }
+    }
+?>
+                            <div class="border-bottom pb-4">
+                              <h5>Creer d'un nouvel utilisateur</h5>
+                              <form class="login-form" action="" method="POST">
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <div class="form-group position-relative">
+                                                    <label for="FirstName">First name <span class="text-danger">*</span></label>
+                                                    <i class="mdi mdi-account ml-3 icons"></i>
+                                                    <input type="text" class="form-control pl-5" placeholder="First Name" name="FirstName" value="<?php if(isset($FirstName)) { echo $FirstName; } ?>">
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="form-group position-relative">                                                
+                                                    <label for="LastName">Last name <span class="text-danger">*</span></label>
+                                                    <i class="mdi mdi-account ml-3 icons"></i>
+                                                    <input type="text" class="form-control pl-5" placeholder="Last Name" name="LastName" value="<?php if(isset($LastName)) { echo $LastName; } ?>">
+                                                </div>
+                                            </div>
+                                            <div class="col-md-12">
+                                                <div class="form-group position-relative">
+                                                    <label for="">Your Email <span class="text-danger">*</span></label>
+                                                    <i class="mdi mdi-account ml-3 icons"></i>
+                                                    <input type="email" class="form-control pl-5" placeholder="Email" name="Email" value="<?php if(isset($Email)) { echo $Email; } ?>">
+                                                </div>
+                                            </div>
+                                            <div class="col-md-12">
+                                                <div class="form-group position-relative">
+                                                    <select class="box-input" name="userType" id="type" >
+                                                        <option value="" disabled selected>Type</option>
+                                                        <option value="admin">Admin</option>
+                                                        <option value="user">User</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-12">
+                                                <div class="form-group position-relative">
+                                                    <label for="Mdp">Password <span class="text-danger">*</span></label>
+                                                    <i class="mdi mdi-key ml-3 icons"></i>
+                                                    <input type="password" class="form-control pl-5" placeholder="Password" name="Mdp">
+                                                </div>
+                                            </div>
+                                            <div class="col-md-12">
+                                                <div class="form-group position-relative">
+                                                    <label for="confirmationMdp">Confirm Password <span class="text-danger">*</span></label>
+                                                    <i class="mdi mdi-key ml-3 icons"></i>
+                                                    <input type="password" class="form-control pl-5" placeholder="Confirm Password" name="confirmationMdp">
+                                                </div>
+                                            </div>
+                                    
+                                            <div class="col-md-12">
+                                                <input class="btn btn-primary w-100" value="Register" type="submit" name="submitSignup">
+                                            </div>
+                                        </div>
+                                    </form>
+                                     <?php
+                                        if(isset($erreur)) {
+                                            echo '<font color="red">'.$erreur."</font>";
+                                        }
+                                    ?>
                             </div>
                         </div>
                     </div><!--end col-->

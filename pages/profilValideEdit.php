@@ -20,19 +20,32 @@ session_start();
             $newFirstName = htmlspecialchars($_POST['newFirstName']);
             $insertFirstName = $bdd->prepare("UPDATE persons SET FirstName = ? WHERE Personid = ?");
             $insertFirstName->execute(array($newFirstName, $_SESSION['Personid']));
-            header('Location: profilValider.php?Personid='.$_SESSION['Personid']);
+            if($userinfo['userType'] == 'admin') {
+                    header("Location: admin.php?Personid=".$_SESSION['Personid']);
+                }else{
+                    header("Location: profilValider.php?Personid=".$_SESSION['Personid']);
+                }
         }
         if(isset($_POST['newLastName']) AND !empty($_POST['newLastName']) AND $_POST['newLastName'] != $userinfo['LastName']) {
             $newLastName = htmlspecialchars($_POST['newLastName']);
             $insertLastName = $bdd->prepare("UPDATE persons SET LastName = ? WHERE Personid = ?");
             $insertLastName->execute(array($newLastName, $_SESSION['Personid']));
-            header('Location: profilValider.php?Personid='.$_SESSION['Personid']);
+            
+            if($userinfo['userType'] == 'admin') {
+                    header("Location: admin.php?Personid=".$_SESSION['Personid']);
+                }else{
+                    header("Location: profilValider.php?Personid=".$_SESSION['Personid']);
+                }
         }
         if(isset($_POST['newEmail']) AND !empty($_POST['newEmail']) AND $_POST['newEmail'] != $userinfo['Email']) {
             $newEmail = htmlspecialchars($_POST['newEmail']);
             $insertEmail = $bdd->prepare("UPDATE persons SET Email = ? WHERE Personid = ?");
             $insertEmail->execute(array($newEmail, $_SESSION['Personid']));
-            header('Location: profilValider.php?Personid='.$_SESSION['Personid']);
+if($userinfo['userType'] == 'admin') {
+                    header("Location: admin.php?Personid=".$_SESSION['Personid']);
+                }else{
+                    header("Location: profilValider.php?Personid=".$_SESSION['Personid']);
+                }
         }
         if(isset($_POST['newMdp']) AND !empty($_POST['newMdp']) AND isset($_POST['newConfirmationMdp']) AND !empty($_POST['newConfirmationMdp'])) {
             $newMdp = sha1($_POST['newMdp']);
@@ -40,7 +53,11 @@ session_start();
                 if($newMdp == $newConfirmationMdp) {
                     $insertMdp = $bdd->prepare("UPDATE persons SET Mdp = ? WHERE Personid = ?");
                     $insertMdp->execute(array($newMdp, $_SESSION['Personid']));
-                    header('Location: profilValider.php?Personid='.$_SESSION['Personid']);
+                    if($userinfo['userType'] == 'admin') {
+                        header("Location: admin.php?Personid=".$_SESSION['Personid']);
+                    }else{
+                        header("Location: profilValider.php?Personid=".$_SESSION['Personid']);
+                    }
                 } else {
                     $msg = "Vos mots de passe ne correspondent pas !";
                 }
@@ -153,7 +170,13 @@ session_start();
                                 <div class="mt-md-4 mt-3 mt-sm-0 width">
                                     
                                     <a href="deleteProfile.php?Personid=<?=$_SESSION['Personid']?>" class="btn btn-danger mt-2 ml-2">Delete</a>
-                                    <a href="profilValider.php?Personid=<?=$_SESSION['Personid']?>" class="btn btn-dark mt-2"><i class="fas fa-undo-alt"></i></i>return</a>
+
+                                    <a href="<?php if ($userinfo['userType'] == 'admin') {
+                                        echo "admin.php?Personid=" . $_SESSION['Personid'];
+                                    } else {
+                                        echo "profilValider.php?Personid=" . $_SESSION['Personid'];
+                                    }
+                                    ?>" class="btn btn-dark mt-2"><i class="fas fa-undo-alt"></i></i>return</a>
                                 </div>
                             </div>
 

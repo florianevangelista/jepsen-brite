@@ -147,7 +147,7 @@ $grav_url = "https://www.gravatar.com/avatar/" . md5( strtolower( trim( $email )
                                         </div> 
                                     </div><!--end col-->
                                     <div class="mt-md-4 mt-3 mt-sm-0" id="iconPageProfile">
-                                        <a href="dashboard.php" class="rounded-pill bg-dark"></i>View Dashboard</a>
+                                        <a href="../dashboard2.php" class="rounded-pill bg-dark"></i>View Dashboard</a>
                                         <a href="profilValideEdit.php" class="rounded-pill bg-dark"><i class="mdi mdi-tools" title="Edit Profile"></i>Edit Profile</a>
                                         <a href="deconnexion.php" class="rounded-pill bg-dark"><i class="fas fa-sign-out-alt"></i>Logout</a>
                                     </div><!--end col-->

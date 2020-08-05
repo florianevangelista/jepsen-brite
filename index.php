@@ -36,6 +36,7 @@ $Parsedown = new Parsedown();
         <link href="css/flexslider.css" rel="stylesheet" type="text/css" />
         <!-- Main css --> 
         <link href="css/style.css" rel="stylesheet" type="text/css" />
+        <link href="css/artistyle.css" rel="stylesheet" type="text/css" />
         <link href="https://fonts.googleapis.com/css2?family=Nunito:ital,wght@1,600&display=swap" rel="stylesheet">
     </head>
 
@@ -88,6 +89,7 @@ $Parsedown = new Parsedown();
                         <?php if (isset($_SESSION['FirstName']))
                         {?>
                             <li><a href="pages/profilValider.php?Personid=<?=$_SESSION['Personid']?>">Mon Compte</a></li>
+                            <li><a href="pages/dashboard.php">Dashboard</a></li>
                             <li><a href="pages/deconnexion-index.php">Logout <?php echo $_SESSION['FirstName'] ?></a></li>
                         <?php }  else { ?>
                             <li><a href="pages/page-login.php">Login</a></li>
@@ -105,19 +107,14 @@ $Parsedown = new Parsedown();
 
 <?php 
 
-try
-{
-   $bdd = new PDO('mysql:host=localhost;dbname=event_manager;charset=utf8', 'root', 'root');
-}
-catch (Exception $e)
-{
-        die('Erreur : ' . $e->getMessage());
-}
+$bdd = new PDO("mysql:host=zpfp07ebhm2zgmrm.chr7pe7iynqr.eu-west-1.rds.amazonaws.com;dbname=iaj0d3bfcqdzn9jm", 'pec75srf9evxqr4q', 'vaaj2gywif3r1p6h', array(PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION));
 
 
 if (isset($_POST['category'])) { $ChosenCategory = $_POST['category'];}
 
 if (isset($_POST['previous_category'])) { $ChosenPreviousCategory = $_POST['previous_category'];}
+
+if (isset($_POST['subcat'])) { $subCategory = $_POST['subcat']; var_dump($subCategory);}
 
 $FilteredRequest = "SELECT * FROM persons p INNER JOIN evenements e ON p.Personid = e.Personid WHERE dt>=" . "'" . date("Y-m-d H:i:s") . "'" . "ORDER BY dt ASC";
 
@@ -129,7 +126,12 @@ $FilteredRequest = "SELECT * FROM persons p INNER JOIN evenements e ON p.Personi
 if (isset($ChosenPreviousCategory)) 
 {
 $FilteredRequest = "SELECT * FROM persons p INNER JOIN evenements e ON p.Personid = e.Personid WHERE Category='" . $ChosenPreviousCategory . "'" . "AND dt<" . "'" . date("Y-m-d H:i:s") . "'" . "ORDER BY dt DESC";
-} 
+}
+
+if (isset($subCategory))
+{
+    $FilteredRequest = "SELECT * FROM persons p INNER JOIN evenements e ON p.Personid = e.Personid WHERE Subcat='" . $subCategory . "'" . "AND dt>=" . "'" . date("Y-m-d H:i:s") . "'" . "ORDER BY dt ASC";
+}
 
 $FirstEvent = $bdd->query("$FilteredRequest LIMIT 1");
 
@@ -216,11 +218,9 @@ $EventsTable = $bdd->query("$FilteredRequest");
                                     <ul class="list-unstyled mb-0 numbers">
                                         <li><i class="mdi mdi-timer text-muted"></i> <?php echo $row["Title"] . '<br>';?></li><br>
                                         <li><i class="mdi mdi-timer text-muted"></i> <?php echo $row["dt"] . '<br>';?></li>
-                                        <li><i class="mdi mdi-city text-muted"></i> <?php echo $row["Category"] . '<br>';?></li><br>
-                                        <li><i class="mdi mdi-city text-muted"></i> <?php echo $row["ville"] . '<br>';?></li><br>
-                                        <li><i class="mdi mdi-city text-muted"></i> <?php echo $row["adresse"] . '<br>';?></li><br>
-                                        <li><i class="mdi mdi-city text-muted"></i> <?php echo $row["codePostal"] . '<br>';?></li><br>
-                                        <li><i class="mdi mdi-message-text-outline"></i> <?php echo $row["Dsc"] . '<br>';?></li><br>
+                                        <li><i class="mdi mdi-city text-muted"></i> <?php echo
+                                                '<form class="buttonlinkform" action="" method="POST" name="eventlist"><button class="buttonlink" id="category" name="category" value="' . $row["Category"] . '" onclick="eventlist.submit();">' . $row["Category"] . '</button></form>' .
+                                                ' / <form class="buttonlinkform" action="" method="POST" name="subcateventlist"><button class="buttonlink" id="category" name="subcat" value="' . $row["Subcat"] . '" onclick="subcateventlist.submit();">' . $row["Subcat"] . '</button></form><br>';?></li><br>                                        <li><i class="mdi mdi-message-text-outline"></i> <?php echo $row["Dsc"] . '<br>';?></li><br>
                                         <li><i class="mdi mdi-account-box-outline"></i> <?php echo $row["FirstName"] . " " . $row["LastName"] .'<br>';?></li><br>
                                         <?php if (!empty($_SESSION['Personid'])) {
                                            if ($_SESSION['Personid'] == $row['Personid']) {

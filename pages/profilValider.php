@@ -1,14 +1,13 @@
 <?php
 session_start();
     try
-        {
-           $bdd = new PDO('mysql:host=localhost;dbname=event_manager;charset=utf8', 'root', 'root');
-        }
+    {
+        $bdd = new PDO("mysql:host=zpfp07ebhm2zgmrm.chr7pe7iynqr.eu-west-1.rds.amazonaws.com;dbname=iaj0d3bfcqdzn9jm", 'pec75srf9evxqr4q', 'vaaj2gywif3r1p6h', array(PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION));
+    }
     catch (Exception $e)
-        {
-                die('Erreur : ' . $e->getMessage());
-        }
-
+    {
+        die('Erreur : ' . $e->getMessage());
+    }
         if(isset($_GET['Personid']) AND $_GET['Personid'] > 0) {
             $getid = intval($_GET['Personid']);
             $requser = $bdd->prepare('SELECT * FROM persons WHERE Personid = ?');
@@ -44,9 +43,9 @@ $grav_url = "https://www.gravatar.com/avatar/" . md5( strtolower( trim( $email )
         <link rel="stylesheet" href="../css/owl.theme.default.min.css"/> 
         <!-- Main css -->
         <link href="../css/style.css" rel="stylesheet" type="text/css" />
-        <link rel="stylesheet" type="text/css" href="../css/styleProfil.css">
+        <link rel="stylesheet" type="text/css" href="../css/styleProfil.css"
         <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css">
-
+        <link href="css/artistyle.css" rel="stylesheet" type="text/css" />
     </head>
 
     <body>
@@ -119,12 +118,6 @@ $grav_url = "https://www.gravatar.com/avatar/" . md5( strtolower( trim( $email )
 
                             <div class="mt-3 text-md-left text-center d-sm-flex">
                                 <img src="<?php echo $grav_url; ?>" class="avatar float-md-left avatar-medium rounded-pill shadow mr-md-4" alt="" />
-                                
-                                <div class="mt-md-4 mt-3 mt-sm-0" id="iconPageProfile">
-                                    <a href="profilValideEdit.php" class="rounded-pill bg-dark"><i class="mdi mdi-tools" title="Edit Profile"></i>Edit Profile</a>
-                                    <a href="deconnexion.php" class="rounded-pill bg-dark"><i class="fas fa-sign-out-alt"></i>Logout</a>
-                                    
-                                </div>
                             </div>
 
                     
@@ -152,6 +145,11 @@ $grav_url = "https://www.gravatar.com/avatar/" . md5( strtolower( trim( $email )
                                             <i class="mdi mdi-email icons"></i>
                                             <p class="mailUser marginUserInfo"><?php echo $userinfo['Email']; ?></p>
                                         </div> 
+                                    </div><!--end col-->
+                                    <div class="mt-md-4 mt-3 mt-sm-0" id="iconPageProfile">
+                                        <a href="dashboard.php" class="rounded-pill bg-dark"></i>View Dashboard</a>
+                                        <a href="profilValideEdit.php" class="rounded-pill bg-dark"><i class="mdi mdi-tools" title="Edit Profile"></i>Edit Profile</a>
+                                        <a href="deconnexion.php" class="rounded-pill bg-dark"><i class="fas fa-sign-out-alt"></i>Logout</a>
                                     </div><!--end col-->
                                     <?php
                                         if(isset($_SESSION['Personid']) AND $userinfo['Personid'] == $_SESSION['Personid']) {

@@ -11,6 +11,10 @@ catch (Exception $e)
 
 if(isset($_SESSION['Personid']) AND $_SESSION['Personid'] == 6){
 
+$requser = $bdd->prepare("SELECT * FROM persons WHERE Personid = ?");
+        $requser->execute(array($_SESSION['Personid']));
+        $userinfo = $requser->fetch();
+
     if(isset($_GET['delete']) AND !empty($_GET['delete'])) {
           $delete = (int) $_GET['delete'];
           $req = $bdd->prepare('DELETE FROM persons WHERE Personid = ?');
@@ -30,13 +34,7 @@ if(isset($_SESSION['Personid']) AND $_SESSION['Personid'] == 6){
        }
 } 
 
-if(isset($_POST['Personid']) AND $_POST['Personid'] > 0) {
-            $getid = intval($_GET['Personid']);
-            $requser = $bdd->prepare('SELECT * FROM persons WHERE Personid = ?');
-            $requser->execute(array($getid));
-            $userinfo = $requser->fetch();
 
-        }
 // else{
 //     exit();
 // }
@@ -45,7 +43,6 @@ $persons = $bdd->query('SELECT * FROM persons WHERE userType = "user" ORDER BY P
 $admins = $bdd->query('SELECT * FROM persons WHERE userType = "admin" ORDER BY Personid DESC');
 $events = $bdd->query('SELECT * FROM evenements ORDER BY EventId DESC');
 $comments = $bdd->query('SELECT * FROM comments ORDER BY comment DESC');
-
 ?>
 
 <!DOCTYPE html>
@@ -111,13 +108,8 @@ $comments = $bdd->query('SELECT * FROM comments ORDER BY comment DESC');
                                         <div class="col-lg-10 col-md-9">
                                             <div class="row align-items-center">
                                                 <div class="col-md-7 text-md-left text-center mt-4 mt-sm-0">
-                                                    <h3 class="title mb-0">Krista Joseph</h3>
+                                                    <h3 class="title mb-0"><?php echo $userinfo['FirstName']; ?></h3>
                                                     <small class="text-muted h6 mr-2">Administrateur</small>
-                                                </div><!--end col-->
-                                                <div class="col-md-5 text-md-right text-center">
-                                                    <ul class="list-unstyled profile-icons mb-0 mt-4">
-                                                        <li class="list-inline-item"><a href="page-profile-edit.html" class="rounded-pill bg-dark"><i class="mdi mdi-tools text-light" title="Edit Profile"></i></a></li>
-                                                    </ul><!--end icon-->
                                                 </div><!--end col-->
                                             </div><!--end row-->
                                         </div><!--end col-->
@@ -130,9 +122,7 @@ $comments = $bdd->query('SELECT * FROM comments ORDER BY comment DESC');
             </div>
         </section><!--end section-->
         <!-- Hero End -->
-<?php
-      
-?>
+
         <!-- Profile Start -->
         <section class="section mt-60">
             <div class="container mt-lg-3">
@@ -147,7 +137,7 @@ $comments = $bdd->query('SELECT * FROM comments ORDER BY comment DESC');
                             <h5 class="text-md-left text-center">Personal Detail :</h5>
 
                             <div class="mt-3 text-md-left text-center d-sm-flex">
-                                <img src="<?php echo $userinfo['img'];?>" class="avatar float-md-left avatar-medium rounded-pill shadow mr-md-4" alt="" />
+                                <img src="<?php echo $grav_url; ?>" class="avatar float-md-left avatar-medium rounded-pill shadow mr-md-4" alt="" />
                                 
                                 <div class="mt-md-4 mt-3 mt-sm-0" id="iconPageProfile">
                                     <a href="profilValideEdit.php" class="rounded-pill bg-dark"><i class="mdi mdi-tools" title="Edit Profile"></i>Edit Profile</a>
@@ -194,36 +184,24 @@ $comments = $bdd->query('SELECT * FROM comments ORDER BY comment DESC');
         
         <!-- Profile Setting End -->
 
-
-                            <h5 class="mt-4 pt-2">Members :</h5>
-                            <div class="text-center">
-                                <a href="javascript:void(0)"><img src="../images/client/01.jpg" class="avatar avatar-small rounded-pill mt-3" data-toggle="tooltip" data-placement="top" title="Calvin" alt=""></a>
-                                <a href="javascript:void(0)"><img src="../images/client/02.jpg" class="avatar avatar-small rounded-pill mt-3" data-toggle="tooltip" data-placement="top" title="Meriam" alt=""></a>
-                                <a href="javascript:void(0)"><img src="../images/client/03.jpg" class="avatar avatar-small rounded-pill mt-3" data-toggle="tooltip" data-placement="top" title="Janelia" alt=""></a>
-                                <a href="javascript:void(0)"><img src="../images/client/04.jpg" class="avatar avatar-small rounded-pill mt-3" data-toggle="tooltip" data-placement="top" title="Cristino" alt=""></a>
-                                <a href="javascript:void(0)"><img src="../images/client/05.jpg" class="avatar avatar-small rounded-pill mt-3" data-toggle="tooltip" data-placement="top" title="Rukshar" alt=""></a>
-                                <a href="javascript:void(0)"><img src="../images/client/06.jpg" class="avatar avatar-small rounded-pill mt-3" data-toggle="tooltip" data-placement="top" title="Rambo" alt=""></a>
-                                <a href="javascript:void(0)"><img src="../images/client/07.jpg" class="avatar avatar-small rounded-pill mt-3" data-toggle="tooltip" data-placement="top" title="Beardo" alt=""></a>
-                                <a href="javascript:void(0)"><img src="../images/client/08.jpg" class="avatar avatar-small rounded-pill mt-3" data-toggle="tooltip" data-placement="top" title="Gogo" alt=""></a>
-                            </div>
-                            
-                            <h5 class="mt-4 pt-2">Commentaire :</h5>
-                            <div class="row mt-4">
-                                <div class="col-6 text-center">
-                                    <p class="text-muted mb-0">Les 5 derniers commentaires</p>
-                                </div><!--end col-->
-                            </div><!--end row-->
                         </div>
                     </div><!--end col-->
                 <div class="col-lg-8 col-md-7 col-12 mt-4 mt-sm-0 pt-2 pt-sm-0">
                     <div class="ml-lg-3">
                         <div class="border-bottom pb-4">
                             <div class="row">
+<?php 
+// GRAVATAR
+ $email = $user['Email'];
+ $size = 150;
+ $grav_url = "https://www.gravatar.com/avatar/" . md5( strtolower( trim( $email ) ) ) . "?d=" . "&s=" . $size;
+?>
                                 <div class="col-lg-6 mt-4">
                                     <h5>Gestion des Membres</h5>
                                     <ul>
                                     <?php while($user = $persons->fetch()) { ?>
-                                    <li><?= $user['Personid'] ?> : <?= $user['FirstName'] ?>
+                                    <li><img src="<?php echo $grav_url; ?>" class="avatar avatar-small rounded-pill mt-3" data-toggle="tooltip" data-placement="top" title="<?= $user['FirstName'] ?> <?= $user['LastName'] ?>" alt="">
+
                                         <a href="admin.php?userType=user&delete=<?= $user['Personid'] ?>">Supprimer</a> 
                                     </li>
                                     <?php } ?>
@@ -235,7 +213,7 @@ $comments = $bdd->query('SELECT * FROM comments ORDER BY comment DESC');
                                     </h5>
                                     <ul>
                                     <?php while($user = $admins->fetch()) { ?>
-                                    <li><?= $user['Personid'] ?> : <?= $user['FirstName'] ?> 
+                                    <li><img src="<?php echo $grav_url; ?>" class="avatar avatar-small rounded-pill mt-3" data-toggle="tooltip" data-placement="top" title="<?= $user['FirstName'] ?> <?= $user['LastName'] ?>" alt="">
                                         <a href="admin.php?userType=admin&delete=<?= $user['Personid'] ?>">Supprimer</a>
                                     </li>
                                     <?php } ?>

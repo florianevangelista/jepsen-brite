@@ -20,8 +20,14 @@
 }
 
 a{
-	padding: 10px;
+	padding: 8px;
 	color: white;
 	margin-right: 2%;
+	margin-bottom: 3%
 
+}
+
+
+#iconProfiladmin{
+margin: 2%;
 }

@@ -66,6 +66,7 @@ $comments = $bdd->query('SELECT * FROM comments ORDER BY comment DESC');
         <link rel="stylesheet" href="../css/owl.theme.default.min.css"/> 
         <!-- Main css --> 
         <link href="../css/style.css" rel="stylesheet" type="text/css" />
+        <link rel="stylesheet" type="text/css" href="../css/styleProfil.css">
 
     </head>
 
@@ -137,11 +138,23 @@ $comments = $bdd->query('SELECT * FROM comments ORDER BY comment DESC');
                             <h5 class="text-md-left text-center">Personal Detail :</h5>
 
                             <div class="mt-3 text-md-left text-center d-sm-flex">
-                                <img src="<?php echo $grav_url; ?>" class="avatar float-md-left avatar-medium rounded-pill shadow mr-md-4" alt="" />
+                                <div>
+                                    <?php 
+                                        $email = $userinfo['Email'];
+                                        $size = 150;
+                                        $grav_url = "https://www.gravatar.com/avatar/" . md5(strtolower(trim($email))) . "?d=" . "&s=" . $size;
+                                    ?>
+                                    <img src="<?php echo $grav_url; ?>" class="avatar float-md-left avatar-medium rounded-pill shadow mr-md-4" alt="" />
+                                </div>
                                 
-                                <div class="mt-md-4 mt-3 mt-sm-0" id="iconPageProfile">
-                                    <a href="profilValideEdit.php" class="rounded-pill bg-dark"><i class="mdi mdi-tools" title="Edit Profile"></i>Edit Profile</a>
-                                    <a href="deconnexion.php" class="rounded-pill bg-dark"><i class="fas fa-sign-out-alt"></i>Logout</a>
+                                <div class="mt-md-4 mt-3 mt-sm-0">
+                                    <div style="width: 140px;margin-bottom: 18%;">
+                                        <a href="profilValideEdit.php" class="rounded-pill bg-dark"><i class="mdi mdi-tools" title="Edit Profile"></i>Edit Profile</a>
+                                    </div>
+                                    <div>
+                                       <a href="deconnexion.php" class="rounded-pill bg-dark"><i class="fas fa-sign-out-alt"></i>Logout</a> 
+                                    </div>
+                                    
                                     
                                 </div>
                             </div>
@@ -152,7 +165,7 @@ $comments = $bdd->query('SELECT * FROM comments ORDER BY comment DESC');
                                         <div class="form-group position-relative">
                                             <label>First Name</label>
                                             <div><i class="mdi mdi-account icons"></i></div>
-                                        <p class="nameUser marginUserInfo">
+                                        <p class="nameUser marginUserInfo" id="marginProfilAdmin">
                                             <?php echo $userinfo['FirstName']; ?>
                                         </p>
                                         
@@ -183,26 +196,18 @@ $comments = $bdd->query('SELECT * FROM comments ORDER BY comment DESC');
             
         
         <!-- Profile Setting End -->
-
                         </div>
                     </div><!--end col-->
                 <div class="col-lg-8 col-md-7 col-12 mt-4 mt-sm-0 pt-2 pt-sm-0">
                     <div class="ml-lg-3">
                         <div class="border-bottom pb-4">
                             <div class="row">
-<?php 
-// GRAVATAR
- $email = $user['Email'];
- $size = 150;
- $grav_url = "https://www.gravatar.com/avatar/" . md5( strtolower( trim( $email ) ) ) . "?d=" . "&s=" . $size;
-?>
                                 <div class="col-lg-6 mt-4">
                                     <h5>Gestion des Membres</h5>
                                     <ul>
                                     <?php while($user = $persons->fetch()) { ?>
-                                    <li><img src="<?php echo $grav_url; ?>" class="avatar avatar-small rounded-pill mt-3" data-toggle="tooltip" data-placement="top" title="<?= $user['FirstName'] ?> <?= $user['LastName'] ?>" alt="">
-
-                                        <a href="admin.php?userType=user&delete=<?= $user['Personid'] ?>">Supprimer</a> 
+                                    <li><?= $user['FirstName'] ?> <?= $user['LastName'] ?>
+                                        <a href="admin.php?userType=user&delete=<?= $user['Personid'] ?>" class="btn btn-primary" style="vertical-align: -webkit-baseline-middle;">Supprimer</a> 
                                     </li>
                                     <?php } ?>
                                     </ul>
@@ -213,8 +218,8 @@ $comments = $bdd->query('SELECT * FROM comments ORDER BY comment DESC');
                                     </h5>
                                     <ul>
                                     <?php while($user = $admins->fetch()) { ?>
-                                    <li><img src="<?php echo $grav_url; ?>" class="avatar avatar-small rounded-pill mt-3" data-toggle="tooltip" data-placement="top" title="<?= $user['FirstName'] ?> <?= $user['LastName'] ?>" alt="">
-                                        <a href="admin.php?userType=admin&delete=<?= $user['Personid'] ?>">Supprimer</a>
+                                    <li><?= $user['FirstName'] ?> <?= $user['LastName'] ?> 
+                                        <a href="admin.php?userType=admin&delete=<?= $user['Personid'] ?>" class="btn btn-primary" style="vertical-align: -webkit-baseline-middle;">Supprimer</a>
                                     </li>
                                     <?php } ?>
                                     </ul>
@@ -231,7 +236,7 @@ $comments = $bdd->query('SELECT * FROM comments ORDER BY comment DESC');
                               <ul> 
                                 <?php while($comment = $comments->fetch()) { ?>
                                   <li><?= $comment['comment'] ?>
-                                    <a href="admin.php?comment=comment&delete=<?= $comment['id'] ?>">Supprimer</a></li>
+                                    <a href="admin.php?comment=comment&delete=<?= $comment['id'] ?>" class="btn btn-primary" style="vertical-align: -webkit-baseline-middle;">Supprimer</a></li>
                                   <?php } ?>
                               </ul>
                               
@@ -242,7 +247,7 @@ $comments = $bdd->query('SELECT * FROM comments ORDER BY comment DESC');
                               <ul> 
                                 <?php while($event = $events->fetch()) { ?>
                                   <li><?= $event['Title'] ?> : <?= $event['Category']?>
-                                    <a href="admin.php?event=EventId&delete=<?= $event['EventId'] ?>">Supprimer</a></li>
+                                    <a href="admin.php?event=EventId&delete=<?= $event['EventId'] ?>"class="btn btn-primary" style="vertical-align: -webkit-baseline-middle;">Supprimer</a></li>
                                   <?php } ?>
                               </ul>
                               

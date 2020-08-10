@@ -7,6 +7,7 @@ session_start();
 include 'Parsedown.php';
 $Parsedown = new Parsedown();
 
+$testCat = 37;
 ?>
 
 <!DOCTYPE html>
@@ -62,17 +63,17 @@ $Parsedown = new Parsedown();
             <ul class="navigation-menu" style="align-items:center;">
                 <li><a href="index.php">Accueil</a></li>
                 <li>
-                    <form action="" method="POST" name="eventlist">
-                        <select style="cursor:pointer; border: none; font-weight: 600; font-family: Nunito;" class="form-control" id="category" name="category" onchange="eventlist.submit();">
+                    <form action="" method="POST" name="dasheventlist">
+                        <select style="cursor:pointer; border: none; font-weight: 600; font-family: Nunito;" class="form-control" id="category" name="dashcategory" title="Filtre Evènements" onchange="dasheventlist.submit();">
                             <option selected disabled>Filtrer évènements</option>
-                            <option value="participate">Je participe</option>
-                            <option value="organize">J'organise</option>
-                            <option value="archive">Archive</option>
+                            <option value="Participate">Je participe</option>
+                            <option value="concert">J'organise</option>
+                            <option value="Archive">Archive</option>
                         </select>
                     </form>
                 </li>
-                <li class="hidden">
-                    <form class="hidden" action="" method="POST" name="previouseventlist">
+                <li class="hidden">Passés
+                    <form class="nothidden" action="" method="POST" name="previouseventlist">
                         <select style="cursor:pointer; border: none; font-weight: 600; font-family: Nunito;" class="form-control" id="category" name="previous_category" title="Evénements Passés" onchange="previouseventlist.submit();">
                             <option selected disabled>Evénements Passés</option>
                             <option value="Concert">Concert</option>
@@ -106,6 +107,7 @@ $Parsedown = new Parsedown();
 
 $bdd = new PDO("mysql:host=zpfp07ebhm2zgmrm.chr7pe7iynqr.eu-west-1.rds.amazonaws.com;dbname=iaj0d3bfcqdzn9jm", 'pec75srf9evxqr4q', 'vaaj2gywif3r1p6h', array(PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION));
 
+if (isset($_POST['dashcategory'])) { $DashCategory = $_POST['dashcategory'];}
 
 if (isset($_POST['category'])) { $ChosenCategory = $_POST['category'];}
 
@@ -114,6 +116,31 @@ if (isset($_POST['previous_category'])) { $ChosenPreviousCategory = $_POST['prev
 if (isset($_POST['subcat'])) { $subCategory = $_POST['subcat']; var_dump($subCategory);}
 
 $FilteredRequest = "SELECT * FROM persons p INNER JOIN evenements e ON p.Personid = e.Personid WHERE dt>=" . "'" . date("Y-m-d H:i:s") . "'" . "ORDER BY dt ASC";
+
+if (isset($DashCategory)) {
+    $FilteredRequest = "SELECT * FROM persons p INNER JOIN evenements e ON p.Personid = e.Personid WHERE Personid='" . $testCat . "'" . "AND dt>=" . "'" . date("Y-m-d H:i:s") . "'" . "ORDER BY dt ASC";
+    var_dump($FilteredRequest);
+}
+//    if ($DashCategory === 'Participate') {
+//        $FilteredRequest = "SELECT * FROM persons p INNER JOIN evenements e ON p.Personid = e.Personid WHERE Category='" . $ChosenCategory . "'" . "AND dt>=" . "'" . date("Y-m-d H:i:s") . "'" . "ORDER BY dt ASC";
+//    } elseif ($DashCategory === 'Organize') {
+//        $FilteredRequest = "SELECT * FROM persons p INNER JOIN evenements e ON p.Personid = e.Personid WHERE Category='" . $testCat . "'" . "AND dt>=" . "'" . date("Y-m-d H:i:s") . "'" . "ORDER BY dt ASC";
+//    } elseif ($DashCategory === 'Archive') {
+//        $FilteredRequest = "SELECT * FROM persons p INNER JOIN evenements e ON p.Personid = e.Personid WHERE Category='" . $ChosenPreviousCategory . "'" . "AND dt<" . "'" . date("Y-m-d H:i:s") . "'" . "ORDER BY dt DESC";
+//    }
+// }
+
+//if (isset($DashCategory)) {
+//    if ($DashCategory === 'Participate') {
+//        $FilteredRequest = "SELECT * FROM persons p INNER JOIN evenements e ON p.Personid = e.Personid WHERE Category='" . $ChosenCategory . "'" . "AND dt>=" . "'" . date("Y-m-d H:i:s") . "'" . "ORDER BY dt ASC";
+//    } elseif ($DashCategory === 'Organize') {
+//        $FilteredRequest = "SELECT * FROM persons p INNER JOIN evenements e ON p.Personid = e.Personid WHERE Personid=37 AND dt>=" . "'" . date("Y-m-d H:i:s") . "'" . "ORDER BY dt ASC";
+//    } elseif ($DashCategory === 'Archive') {
+//        $FilteredRequest = "SELECT * FROM persons p INNER JOIN evenements e ON p.Personid = e.Personid WHERE Category='" . $ChosenPreviousCategory . "'" . "AND dt<" . "'" . date("Y-m-d H:i:s") . "'" . "ORDER BY dt DESC";
+//    } else {
+//        console.log('coin coin');
+//    };
+//}
 
 if (isset($ChosenCategory))
 {

@@ -5,18 +5,24 @@
     include '../Parsedown.php';
     $Parsedown = new Parsedown();
 
-    try {
-        $bdd = new PDO("mysql:host=zpfp07ebhm2zgmrm.chr7pe7iynqr.eu-west-1.rds.amazonaws.com;dbname=iaj0d3bfcqdzn9jm", 'pec75srf9evxqr4q', 'vaaj2gywif3r1p6h', array(PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION));
-    } catch (Exception $e) {
-        die('Erreur : ' . $e->getMessage());
-    }
+      try
+        {
+           $bdd = new PDO('mysql:host=localhost;dbname=event_manager;charset=utf8', 'root', 'root');
+        }
+    catch (Exception $e)
+        {
+                die('Erreur : ' . $e->getMessage());
+        }
 
     if (isset($_SESSION['Personid'])) {
-        $req = $bdd->prepare('INSERT INTO evenements(Title, dt, hr, Img, Dsc, Category, Personid) VALUES(:Title, :dt, :hr, :Img, :Dsc, :Category, :Personid)');
+        $req = $bdd->prepare('INSERT INTO evenements(Title, dt, hr, ville, adresse, codePostal Img, Dsc, Category, Personid) VALUES(:Title, :dt, :hr, :ville, :adresse, :codePostal, :Img, :Dsc, :Category, :Personid)');
         $req->execute(array(
             'Title' => $_POST['title'],
             'dt' => $_POST['start-event'],
             'hr' => $_POST['startTime'],
+            'ville' => $_POST['ville'],
+            'adresse' => $_POST['adresse'],
+            'codePostal' => $_POST['codePostal'],
             'Img' => $_POST['image'],
             'Dsc' => $Parsedown->line($_POST['description']),
             'Category' => $_POST['event'],

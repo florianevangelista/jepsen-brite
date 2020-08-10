@@ -4,6 +4,7 @@
 session_start();
 
 
+
 #Pour le markdown
 include 'Parsedown.php';
 $Parsedown = new Parsedown();
@@ -147,6 +148,7 @@ $FirstEvent = $bdd->query("$FilteredRequest LIMIT 1");
                                         <div class="title-heading text-white mt-4">
                                             <h1 class="display-4 font-weight-bold mb-3"><?php echo $row["Title"] ?></h1>
                                             <p class="para-desc mx-auto text-light" style="font-size: 24px; font-weight: bold;"><?php echo $row["Dsc"] ?></p>
+                                            <iframe width="425" height="350" src="http://maps.google.fr/maps?q=<?php echo $adresse; ?>, <?php echo $ville; ?>, <?php echo $codePostal; ?>&amp;t=h&amp;output=embed" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" ></iframe>
                                             <div class="mt-4">
                                                 <a href="#courses" class="btn btn-primary mt-2 mr-2 mouse-down"><i class="mdi mdi-book-open-variant"></i> Plus d'informations</a>
                                             </div>
@@ -216,6 +218,9 @@ $EventsTable = $bdd->query("$FilteredRequest");
                                         <li><i class="mdi mdi-timer text-muted"></i> <?php echo $row["Title"] . '<br>';?></li><br>
                                         <li><i class="mdi mdi-timer text-muted"></i> <?php echo $row["dt"] . '<br>';?></li>
                                         <li><i class="mdi mdi-city text-muted"></i> <?php echo $row["Category"] . '<br>';?></li><br>
+                                        <li><i class="mdi mdi-city text-muted"></i> <?php echo $row["ville"] . '<br>';?></li><br>
+                                        <li><i class="mdi mdi-city text-muted"></i> <?php echo $row["adresse"] . '<br>';?></li><br>
+                                        <li><i class="mdi mdi-city text-muted"></i> <?php echo $row["codePostal"] . '<br>';?></li><br>
                                         <li><i class="mdi mdi-message-text-outline"></i> <?php echo $row["Dsc"] . '<br>';?></li><br>
                                         <li><i class="mdi mdi-account-box-outline"></i> <?php echo $row["FirstName"] . " " . $row["LastName"] .'<br>';?></li><br>
                                         <?php if (!empty($_SESSION['Personid'])) {

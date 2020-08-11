@@ -221,39 +221,27 @@ $EventsTable = $bdd->query("$FilteredRequest");
                                 <ul class="list-unstyled mb-0 numbers">
                                         <li><i class="mdi mdi-timer text-muted"></i> <?php echo $row["Title"] . '<br>';?></li><br>
                                         <li><i class="mdi mdi-timer text-muted"></i> <?php echo $row["dt"] . '<br>';?></li>
-                                        <li><i class="mdi mdi-city text-muted"></i> <?php echo $row["Category"] . '<br>';?></li><br>
-                                        <li><i class="mdi mdi-message-text-outline text-muted"></i> <?php echo $row["Dsc"] . '<br>';?></li><br>
-                                        <li><i class="mdi mdi-account-box-outline text-muted"></i> <?php echo $row["FirstName"] . " " . $row["LastName"] .'<br>';?></li><br>
-                                        <?php if (!empty($row["video"])) { 
-                                            echo '<li><label class="text-muted">Vidéo : </label><a href="'.$row["video"].'">'.$row["video"].'</a><br></li><br>';
-                                        }?>
+                                        <li><i class="mdi mdi-city text-muted"></i> <?php echo
+                                                '<form class="buttonlinkform" action="" method="POST" name="eventlist"><button class="buttonlink" id="category" name="category" value="' . $row["Category"] . '" onclick="eventlist.submit();">' . $row["Category"] . '</button></form>' .
+                                                ' / <form class="buttonlinkform" action="" method="POST" name="subcateventlist"><button class="buttonlink" id="category" name="subcat" value="' . $row["Subcat"] . '" onclick="subcateventlist.submit();">' . $row["Subcat"] . '</button></form><br>';?></li><br>                                        <li><i class="mdi mdi-message-text-outline"></i> <?php echo $row["Dsc"] . '<br>';?></li><br>
+                                        <li><i class="mdi mdi-account-box-outline"></i> <?php echo $row["FirstName"] . " " . $row["LastName"] .'<br>';?></li><br>
                                         <li><iframe width="425" height="350" src="http://maps.google.fr/maps?q=<?php echo $row["adresse"];?>, <?php echo $row["ville"];?>, <?php echo $row["codepostal"];?>&amp;t=&amp;output=embed" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" ></iframe></li><br>
                                         <?php if (!empty($_SESSION['Personid'])) {
                                            if ($_SESSION['Personid'] == $row['Personid']) {
 
                                             echo '<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalCenter'. $row["EventId"] . '">
                                             Inserer un commentaire </button><br><br>' . '<button type="button" class="btn btn-outline-primary" data-toggle="modal" data-target="#exampleModalCenter-modify-'. $row["EventId"] . '">
-                                            Modifier l\'evenement </button><br><br>'.'<form action="pages/registration.php?Personid='.$_SESSION['Personid'].'&Eventid='.$row["EventId"].'" method="post"><input type="submit" class="btn btn-primary" name="registration" value="Je participe"/></form>';
+                                            Modifier l\'evenement </button><br><br>';
                                         } else if ($_SESSION['Personid'] !== $row['Personid']) {
                                             echo '<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalCenter'. $row["EventId"] . '">
-                                            Inserer un commentaire </button><br><br>'.'<form action="pages/registration.php?Personid='.$_SESSION['Personid'].'&Eventid='.$row["EventId"].'" method="post"><input type="submit" class="btn btn-primary" name="registration" value="Je participe"/></form>';
+                                            Inserer un commentaire </button><br><br>';
                                         } 
                                         }  else {
                                             echo '<button type="button" class="btn btn-primary" data-toggle="modal" href="pages/page-login.php" >
-                                            <a style="text-decoration:none;color: white;" href="pages/page-login.php">Se connecter pour commenter</a></button><br><br>'.'<form action="pages/registration.php?Personid='.$_SESSION['Personid'].'&Eventid='.$row["EventId"].'" method="post"><input type="submit" class="btn btn-primary" name="registration" value="Je participe"/></form>';
-                                    }?>                                 
+                                            <a style="text-decoration:none;color: white;" href="pages/page-login.php">Se connecter pour commenter</a></button><br><br>';
+                                    }?>                                   
                                        </li>
-                                       <br><li><i class="mdi mdi-account-check text-muted"> Participants : </i> 
-                                        <?php
-                                            $Participant = $bdd->query("SELECT P.LastName, P.FirstName FROM registration R INNER JOIN persons P ON R.Registration_personid = P.Personid INNER JOIN evenements E on R.Registration_eventid = E.EventId WHERE E.EventId = $row[EventId]"); 
-                                            echo '<select style="cursor:pointer; border: none; font-weight: 600; font-family: Nunito;">';
-                                            while ($row = $Participant->fetch(PDO::FETCH_ASSOC)) {
-                                                echo '<option>'.$row["FirstName"] . " " . $row["LastName"].'</option>';
-                                            }
-                                            echo '</select>';
-                                        ?>
-                                       </li>
-                                    </ul> 
+                                    </ul>  
                                 </div>
                             </div>
                         </div>

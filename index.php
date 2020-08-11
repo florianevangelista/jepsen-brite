@@ -227,6 +227,7 @@ $EventsTable = $bdd->query("$FilteredRequest");
                                         <?php if (!empty($row["video"])) { 
                                             echo '<li><label class="text-muted">Vidéo : </label><a href="'.$row["video"].'">'.$row["video"].'</a><br></li><br>';
                                         }?>
+                                        <li><iframe width="425" height="350" src="http://maps.google.fr/maps?q=<?php echo $row["adresse"];?>, <?php echo $row["ville"];?>, <?php echo $row["codepostal"];?>&amp;t=&amp;output=embed" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" ></iframe></li><br>
                                         <?php if (!empty($_SESSION['Personid'])) {
                                            if ($_SESSION['Personid'] == $row['Personid']) {
 
@@ -239,8 +240,8 @@ $EventsTable = $bdd->query("$FilteredRequest");
                                         } 
                                         }  else {
                                             echo '<button type="button" class="btn btn-primary" data-toggle="modal" href="pages/page-login.php" >
-                                            <a style="text-decoration:none;color: white;" href="pages/page-login.php">Se connecter pour commenter</a></button><br><br>';
-                                    }?>                                   
+                                            <a style="text-decoration:none;color: white;" href="pages/page-login.php">Se connecter pour commenter</a></button><br><br>'.'<form action="pages/registration.php?Personid='.$_SESSION['Personid'].'&Eventid='.$row["EventId"].'" method="post"><input type="submit" class="btn btn-primary" name="registration" value="Je participe"/></form>';
+                                    }?>                                 
                                        </li>
                                        <br><li><i class="mdi mdi-account-check text-muted"> Participants : </i> 
                                         <?php
@@ -248,7 +249,6 @@ $EventsTable = $bdd->query("$FilteredRequest");
                                             echo '<select style="cursor:pointer; border: none; font-weight: 600; font-family: Nunito;">';
                                             while ($row = $Participant->fetch(PDO::FETCH_ASSOC)) {
                                                 echo '<option>'.$row["FirstName"] . " " . $row["LastName"].'</option>';
-                                                // echo '<br>'.$row["FirstName"] . " " . $row["LastName"].'<br>';
                                             }
                                             echo '</select>';
                                         ?>

@@ -148,7 +148,6 @@ $FirstEvent = $bdd->query("$FilteredRequest LIMIT 1");
                                         <div class="title-heading text-white mt-4">
                                             <h1 class="display-4 font-weight-bold mb-3"><?php echo $row["Title"] ?></h1>
                                             <p class="para-desc mx-auto text-light" style="font-size: 24px; font-weight: bold;"><?php echo $row["Dsc"] ?></p>
-                                            <iframe width="425" height="350" src="http://maps.google.fr/maps?q=<?php echo $adresse; ?>, <?php echo $ville; ?>, <?php echo $codePostal; ?>&amp;t=h&amp;output=embed" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" ></iframe>
                                             <div class="mt-4">
                                                 <a href="#courses" class="btn btn-primary mt-2 mr-2 mouse-down"><i class="mdi mdi-book-open-variant"></i> Plus d'informations</a>
                                             </div>

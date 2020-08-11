@@ -90,20 +90,6 @@
 					<input type="time" id="startTime" name="startTime" required>
 				</div>
 				<div class="form-group">
-					<label for="adresse">Adresse de l'événement</label>
-					<input type="text" class="form-control" id="adresse" placeholder="n + nom de rue" name="adresse" required>
-				</div>
-				<div class="form-row">
-				    <div class="form-group col-md-6">
-				      <label for="inputCity">Ville</label>
-				      <input type="text" class="form-control" id="inputCity"  name="ville" required>
-				    </div>
-				    <div class="form-group col-md-4">
-				      <label for="inputCp">Code postal</label>
-				      <input type="text" id="inputCp" class="form-control" name="codePostal" required>
-				    </div>
-				</div>
-				<div class="form-group">
 					<label for="imageUrl">Choisissez une image</label>
 					<input type="text" class="form-control" id="imageUrl" placeholder="URL de l'image" name="image" required>
 				</div>

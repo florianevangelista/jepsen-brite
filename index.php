@@ -246,6 +246,16 @@ $EventsTable = $bdd->query("$FilteredRequest");
                                             <a style="text-decoration:none;color: white;" href="pages/page-login.php">Se connecter pour commenter</a></button><br><br>';
                                     }?>                                   
                                        </li>
+                                       <br><li><i class="mdi mdi-account-check text-muted"> Participants : </i> 
+                                        <?php
+                                            $Participant = $bdd->query("SELECT P.LastName, P.FirstName FROM registration R INNER JOIN persons P ON R.Registration_personid = P.Personid INNER JOIN evenements E on R.Registration_eventid = E.EventId WHERE E.EventId = $row[EventId]"); 
+                                            echo '<select style="cursor:pointer; border: none; font-weight: 600; font-family: Nunito;">';
+                                            while ($row = $Participant->fetch(PDO::FETCH_ASSOC)) {
+                                                echo '<option>'.$row["FirstName"] . " " . $row["LastName"].'</option>';
+                                            }
+                                            echo '</select>';
+                                        ?>
+                                       </li>
                                     </ul>  
                                 </div>
                             </div>

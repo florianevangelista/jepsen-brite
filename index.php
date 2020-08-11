@@ -218,7 +218,7 @@ $EventsTable = $bdd->query("$FilteredRequest");
                             <div class="content p-3"><br>
                                 <h5><a href="javascript:void(0)" class="title text-dark"></a></h5>
                                 <div class="fees">
-                                    <ul class="list-unstyled mb-0 numbers">
+                                <ul class="list-unstyled mb-0 numbers">
                                         <li><i class="mdi mdi-timer text-muted"></i> <?php echo $row["Title"] . '<br>';?></li><br>
                                         <li><i class="mdi mdi-timer text-muted"></i> <?php echo $row["dt"] . '<br>';?></li>
                                         <li><i class="mdi mdi-city text-muted"></i> <?php echo $row["Category"] . '<br>';?></li><br>
@@ -227,11 +227,6 @@ $EventsTable = $bdd->query("$FilteredRequest");
                                         <?php if (!empty($row["video"])) { 
                                             echo '<li><label class="text-muted">Vidéo : </label><a href="'.$row["video"].'">'.$row["video"].'</a><br></li><br>';
                                         }?>
-                                        <li><i class="mdi mdi-city text-muted"></i> <?php echo
-                                                '<form class="buttonlinkform" action="" method="POST" name="eventlist"><button class="buttonlink" id="category" name="category" value="' . $row["Category"] . '" onclick="eventlist.submit();">' . $row["Category"] . '</button></form>' .
-                                                ' / <form class="buttonlinkform" action="" method="POST" name="subcateventlist"><button class="buttonlink" id="category" name="subcat" value="' . $row["Subcat"] . '" onclick="subcateventlist.submit();">' . $row["Subcat"] . '</button></form><br>';?></li><br>                                        <li><i class="mdi mdi-message-text-outline"></i> <?php echo $row["Dsc"] . '<br>';?></li><br>
-                                        <li><i class="mdi mdi-account-box-outline"></i> <?php echo $row["FirstName"] . " " . $row["LastName"] .'<br>';?></li><br>
-                                        <li><iframe width="425" height="350" src="http://maps.google.fr/maps?q=<?php echo $row["adresse"];?>, <?php echo $row["ville"];?>, <?php echo $row["codepostal"];?>&amp;t=&amp;output=embed" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" ></iframe></li><br>
                                         <?php if (!empty($_SESSION['Personid'])) {
                                            if ($_SESSION['Personid'] == $row['Personid']) {
 

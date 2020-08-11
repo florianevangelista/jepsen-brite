@@ -44,7 +44,7 @@ $grav_url = "https://www.gravatar.com/avatar/" . md5( strtolower( trim( $email )
         <link rel="stylesheet" href="../css/owl.theme.default.min.css"/> 
         <!-- Main css -->
         <link href="../css/style.css" rel="stylesheet" type="text/css" />
-        <link rel="stylesheet" type="text/css" href="../css/styleProfil.css"
+        <link rel="stylesheet" type="text/css" href="../css/styleProfil.css">
         <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css">
         <link href="css/artistyle.css" rel="stylesheet" type="text/css" />
     </head>

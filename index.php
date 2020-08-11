@@ -4,6 +4,7 @@
 session_start();
 
 
+
 #Pour le markdown
 include 'Parsedown.php';
 $Parsedown = new Parsedown();
@@ -106,7 +107,14 @@ $Parsedown = new Parsedown();
 
 <?php 
 
-$bdd = new PDO("mysql:host=zpfp07ebhm2zgmrm.chr7pe7iynqr.eu-west-1.rds.amazonaws.com;dbname=iaj0d3bfcqdzn9jm", 'pec75srf9evxqr4q', 'vaaj2gywif3r1p6h', array(PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION));
+try
+{
+   $bdd = new PDO('mysql:host=localhost;dbname=event_manager;charset=utf8', 'root', 'root');
+}
+catch (Exception $e)
+{
+        die('Erreur : ' . $e->getMessage());
+}
 
 
 if (isset($_POST['category'])) { $ChosenCategory = $_POST['category'];}
@@ -427,22 +435,22 @@ INNER JOIN persons p ON c.person_id = p.Personid ORDER BY id DESC");
         </footer><!--end footer-->
 
         <!-- javascript -->
-        <script src="js/jquery.min.js"></script>
-        <script src="js/bootstrap.bundle.min.js"></script>
-        <script src="js/jquery.easing.min.js"></script>
-        <script src="js/scrollspy.min.js"></script>
-        <script src="js/jquery.magnific-popup.min.js"></script>
-        <script src="js/magnific.init.js"></script>
+        <script src="../js/jquery.min.js"></script>
+        <script src="../js/bootstrap.bundle.min.js"></script>
+        <script src="../js/jquery.easing.min.js"></script>
+        <script src="../js/scrollspy.min.js"></script>
+        <script src="../js/jquery.magnific-popup.min.js"></script>
+        <script src="../js/magnific.init.js"></script>
         <!-- SLIDER -->
-        <script src="js/owl.carousel.min.js "></script>
-        <script src="js/owl.init.js "></script>
+        <script src="../js/owl.carousel.min.js "></script>
+        <script src="../js/owl.init.js "></script>
         <!--FLEX SLIDER-->
-        <script src="js/jquery.flexslider-min.js"></script>
-        <script src="js/flexslider.init.js"></script>
+        <script src="../js/jquery.flexslider-min.js"></script>
+        <script src="../js/flexslider.init.js"></script>
         <!-- Counter -->
-        <script src="js/counter.init.js "></script>
+        <script src="../js/counter.init.js "></script>
         <!-- Main Js -->
-        <script src="js/app.js"></script>
+        <script src="../js/app.js"></script>
     </body>
 </html>
 

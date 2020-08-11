@@ -2,12 +2,11 @@
 session_start();
     try
     {
-        $bdd = new PDO("mysql:host=zpfp07ebhm2zgmrm.chr7pe7iynqr.eu-west-1.rds.amazonaws.com;dbname=iaj0d3bfcqdzn9jm", 'pec75srf9evxqr4q', 'vaaj2gywif3r1p6h', array(PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION));
-
+       $bdd = new PDO('mysql:host=localhost;dbname=event_manager;charset=utf8', 'root', 'root');
     }
     catch (Exception $e)
     {
-        die('Erreur : ' . $e->getMessage());
+            die('Erreur : ' . $e->getMessage());
     }
 
 if (isset($_SESSION['Personid'])) {
@@ -20,19 +19,32 @@ if (isset($_SESSION['Personid'])) {
             $newFirstName = htmlspecialchars($_POST['newFirstName']);
             $insertFirstName = $bdd->prepare("UPDATE persons SET FirstName = ? WHERE Personid = ?");
             $insertFirstName->execute(array($newFirstName, $_SESSION['Personid']));
-            header('Location: profilValider.php?Personid='.$_SESSION['Personid']);
+            if($userinfo['userType'] == 'admin') {
+                    header("Location: admin.php?Personid=".$_SESSION['Personid']);
+                }else{
+                    header("Location: profilValider.php?Personid=".$_SESSION['Personid']);
+                }
         }
         if(isset($_POST['newLastName']) AND !empty($_POST['newLastName']) AND $_POST['newLastName'] != $userinfo['LastName']) {
             $newLastName = htmlspecialchars($_POST['newLastName']);
             $insertLastName = $bdd->prepare("UPDATE persons SET LastName = ? WHERE Personid = ?");
             $insertLastName->execute(array($newLastName, $_SESSION['Personid']));
-            header('Location: profilValider.php?Personid='.$_SESSION['Personid']);
+            
+            if($userinfo['userType'] == 'admin') {
+                    header("Location: admin.php?Personid=".$_SESSION['Personid']);
+                }else{
+                    header("Location: profilValider.php?Personid=".$_SESSION['Personid']);
+                }
         }
         if(isset($_POST['newEmail']) AND !empty($_POST['newEmail']) AND $_POST['newEmail'] != $userinfo['Email']) {
             $newEmail = htmlspecialchars($_POST['newEmail']);
             $insertEmail = $bdd->prepare("UPDATE persons SET Email = ? WHERE Personid = ?");
             $insertEmail->execute(array($newEmail, $_SESSION['Personid']));
-            header('Location: profilValider.php?Personid='.$_SESSION['Personid']);
+if($userinfo['userType'] == 'admin') {
+                    header("Location: admin.php?Personid=".$_SESSION['Personid']);
+                }else{
+                    header("Location: profilValider.php?Personid=".$_SESSION['Personid']);
+                }
         }
         if(isset($_POST['newMdp']) AND !empty($_POST['newMdp']) AND isset($_POST['newConfirmationMdp']) AND !empty($_POST['newConfirmationMdp'])) {
             $newMdp = sha1($_POST['newMdp']);
@@ -40,7 +52,11 @@ if (isset($_SESSION['Personid'])) {
                 if($newMdp == $newConfirmationMdp) {
                     $insertMdp = $bdd->prepare("UPDATE persons SET Mdp = ? WHERE Personid = ?");
                     $insertMdp->execute(array($newMdp, $_SESSION['Personid']));
-                    header('Location: profilValider.php?Personid='.$_SESSION['Personid']);
+                    if($userinfo['userType'] == 'admin') {
+                        header("Location: admin.php?Personid=".$_SESSION['Personid']);
+                    }else{
+                        header("Location: profilValider.php?Personid=".$_SESSION['Personid']);
+                    }
                 } else {
                     $msg = "Vos mots de passe ne correspondent pas !";
                 }

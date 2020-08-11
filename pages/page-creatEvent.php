@@ -65,6 +65,22 @@
 						<option value="exhibition">Exhibition</option>
 					  </select>
 				</div>
+                <div class="form-group">
+					<label for="typeOfEvent">Sous-catégorie</label>
+                    <input type="text" class="form-control" id="formGroupExampleInput" placeholder="Sous-catégorie" name="Subcat">
+				</div>
+                <div class="form-group">
+                    <label for="typeOfEvent">Adresse</label>
+                    <input type="text" class="form-control" id="formGroupExampleInput" placeholder="Adresse" name="adresse">
+                </div>
+                <div class="form-group">
+                    <label for="typeOfEvent">Ville</label>
+                    <input type="text" class="form-control" id="formGroupExampleInput" placeholder="Ville" name="ville">
+                </div>
+                <div class="form-group">
+                    <label for="typeOfEvent">Code Postal</label>
+                    <input type="text" class="form-control" id="formGroupExampleInput" placeholder="Code postal" name="codepostal">
+                </div>
 				<div class="form-group">
 					<label for="start">Start date:</label>
 

@@ -9,10 +9,8 @@
 
 #iconPageProfile{
 	position: relative;
-	left: 400px;
+	left: 20px; /*ARTI: correct width from 400px to 0*/
 	width: 100%;
-	
-
 }
 
 .width{
@@ -20,8 +18,13 @@
 }
 
 a{
-	padding: 10px;
+	padding: 8px;
 	color: white;
-	margin-right: 2%;
+	margin-bottom: 3%
 
+}
+
+
+#iconProfiladmin{
+margin: 2%;
 }

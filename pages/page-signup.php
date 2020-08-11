@@ -1,15 +1,14 @@
 <?php
 
 session_start();
-
 try
-{
-    $bdd = new PDO('mysql:host=localhost;dbname=event_manager;charset=utf8', 'root', '', array(PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION));
-}
-catch (Exception $e)
-{
+    {
+        $bdd = new PDO("mysql:host=zpfp07ebhm2zgmrm.chr7pe7iynqr.eu-west-1.rds.amazonaws.com;dbname=iaj0d3bfcqdzn9jm", 'pec75srf9evxqr4q', 'vaaj2gywif3r1p6h', array(PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION));
+    }
+    catch (Exception $e)
+    {
         die('Erreur : ' . $e->getMessage());
-}
+    }
 if(isset($_POST['submitSignup'])) {
 
 $FirstName=htmlspecialchars($_POST['FirstName']);
@@ -34,7 +33,7 @@ $confirmationMdp = sha1($_POST['confirmationMdp']);
                             if($Mdp == $confirmationMdp) {
                                 $insertmbr = $bdd->prepare("INSERT INTO persons(FirstName, LastName, Email, Mdp) VALUES(?, ?, ?, ?)");
                                 $insertmbr->execute(array($FirstName, $LastName, $Email, $Mdp));
-                                $_SESSION ['validatonCompte'] = "Votre compte a bien été créé ! <a href=\"connexion.php\">Me connecter</a>";
+                                
                                 $_SESSION['Email'] = $Email;
                                 header('location: mail.php');
                             } else {

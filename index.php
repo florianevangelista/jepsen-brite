@@ -4,6 +4,7 @@
 session_start();
 
 
+
 #Pour le markdown
 include 'Parsedown.php';
 $Parsedown = new Parsedown();
@@ -35,6 +36,7 @@ $Parsedown = new Parsedown();
         <link href="css/flexslider.css" rel="stylesheet" type="text/css" />
         <!-- Main css --> 
         <link href="css/style.css" rel="stylesheet" type="text/css" />
+        <link href="css/artistyle.css" rel="stylesheet" type="text/css" />
         <link href="https://fonts.googleapis.com/css2?family=Nunito:ital,wght@1,600&display=swap" rel="stylesheet">
     </head>
 
@@ -87,6 +89,7 @@ $Parsedown = new Parsedown();
                         <?php if (isset($_SESSION['FirstName']))
                         {?>
                             <li><a href="pages/profilValider.php?Personid=<?=$_SESSION['Personid']?>">Mon Compte</a></li>
+                            <li><a href="dashboard2.php">Dashboard</a></li>
                             <li><a href="pages/deconnexion-index.php">Logout <?php echo $_SESSION['FirstName'] ?></a></li>
                         <?php }  else { ?>
                             <li><a href="pages/page-login.php">Login</a></li>
@@ -104,12 +107,21 @@ $Parsedown = new Parsedown();
 
 <?php 
 
-$bdd = new PDO('mysql:host=localhost;dbname=event_manager;charset=utf8', 'root', '', array(PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION));
+try
+{
+   $bdd = new PDO("mysql:host=zpfp07ebhm2zgmrm.chr7pe7iynqr.eu-west-1.rds.amazonaws.com;dbname=iaj0d3bfcqdzn9jm", 'pec75srf9evxqr4q', 'vaaj2gywif3r1p6h', array(PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION));
+}
+catch (Exception $e)
+{
+        die('Erreur : ' . $e->getMessage());
+}
 
 
 if (isset($_POST['category'])) { $ChosenCategory = $_POST['category'];}
 
 if (isset($_POST['previous_category'])) { $ChosenPreviousCategory = $_POST['previous_category'];}
+
+if (isset($_POST['subcat'])) { $subCategory = $_POST['subcat']; var_dump($subCategory);}
 
 $FilteredRequest = "SELECT * FROM persons p INNER JOIN evenements e ON p.Personid = e.Personid WHERE dt>=" . "'" . date("Y-m-d H:i:s") . "'" . "ORDER BY dt ASC";
 
@@ -121,7 +133,12 @@ $FilteredRequest = "SELECT * FROM persons p INNER JOIN evenements e ON p.Personi
 if (isset($ChosenPreviousCategory)) 
 {
 $FilteredRequest = "SELECT * FROM persons p INNER JOIN evenements e ON p.Personid = e.Personid WHERE Category='" . $ChosenPreviousCategory . "'" . "AND dt<" . "'" . date("Y-m-d H:i:s") . "'" . "ORDER BY dt DESC";
-} 
+}
+
+if (isset($subCategory))
+{
+    $FilteredRequest = "SELECT * FROM persons p INNER JOIN evenements e ON p.Personid = e.Personid WHERE Subcat='" . $subCategory . "'" . "AND dt>=" . "'" . date("Y-m-d H:i:s") . "'" . "ORDER BY dt ASC";
+}
 
 $FirstEvent = $bdd->query("$FilteredRequest LIMIT 1");
 
@@ -208,12 +225,20 @@ $EventsTable = $bdd->query("$FilteredRequest");
                                     <ul class="list-unstyled mb-0 numbers">
                                         <li><i class="mdi mdi-timer text-muted"></i> <?php echo $row["Title"] . '<br>';?></li><br>
                                         <li><i class="mdi mdi-timer text-muted"></i> <?php echo $row["dt"] . '<br>';?></li>
+<<<<<<< HEAD
                                         <li><i class="mdi mdi-city text-muted"></i> <?php echo $row["Category"] . '<br>';?></li><br>
                                         <li><i class="mdi mdi-message-text-outline text-muted"></i> <?php echo $row["Dsc"] . '<br>';?></li><br>
                                         <li><i class="mdi mdi-account-box-outline text-muted"></i> <?php echo $row["FirstName"] . " " . $row["LastName"] .'<br>';?></li><br>
                                         <?php if (!empty($row["video"])) { 
                                             echo '<li><label class="text-muted">Vidéo : </label><a href="'.$row["video"].'">'.$row["video"].'</a><br></li><br>';
                                         }?>
+=======
+                                        <li><i class="mdi mdi-city text-muted"></i> <?php echo
+                                                '<form class="buttonlinkform" action="" method="POST" name="eventlist"><button class="buttonlink" id="category" name="category" value="' . $row["Category"] . '" onclick="eventlist.submit();">' . $row["Category"] . '</button></form>' .
+                                                ' / <form class="buttonlinkform" action="" method="POST" name="subcateventlist"><button class="buttonlink" id="category" name="subcat" value="' . $row["Subcat"] . '" onclick="subcateventlist.submit();">' . $row["Subcat"] . '</button></form><br>';?></li><br>                                        <li><i class="mdi mdi-message-text-outline"></i> <?php echo $row["Dsc"] . '<br>';?></li><br>
+                                        <li><i class="mdi mdi-account-box-outline"></i> <?php echo $row["FirstName"] . " " . $row["LastName"] .'<br>';?></li><br>
+                                        <li><iframe width="425" height="350" src="http://maps.google.fr/maps?q=<?php echo $row["adresse"];?>, <?php echo $row["ville"];?>, <?php echo $row["codepostal"];?>&amp;t=&amp;output=embed" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" ></iframe></li><br>
+>>>>>>> c799106b0082cec8618e8ab54e4fb48002486f5c
                                         <?php if (!empty($_SESSION['Personid'])) {
                                            if ($_SESSION['Personid'] == $row['Personid']) {
 
@@ -429,22 +454,22 @@ INNER JOIN persons p ON c.person_id = p.Personid ORDER BY id DESC");
         </footer><!--end footer-->
 
         <!-- javascript -->
-        <script src="js/jquery.min.js"></script>
-        <script src="js/bootstrap.bundle.min.js"></script>
-        <script src="js/jquery.easing.min.js"></script>
-        <script src="js/scrollspy.min.js"></script>
-        <script src="js/jquery.magnific-popup.min.js"></script>
-        <script src="js/magnific.init.js"></script>
+        <script src="../js/jquery.min.js"></script>
+        <script src="../js/bootstrap.bundle.min.js"></script>
+        <script src="../js/jquery.easing.min.js"></script>
+        <script src="../js/scrollspy.min.js"></script>
+        <script src="../js/jquery.magnific-popup.min.js"></script>
+        <script src="../js/magnific.init.js"></script>
         <!-- SLIDER -->
-        <script src="js/owl.carousel.min.js "></script>
-        <script src="js/owl.init.js "></script>
+        <script src="../js/owl.carousel.min.js "></script>
+        <script src="../js/owl.init.js "></script>
         <!--FLEX SLIDER-->
-        <script src="js/jquery.flexslider-min.js"></script>
-        <script src="js/flexslider.init.js"></script>
+        <script src="../js/jquery.flexslider-min.js"></script>
+        <script src="../js/flexslider.init.js"></script>
         <!-- Counter -->
-        <script src="js/counter.init.js "></script>
+        <script src="../js/counter.init.js "></script>
         <!-- Main Js -->
-        <script src="js/app.js"></script>
+        <script src="../js/app.js"></script>
     </body>
 </html>
 

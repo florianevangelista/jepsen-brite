@@ -2,18 +2,19 @@
 session_start();
 
 try
-{
-    $bdd = new PDO('mysql:host=localhost;dbname=event_manager;charset=utf8', 'root', '', array(PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION));
-}
-catch (Exception $e)
-{
+    {
+        $bdd = new PDO("mysql:host=zpfp07ebhm2zgmrm.chr7pe7iynqr.eu-west-1.rds.amazonaws.com;dbname=iaj0d3bfcqdzn9jm", 'pec75srf9evxqr4q', 'vaaj2gywif3r1p6h', array(PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION));
+    }
+    catch (Exception $e)
+    {
         die('Erreur : ' . $e->getMessage());
-}
+    }
 
     if(isset($_POST['submitConnexion'])) {
         $EmailConnect = htmlspecialchars($_POST['EmailConnect']);
         $MdpConnect = sha1($_POST['MdpConnect']);
         if(!empty($EmailConnect) AND !empty($MdpConnect)) {
+
             $requser = $bdd->prepare("SELECT * FROM persons WHERE Email = ? AND Mdp = ?");
             $requser->execute(array($EmailConnect, $MdpConnect));
             $userexist = $requser->rowCount();
@@ -23,8 +24,14 @@ catch (Exception $e)
                 $_SESSION['FirstName'] = $userinfo['FirstName'];
                 $_SESSION['LastName'] = $userinfo['LastName'];
                 $_SESSION['Email'] = $userinfo['Email'];
-                $_SESSION['img'] = $userinfo['img'];
-                header("Location: profilValider.php?Personid=".$_SESSION['Personid']);
+                $_SESSION['userType'] = $userinfo['userType'];
+
+                if($userinfo['userType'] == 'admin') {
+                    header("Location: admin.php?Personid=".$_SESSION['Personid']);
+                }else{
+                    header("Location: profilValider.php?Personid=".$_SESSION['Personid']);
+                }
+
             } else {
                 $erreur = "Mauvais mail ou mot de passe !";
             }

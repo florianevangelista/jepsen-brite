@@ -8,6 +8,7 @@ session_start();
     {
         die('Erreur : ' . $e->getMessage());
     }
+
         if(isset($_GET['Personid']) AND $_GET['Personid'] > 0) {
             $getid = intval($_GET['Personid']);
             $requser = $bdd->prepare('SELECT * FROM persons WHERE Personid = ?');
@@ -16,12 +17,18 @@ session_start();
 
 ?>
 
+<?php // GRAVATAR
+$email = $userinfo['Email'];
+$size = 150;
+$grav_url = "https://www.gravatar.com/avatar/" . md5( strtolower( trim( $email ) ) ) . "?d=" . "&s=" . $size;
+?>
+
 <!DOCTYPE html>
     <html lang="en">
 
     <head>
         <meta charset="utf-8" />
-        <title>Landrick - Saas & Software Landing Page Template</title>
+        <title>My Profile</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta name="description" content="Premium Bootstrap 4 Landing Page Template" />
         <meta name="keywords" content="bootstrap 4, premium, marketing, multipurpose" />
@@ -37,9 +44,9 @@ session_start();
         <link rel="stylesheet" href="../css/owl.theme.default.min.css"/> 
         <!-- Main css -->
         <link href="../css/style.css" rel="stylesheet" type="text/css" />
-        <link rel="stylesheet" type="text/css" href="../css/styleProfil.css">
+        <link rel="stylesheet" type="text/css" href="../css/styleProfil.css"
         <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css">
-
+        <link href="css/artistyle.css" rel="stylesheet" type="text/css" />
     </head>
 
     <body>
@@ -77,7 +84,7 @@ session_start();
                                 <div class="page-next-level">
                                     <h4 class="title"> Account Setting </h4>
                                     <ul class="page-next d-inline-block bg-white shadow p-2 pl-4 pr-4 rounded mb-0">
-                                        <li><a href="index.html" class="text-uppercase font-weight-bold text-dark">Home</a></li>
+                                        <li><a href="../index.php" class="text-uppercase font-weight-bold text-dark">Home</a></li>
                                         <li><a href="#" class="text-uppercase font-weight-bold text-dark">Pages</a></li> 
                                         <li><a href="#" class="text-uppercase font-weight-bold text-dark">Account</a></li> 
                                        
@@ -111,12 +118,7 @@ session_start();
                             <h5 class="text-md-left text-center">Personal Detail :</h5>
 
                             <div class="mt-3 text-md-left text-center d-sm-flex">
-                                <img src="<?php echo $userinfo['img'];?>" class="avatar float-md-left avatar-medium rounded-pill shadow mr-md-4" alt="" />
-                                
-                                <div class="mt-md-4 mt-3 mt-sm-0" id="iconPageProfile">
-                                    <a href="profilValideEdit.php" class="rounded-pill bg-dark"><i class="mdi mdi-tools" title="Edit Profile"></i>Edit Profile</a>
-                                    <a href="deconnexion.php" class="rounded-pill bg-dark"><i class="fas fa-sign-out-alt"></i>Logout</a>
-                                </div>
+                                <img src="<?php echo $grav_url; ?>" class="avatar float-md-left avatar-medium rounded-pill shadow mr-md-4" alt="" />
                             </div>
 
                     
@@ -134,7 +136,7 @@ session_start();
                                     <div class="col-md-6">
                                         <div class="form-group position-relative">
                                             <label>Last Name</label>
-                                            <i class="mdi mdi-account-plus icons"></i>
+                                            <i class="mdi mdi-account icons"></i>
                                             <p class="lastNameUser marginUserInfo"><?php echo $userinfo['LastName']; ?></p>
                                         </div>
                                     </div><!--end col-->
@@ -144,6 +146,11 @@ session_start();
                                             <i class="mdi mdi-email icons"></i>
                                             <p class="mailUser marginUserInfo"><?php echo $userinfo['Email']; ?></p>
                                         </div> 
+                                    </div><!--end col-->
+                                    <div class="mt-md-4 mt-3 mt-sm-0" id="iconPageProfile">
+                                        <a href="../dashboard2.php" class="rounded-pill bg-dark"></i>View Dashboard</a>
+                                        <a href="profilValideEdit.php" class="rounded-pill bg-dark"><i class="mdi mdi-tools" title="Edit Profile"></i>Edit Profile</a>
+                                        <a href="deconnexion.php" class="rounded-pill bg-dark"><i class="fas fa-sign-out-alt"></i>Logout</a>
                                     </div><!--end col-->
                                     <?php
                                         if(isset($_SESSION['Personid']) AND $userinfo['Personid'] == $_SESSION['Personid']) {

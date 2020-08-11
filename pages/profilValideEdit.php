@@ -3,15 +3,13 @@ session_start();
     try
     {
         $bdd = new PDO("mysql:host=zpfp07ebhm2zgmrm.chr7pe7iynqr.eu-west-1.rds.amazonaws.com;dbname=iaj0d3bfcqdzn9jm", 'pec75srf9evxqr4q', 'vaaj2gywif3r1p6h', array(PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION));
-
     }
     catch (Exception $e)
     {
         die('Erreur : ' . $e->getMessage());
     }
-         
 
-    if (isset($_SESSION['Personid'])) {
+if (isset($_SESSION['Personid'])) {
 
         $requser = $bdd->prepare("SELECT * FROM persons WHERE Personid = ?");
         $requser->execute(array($_SESSION['Personid']));
@@ -21,19 +19,32 @@ session_start();
             $newFirstName = htmlspecialchars($_POST['newFirstName']);
             $insertFirstName = $bdd->prepare("UPDATE persons SET FirstName = ? WHERE Personid = ?");
             $insertFirstName->execute(array($newFirstName, $_SESSION['Personid']));
-            header('Location: profilValider.php?Personid='.$_SESSION['Personid']);
+            if($userinfo['userType'] == 'admin') {
+                    header("Location: admin.php?Personid=".$_SESSION['Personid']);
+                }else{
+                    header("Location: profilValider.php?Personid=".$_SESSION['Personid']);
+                }
         }
         if(isset($_POST['newLastName']) AND !empty($_POST['newLastName']) AND $_POST['newLastName'] != $userinfo['LastName']) {
             $newLastName = htmlspecialchars($_POST['newLastName']);
             $insertLastName = $bdd->prepare("UPDATE persons SET LastName = ? WHERE Personid = ?");
             $insertLastName->execute(array($newLastName, $_SESSION['Personid']));
-            header('Location: profilValider.php?Personid='.$_SESSION['Personid']);
+            
+            if($userinfo['userType'] == 'admin') {
+                    header("Location: admin.php?Personid=".$_SESSION['Personid']);
+                }else{
+                    header("Location: profilValider.php?Personid=".$_SESSION['Personid']);
+                }
         }
         if(isset($_POST['newEmail']) AND !empty($_POST['newEmail']) AND $_POST['newEmail'] != $userinfo['Email']) {
             $newEmail = htmlspecialchars($_POST['newEmail']);
             $insertEmail = $bdd->prepare("UPDATE persons SET Email = ? WHERE Personid = ?");
             $insertEmail->execute(array($newEmail, $_SESSION['Personid']));
-            header('Location: profilValider.php?Personid='.$_SESSION['Personid']);
+if($userinfo['userType'] == 'admin') {
+                    header("Location: admin.php?Personid=".$_SESSION['Personid']);
+                }else{
+                    header("Location: profilValider.php?Personid=".$_SESSION['Personid']);
+                }
         }
         if(isset($_POST['newMdp']) AND !empty($_POST['newMdp']) AND isset($_POST['newConfirmationMdp']) AND !empty($_POST['newConfirmationMdp'])) {
             $newMdp = sha1($_POST['newMdp']);
@@ -41,12 +52,20 @@ session_start();
                 if($newMdp == $newConfirmationMdp) {
                     $insertMdp = $bdd->prepare("UPDATE persons SET Mdp = ? WHERE Personid = ?");
                     $insertMdp->execute(array($newMdp, $_SESSION['Personid']));
-                    header('Location: profilValider.php?Personid='.$_SESSION['Personid']);
+                    if($userinfo['userType'] == 'admin') {
+                        header("Location: admin.php?Personid=".$_SESSION['Personid']);
+                    }else{
+                        header("Location: profilValider.php?Personid=".$_SESSION['Personid']);
+                    }
                 } else {
                     $msg = "Vos mots de passe ne correspondent pas !";
                 }
         }
 
+// GRAVATAR
+$email = $userinfo['Email'];
+$size = 150;
+$grav_url = "https://www.gravatar.com/avatar/" . md5(strtolower(trim($email))) . "?d=" . "&s=" . $size;
 ?>
 
 <!DOCTYPE html>
@@ -111,10 +130,9 @@ session_start();
                                 <div class="page-next-level">
                                     <h4 class="title"> Account Setting </h4>
                                     <ul class="page-next d-inline-block bg-white shadow p-2 pl-4 pr-4 rounded mb-0">
-                                        <li><a href="index.html" class="text-uppercase font-weight-bold text-dark">Home</a></li>
+                                        <li><a href="../index.php" class="text-uppercase font-weight-bold text-dark">Home</a></li>
                                         <li><a href="#" class="text-uppercase font-weight-bold text-dark">Pages</a></li> 
-                                        <li><a href="#" class="text-uppercase font-weight-bold text-dark">Account</a></li> 
-                                       
+                                        <li><a href="#" class="text-uppercase font-weight-bold text-dark">Account</a></li>
                                     </ul>
                                 </div>
                             </div>  <!--end col-->
@@ -147,14 +165,7 @@ session_start();
                             <div class="mt-3 text-md-left text-center d-sm-flex">
                                 <div>
                                     <label>Photo Profile</label>
-                                     <img src="<?php echo $userinfo['img'];?>" class="avatar float-md-left avatar-medium rounded-pill shadow mr-md-4" alt="" />
-                                </div>
-                                
-                                
-                                <div class="mt-md-4 mt-3 mt-sm-0 width">
-                                    
-                                    <a href="deleteProfile.php?Personid=<?=$_SESSION['Personid']?>" class="btn btn-danger mt-2 ml-2">Delete</a>
-                                    <a href="profilValider.php?Personid=<?=$_SESSION['Personid']?>" class="btn btn-dark mt-2"><i class="fas fa-undo-alt"></i></i>return</a>
+                                     <img src="<?php echo $grav_url; ?>" class="avatar float-md-left avatar-medium rounded-pill shadow mr-md-4" alt="" />
                                 </div>
                             </div>
 
@@ -216,8 +227,13 @@ session_start();
         
                                             <div class="col-lg-12 mt-2 mb-0">
                                                 <input type="submit" class="btn btn-primary" value="Save password">
-                                                
                                             </div> <!-- end col -->
+
+                                            <div class="col-lg-12 mt-md-4 mt-3 mt-sm-0 width">
+                                                <a href="profilValider.php?Personid=<?=$_SESSION['Personid']?>" class="btn btn-dark mt-2"><i class="fas fa-undo-alt"></i></i>cancel</a>
+                                                <a href="deleteProfile.php?Personid=<?=$_SESSION['Personid']?>" class="btn btn-danger mt-2 ml-2">Delete Profile</a>
+                                            </div>
+
                                          </div> <!--end row-->
                                  </form>
                                  <?php if(isset($msg)) { echo $msg; } ?>

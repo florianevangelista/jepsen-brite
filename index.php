@@ -104,7 +104,7 @@ $Parsedown = new Parsedown();
 
 <?php 
 
-$bdd = new PDO("mysql:host=zpfp07ebhm2zgmrm.chr7pe7iynqr.eu-west-1.rds.amazonaws.com;dbname=iaj0d3bfcqdzn9jm", 'pec75srf9evxqr4q', 'vaaj2gywif3r1p6h', array(PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION));
+$bdd = new PDO('mysql:host=localhost;dbname=event_manager;charset=utf8', 'root', '', array(PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION));
 
 
 if (isset($_POST['category'])) { $ChosenCategory = $_POST['category'];}
@@ -209,22 +209,36 @@ $EventsTable = $bdd->query("$FilteredRequest");
                                         <li><i class="mdi mdi-timer text-muted"></i> <?php echo $row["Title"] . '<br>';?></li><br>
                                         <li><i class="mdi mdi-timer text-muted"></i> <?php echo $row["dt"] . '<br>';?></li>
                                         <li><i class="mdi mdi-city text-muted"></i> <?php echo $row["Category"] . '<br>';?></li><br>
-                                        <li><i class="mdi mdi-message-text-outline"></i> <?php echo $row["Dsc"] . '<br>';?></li><br>
-                                        <li><i class="mdi mdi-account-box-outline"></i> <?php echo $row["FirstName"] . " " . $row["LastName"] .'<br>';?></li><br>
+                                        <li><i class="mdi mdi-message-text-outline text-muted"></i> <?php echo $row["Dsc"] . '<br>';?></li><br>
+                                        <li><i class="mdi mdi-account-box-outline text-muted"></i> <?php echo $row["FirstName"] . " " . $row["LastName"] .'<br>';?></li><br>
+                                        <?php if (!empty($row["video"])) { 
+                                            echo '<li><label class="text-muted">Vidéo : </label><a href="'.$row["video"].'">'.$row["video"].'</a><br></li><br>';
+                                        }?>
                                         <?php if (!empty($_SESSION['Personid'])) {
                                            if ($_SESSION['Personid'] == $row['Personid']) {
 
                                             echo '<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalCenter'. $row["EventId"] . '">
                                             Inserer un commentaire </button><br><br>' . '<button type="button" class="btn btn-outline-primary" data-toggle="modal" data-target="#exampleModalCenter-modify-'. $row["EventId"] . '">
-                                            Modifier l\'evenement </button><br><br>';
+                                            Modifier l\'evenement </button><br><br>'.'<form action="pages/registration.php?Personid='.$_SESSION['Personid'].'&Eventid='.$row["EventId"].'" method="post"><input type="submit" class="btn btn-primary" name="registration" value="Je participe"/></form>';
                                         } else if ($_SESSION['Personid'] !== $row['Personid']) {
                                             echo '<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalCenter'. $row["EventId"] . '">
-                                            Inserer un commentaire </button><br><br>';
+                                            Inserer un commentaire </button><br><br>'.'<form action="pages/registration.php?Personid='.$_SESSION['Personid'].'&Eventid='.$row["EventId"].'" method="post"><input type="submit" class="btn btn-primary" name="registration" value="Je participe"/></form>';
                                         } 
                                         }  else {
                                             echo '<button type="button" class="btn btn-primary" data-toggle="modal" href="pages/page-login.php" >
                                             <a style="text-decoration:none;color: white;" href="pages/page-login.php">Se connecter pour commenter</a></button><br><br>';
                                     }?>                                   
+                                       </li>
+                                       <br><li><i class="mdi mdi-account-check text-muted"> Participants : </i> 
+                                        <?php
+                                            $Participant = $bdd->query("SELECT P.LastName, P.FirstName FROM registration R INNER JOIN persons P ON R.Registration_personid = P.Personid INNER JOIN evenements E on R.Registration_eventid = E.EventId WHERE E.EventId = $row[EventId]"); 
+                                            echo '<select style="cursor:pointer; border: none; font-weight: 600; font-family: Nunito;">';
+                                            while ($row = $Participant->fetch(PDO::FETCH_ASSOC)) {
+                                                echo '<option>'.$row["FirstName"] . " " . $row["LastName"].'</option>';
+                                                // echo '<br>'.$row["FirstName"] . " " . $row["LastName"].'<br>';
+                                            }
+                                            echo '</select>';
+                                        ?>
                                        </li>
                                     </ul> 
                                 </div>
@@ -389,7 +403,6 @@ INNER JOIN persons p ON c.person_id = p.Personid ORDER BY id DESC");
                             <li><a href="pages/page-creatEvent.php" class="text-foot"><i class="mdi mdi-chevron-right mr-1"></i>Event</a></li>
                             <li><a href="pages/page-login.php" class="text-foot"><i class="mdi mdi-chevron-right mr-1"></i>Login</a></li>
                             <li><a href="pages/page-signup.php" class="text-foot"><i class="mdi mdi-chevron-right mr-1"></i>Signup</a></li>
-                            <li><a href="pages/profilValider.php" class="text-foot"><i class="mdi mdi-chevron-right mr-1"></i>Profil</a></li>
                         </ul>
                     </div><!--end col-->
 

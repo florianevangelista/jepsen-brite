@@ -78,6 +78,10 @@
 					<input type="text" class="form-control" id="imageUrl" placeholder="URL de l'image" name="image" required>
 				</div>
 				<div class="form-group">
+					<label for="videoUrl">Choisissez une vidéo (non requis)</label>
+					<input type="text" class="form-control" id="videoUrl" placeholder="URL de la vidéo" name="video">
+				</div>
+				<div class="form-group">
 					<label for="validationTextarea">Description</label>
 					<textarea class="form-control" id="validationTextarea" placeholder="écrivez ici" name="description" required></textarea>
 				</div>

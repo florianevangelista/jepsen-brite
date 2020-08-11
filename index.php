@@ -232,9 +232,11 @@ $EventsTable = $bdd->query("$FilteredRequest");
                                             echo '<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalCenter'. $row["EventId"] . '">
                                             Inserer un commentaire </button><br><br>' . '<button type="button" class="btn btn-outline-primary" data-toggle="modal" data-target="#exampleModalCenter-modify-'. $row["EventId"] . '">
                                             Modifier l\'evenement </button><br><br>';
+                                            echo '<form action="pages/registration.php?Personid='.$_SESSION['Personid'].'&Eventid='.$row["EventId"].'" method="post"><input type="submit" class="btn btn-primary" name="registration" value="Je participe"/></form>';
                                         } else if ($_SESSION['Personid'] !== $row['Personid']) {
                                             echo '<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalCenter'. $row["EventId"] . '">
                                             Inserer un commentaire </button><br><br>';
+                                            echo '<form action="pages/registration.php?Personid='.$_SESSION['Personid'].'&Eventid='.$row["EventId"].'" method="post"><input type="submit" class="btn btn-primary" name="registration" value="Je participe"/></form>';
                                         } 
                                         }  else {
                                             echo '<button type="button" class="btn btn-primary" data-toggle="modal" href="pages/page-login.php" >

@@ -1,13 +1,13 @@
 <?php
 session_start();
 try
-{
-   $bdd = new PDO('mysql:host=localhost;dbname=event_manager;charset=utf8', 'root', 'root');
-}
-catch (Exception $e)
-{
+    {
+        $bdd = new PDO("mysql:host=zpfp07ebhm2zgmrm.chr7pe7iynqr.eu-west-1.rds.amazonaws.com;dbname=iaj0d3bfcqdzn9jm", 'pec75srf9evxqr4q', 'vaaj2gywif3r1p6h', array(PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION));
+    }
+    catch (Exception $e)
+    {
         die('Erreur : ' . $e->getMessage());
-}
+    }
 
 if(isset($_SESSION['Personid']) AND $_SESSION['Personid'] == 6){
 
@@ -194,27 +194,6 @@ $comments = $bdd->query('SELECT * FROM comments ORDER BY comment DESC');
         
         <!-- Profile Setting End -->
 
-
-                            <h5 class="mt-4 pt-2">Members :</h5>
-                            <div class="text-center">
-                                <a href="javascript:void(0)"><img src="../images/client/01.jpg" class="avatar avatar-small rounded-pill mt-3" data-toggle="tooltip" data-placement="top" title="Calvin" alt=""></a>
-                                <a href="javascript:void(0)"><img src="../images/client/02.jpg" class="avatar avatar-small rounded-pill mt-3" data-toggle="tooltip" data-placement="top" title="Meriam" alt=""></a>
-                                <a href="javascript:void(0)"><img src="../images/client/03.jpg" class="avatar avatar-small rounded-pill mt-3" data-toggle="tooltip" data-placement="top" title="Janelia" alt=""></a>
-                                <a href="javascript:void(0)"><img src="../images/client/04.jpg" class="avatar avatar-small rounded-pill mt-3" data-toggle="tooltip" data-placement="top" title="Cristino" alt=""></a>
-                                <a href="javascript:void(0)"><img src="../images/client/05.jpg" class="avatar avatar-small rounded-pill mt-3" data-toggle="tooltip" data-placement="top" title="Rukshar" alt=""></a>
-                                <a href="javascript:void(0)"><img src="../images/client/06.jpg" class="avatar avatar-small rounded-pill mt-3" data-toggle="tooltip" data-placement="top" title="Rambo" alt=""></a>
-                                <a href="javascript:void(0)"><img src="../images/client/07.jpg" class="avatar avatar-small rounded-pill mt-3" data-toggle="tooltip" data-placement="top" title="Beardo" alt=""></a>
-                                <a href="javascript:void(0)"><img src="../images/client/08.jpg" class="avatar avatar-small rounded-pill mt-3" data-toggle="tooltip" data-placement="top" title="Gogo" alt=""></a>
-                            </div>
-                            
-                            <h5 class="mt-4 pt-2">Commentaire :</h5>
-                            <div class="row mt-4">
-                                <div class="col-6 text-center">
-                                    <p class="text-muted mb-0">Les 5 derniers commentaires</p>
-                                </div><!--end col-->
-                            </div><!--end row-->
-                        </div>
-                    </div><!--end col-->
                 <div class="col-lg-8 col-md-7 col-12 mt-4 mt-sm-0 pt-2 pt-sm-0">
                     <div class="ml-lg-3">
                         <div class="border-bottom pb-4">

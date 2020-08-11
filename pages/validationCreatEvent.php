@@ -12,7 +12,7 @@
     }
 
     if (isset($_SESSION['Personid'])) {
-        $req = $bdd->prepare('INSERT INTO evenements(Title, dt, hr, Img, Dsc, Category, Personid, Subcat, adresse, ville, codepostal) VALUES(:Title, :dt, :hr, :Img, :Dsc, :Category, :Personid, :Subcat, :adresse, :ville, :codepostal)');
+        $req = $bdd->prepare('INSERT INTO evenements(Title, dt, hr, Img, Dsc, Category, video, Personid, Subcat, adresse, ville, codepostal) VALUES(:Title, :dt, :hr, :Img, :Dsc, :Category, :video, :Personid, :Subcat, :adresse, :ville, :codepostal)');
         $req->execute(array(
             'Title' => $_POST['title'],
             'dt' => $_POST['start-event'],
@@ -20,11 +20,12 @@
             'Img' => $_POST['image'],
             'Dsc' => $Parsedown->line($_POST['description']),
             'Category' => $_POST['event'],
+            'video' => $_POST['video'],
             'Personid' => $_SESSION['Personid'],
             'Subcat' => $_POST['Subcat'],
             'adresse' => $_POST['adresse'],
             'ville' => $_POST['ville'],
-            'codepostal' => $_POST['codepostal'],
+            'codepostal' => $_POST['codepostal']
         ));
     }
 

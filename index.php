@@ -235,10 +235,7 @@ $EventsTable = $bdd->query("$FilteredRequest");
                                             echo '<li><label class="text-muted">Vidéo : </label><a href="'.$row["video"].'">'.$row["video"].'</a><br></li><br>';
                                         }?>
                                         <li> <a href="http://maps.google.fr/maps?q=<?php echo $row["adresse"];?>, <?php echo $row["ville"];?>, <?php echo $row["codepostal"];?>"><?php echo '<p>' . $row["adresse"] . ',' . $row["ville"] . ',' . $row["codepostal"];?></a>
-                                           <!--  <iframe width="310" height="350" src="http://maps.google.fr/maps?q=<?php echo $row["adresse"];?>, <?php echo $row["ville"];?>, <?php echo $row["codepostal"];?>&amp;t=&amp;z=14&amp;ie=UTF8&amp;iwloc=B&amp;output=embed" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" tabindex='0'></iframe> -->
-
-                                        <!-- <iframe width="100%" height="600" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" src="https://maps.google.com/maps?width=100%25&amp;height=600&amp;hl=en&amp;q=12%20rue%20privet%20Pauchet%20+(My%20Business%20Name)&amp;t=&amp;z=14&amp;ie=UTF8&amp;iwloc=B&amp;output=embed"></iframe> -->
-                                    </li><br>
+                                        </li><br>
                                         <?php if (!empty($_SESSION['Personid'])) {
                                            if ($_SESSION['Personid'] == $row['Personid']) {
 

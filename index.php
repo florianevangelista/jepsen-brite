@@ -88,10 +88,10 @@ $Parsedown = new Parsedown();
                         
                         <?php if (isset($_SESSION['FirstName']))
                         {?>
+
                             <li><a href="pages/profilValider.php?Personid=<?=$_SESSION['Personid']?>">Mon Compte</a></li>
                             <li><a href="dashboard2.php">Dashboard</a></li>
                             <li><a href="pages/deconnexion-index.php">Logout <?php echo $_SESSION['FirstName'] ?></a></li>
-                        <?php }  else { ?>
                             <li><a href="pages/page-login.php">Login</a></li>
                             <li><a href="pages/page-signup.php">Sign Up</a></li>
                         <?php } ?>

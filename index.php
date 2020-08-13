@@ -92,7 +92,7 @@ $Parsedown = new Parsedown();
                                 if($_SESSION['userType'] == 'admin') {
                                     echo   '<li><a href="pages/admin.php">Mon Compte</a></li>';
                                 } else {
-                                    echo '<li><a href="pages/profilValider.php?Personid=<?='.$_SESSION["Personid"].'?>">Mon Compte</a></li>';
+                                    echo '<li><a href="pages/profilValider.php?Personid='.$_SESSION['Personid'].'">Mon Compte</a></li>';
                                 }
                             ?>
                             <li><a href="dashboard2.php">Dashboard</a></li>

@@ -234,7 +234,8 @@ $EventsTable = $bdd->query("$FilteredRequest");
                                         <?php if (!empty($row["video"])) { 
                                             echo '<li><label class="text-muted">Vidéo : </label><a href="'.$row["video"].'">'.$row["video"].'</a><br></li><br>';
                                         }?>
-                                        <li><iframe width="425" height="350" src="http://maps.google.fr/maps?q=<?php echo $row["adresse"];?>, <?php echo $row["ville"];?>, <?php echo $row["codepostal"];?>&amp;t=&amp;output=embed" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" ></iframe></li><br>
+                                        <li><?php echo '<p>' . $row["adresse"] . ',' . $row["ville"] . ',' . $row["codepostal"];?>
+                                            <!-- <iframe width="310" height="350" src="http://maps.google.fr/maps?q=<?php echo $row["adresse"];?>, <?php echo $row["ville"];?>, <?php echo $row["codepostal"];?>&amp;t=&amp;output=embed" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" ></iframe> --></li><br>
                                         <?php if (!empty($_SESSION['Personid'])) {
                                            if ($_SESSION['Personid'] == $row['Personid']) {
 

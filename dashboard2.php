@@ -7,7 +7,6 @@ session_start();
 include 'Parsedown.php';
 $Parsedown = new Parsedown();
 
-$testCat = 37;
 ?>
 
 <!DOCTYPE html>
@@ -67,19 +66,7 @@ $testCat = 37;
                         <select style="cursor:pointer; border: none; font-weight: 600; font-family: Nunito;" class="form-control" id="category" name="dashcategory" title="Filtre Evènements" onchange="dasheventlist.submit();">
                             <option selected disabled>Filtrer évènements</option>
                             <option value="Participate">Je participe</option>
-                            <option value="concert">J'organise</option>
-                            <option value="Archive">Archive</option>
-                        </select>
-                    </form>
-                </li>
-                <li class="hidden">Passés
-                    <form class="nothidden" action="" method="POST" name="previouseventlist">
-                        <select style="cursor:pointer; border: none; font-weight: 600; font-family: Nunito;" class="form-control" id="category" name="previous_category" title="Evénements Passés" onchange="previouseventlist.submit();">
-                            <option selected disabled>Evénements Passés</option>
-                            <option value="Concert">Concert</option>
-                            <option value="Festival">Festival</option>
-                            <option value="Conference">Conférences</option>
-                            <option value="Exhibition">Exhibition</option>
+                            <option value="Organize">J'organise</option>
                         </select>
                     </form>
                 </li>
@@ -87,7 +74,7 @@ $testCat = 37;
                 <?php if (isset($_SESSION['FirstName']))
                 {?>
                     <li><a href="pages/profilValider.php?Personid=<?=$_SESSION['Personid']?>">Mon Compte</a></li>
-                    <li><a href="pages/dashboard.php">Dashboard</a></li>
+                    <li><a href="dashboard2.php">Dashboard</a></li>
                     <li><a href="pages/deconnexion-index.php">Logout <?php echo $_SESSION['FirstName'] ?></a></li>
                 <?php }  else { ?>
                     <li><a href="pages/page-login.php">Login</a></li>
@@ -117,30 +104,16 @@ if (isset($_POST['subcat'])) { $subCategory = $_POST['subcat']; var_dump($subCat
 
 $FilteredRequest = "SELECT * FROM persons p INNER JOIN evenements e ON p.Personid = e.Personid WHERE dt>=" . "'" . date("Y-m-d H:i:s") . "'" . "ORDER BY dt ASC";
 
-if (isset($DashCategory)) {
-    $FilteredRequest = "SELECT * FROM persons p INNER JOIN evenements e ON p.Personid = e.Personid WHERE Personid='" . $testCat . "'" . "AND dt>=" . "'" . date("Y-m-d H:i:s") . "'" . "ORDER BY dt ASC";
-    var_dump($FilteredRequest);
-}
-//    if ($DashCategory === 'Participate') {
-//        $FilteredRequest = "SELECT * FROM persons p INNER JOIN evenements e ON p.Personid = e.Personid WHERE Category='" . $ChosenCategory . "'" . "AND dt>=" . "'" . date("Y-m-d H:i:s") . "'" . "ORDER BY dt ASC";
-//    } elseif ($DashCategory === 'Organize') {
-//        $FilteredRequest = "SELECT * FROM persons p INNER JOIN evenements e ON p.Personid = e.Personid WHERE Category='" . $testCat . "'" . "AND dt>=" . "'" . date("Y-m-d H:i:s") . "'" . "ORDER BY dt ASC";
-//    } elseif ($DashCategory === 'Archive') {
-//        $FilteredRequest = "SELECT * FROM persons p INNER JOIN evenements e ON p.Personid = e.Personid WHERE Category='" . $ChosenPreviousCategory . "'" . "AND dt<" . "'" . date("Y-m-d H:i:s") . "'" . "ORDER BY dt DESC";
-//    }
-// }
 
-//if (isset($DashCategory)) {
-//    if ($DashCategory === 'Participate') {
-//        $FilteredRequest = "SELECT * FROM persons p INNER JOIN evenements e ON p.Personid = e.Personid WHERE Category='" . $ChosenCategory . "'" . "AND dt>=" . "'" . date("Y-m-d H:i:s") . "'" . "ORDER BY dt ASC";
-//    } elseif ($DashCategory === 'Organize') {
-//        $FilteredRequest = "SELECT * FROM persons p INNER JOIN evenements e ON p.Personid = e.Personid WHERE Personid=37 AND dt>=" . "'" . date("Y-m-d H:i:s") . "'" . "ORDER BY dt ASC";
-//    } elseif ($DashCategory === 'Archive') {
-//        $FilteredRequest = "SELECT * FROM persons p INNER JOIN evenements e ON p.Personid = e.Personid WHERE Category='" . $ChosenPreviousCategory . "'" . "AND dt<" . "'" . date("Y-m-d H:i:s") . "'" . "ORDER BY dt DESC";
-//    } else {
-//        console.log('coin coin');
-//    };
-//}
+if (isset($DashCategory)) {
+    if ($DashCategory === 'Participate') {
+        $FilteredRequest = "SELECT * FROM registration r INNER JOIN evenements e ON r.Registration_eventid = e.EventId INNER JOIN persons p ON p.Personid = e.Personid WHERE r.Registration_personid ='" . $_SESSION['Personid'] . "' AND dt>=" . "'" . date("Y-m-d H:i:s") . "'" . "ORDER BY dt ASC";
+    } elseif ($DashCategory === 'Organize') {
+        $FilteredRequest = "SELECT * FROM persons p INNER JOIN evenements e ON p.Personid = e.Personid WHERE e.Personid='" . $_SESSION['Personid'] . "' AND dt>=" . "'" . date("Y-m-d H:i:s") . "'" . "ORDER BY dt ASC";
+    } elseif ($DashCategory === 'Archive') {
+        $FilteredRequest = "SELECT * FROM persons p INNER JOIN evenements e ON p.Personid = e.Personid WHERE Category='conference' AND dt<" . "'" . date("Y-m-d H:i:s") . "'" . "ORDER BY dt DESC";
+    }
+}
 
 if (isset($ChosenCategory))
 {

@@ -95,7 +95,6 @@ $Parsedown = new Parsedown();
                                     echo '<li><a href="pages/profilValider.php?Personid=<?='.$_SESSION["Personid"].'?>">Mon Compte</a></li>';
                                 }
                             ?>
-                            <li><a href="pages/profilValider.php?Personid=<?=$_SESSION['Personid']?>">Mon Compte</a></li>
                             <li><a href="dashboard2.php">Dashboard</a></li>
                             <li><a href="pages/deconnexion-index.php">Logout <?php echo $_SESSION['FirstName'] ?></a></li>
                         <?php }  else { ?>

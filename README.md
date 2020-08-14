@@ -118,4 +118,4 @@ Deploy a website is not an easy things. We can only recommend that you take an i
 * Add the DB, see how it works, Update the documentation for local testing and deployment.
 * Ect...
 
-**Produced by Donovan, Florian and Céline**
+**Produced by Donovan, Florian, Arti and Céline**

@@ -3,6 +3,8 @@
 In our studies at Becode, we discovered PHP. We had to create a website about events using PHP. 
 You will find below the instructions we were given to do this work.
 
+See here our work <https://event-manager-8.herokuapp.com/index.php>
+
 ## Learning Objectives 
 
 - Generate templates with PHP
